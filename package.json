@@ -1,0 +1,22 @@
+{
+  "name": "apps-biblicas",
+  "version": "1.0.0",
+  "description": "Suite de aplicaciones interactivas sobre la Biblia (cronología, genealogías, historia y manuscritos)",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "biblia",
+    "cronologia",
+    "historia",
+    "manuscritos",
+    "reyes",
+    "genealogias",
+    "bible-apps",
+    "vercel"
+  ],
+  "author": "rmenor",
+  "license": "MIT"
+}
