@@ -535,7 +535,7 @@ footer.app-footer{
     <span class="stat"><b>100%</b> fuentes de Perspicacia y wol.jw.org</span>
   </div>
   <details class="about"><summary>Qué significan los valores y factores de conversión de Perspicacia</summary>
-    <p class="lead">Conversor métrico interactivo basado estrictamente en las tablas y artículos de la enciclopedia «Perspicacia para comprender las Escrituras» (it-1 e it-2) y <a href="https://wol.jw.org/es/wol/d/r4/lp-s/1200004561" target="_blank" rel="noopener">wol.jw.org</a>. Basado en el codo común de 44,5 cm, el codo largo de 51,8 cm, el bato y homer de 22 L y 220 L, y las equivalencias de pesos y monedas hebreas, griegas y romanas.</p>
+    <p class="lead">Conversor métrico interactivo basado estrictamente en las tablas y artículos de la enciclopedia «Perspicacia para comprender las Escrituras» (it-1 e it-2) y <a href="https://wol.jw.org/es/wol/d/r4/lp-s/1200004596" target="_blank" rel="noopener">wol.jw.org</a>. Basado en el codo común de 44,5 cm, el codo largo de 51,8 cm, el bato y homer de 22 L y 220 L, y las equivalencias de pesos y monedas hebreas, griegas y romanas.</p>
   </details>
 </div></header>
 
@@ -1043,7 +1043,7 @@ const MEASURES_DATA = {
   length: {
     name: "Longitud y Distancia",
     source: "it-2 págs. 656-657",
-    wolId: "1200004561",
+    wolId: "1200004596",
     baseMetricUnit: "metros",
     biblicalUnits: [
       { id: "codo", name: "Codo común", ratio: 0.445, desc: "Distancia desde el codo hasta la punta del dedo medio (~44,5 cm). Unidad primordial de construcción." },
@@ -1068,7 +1068,7 @@ const MEASURES_DATA = {
   liquid: {
     name: "Capacidad para Líquidos",
     source: "it-2 pág. 657",
-    wolId: "1200004561",
+    wolId: "1200004596",
     baseMetricUnit: "litros",
     biblicalUnits: [
       { id: "bat", name: "Bat", ratio: 22, desc: "La medida líquida estándar del registro bíblico (~22 litros). Décima parte de un coro." },
@@ -1086,7 +1086,7 @@ const MEASURES_DATA = {
   dry: {
     name: "Capacidad para Secos",
     source: "it-2 págs. 657-658",
-    wolId: "1200004561",
+    wolId: "1200004596",
     baseMetricUnit: "litros",
     biblicalUnits: [
       { id: "efa", name: "Efá", ratio: 22, desc: "Unidad seca estándar (~22 litros). Contiene 10 ómeres o 3 seahs. Equivalente en volumen al bat líquido." },
@@ -1105,7 +1105,7 @@ const MEASURES_DATA = {
   weight: {
     name: "Pesas / Masa",
     source: "it-2 págs. 658-659",
-    wolId: "1200004561",
+    wolId: "1200004596",
     baseMetricUnit: "gramos",
     biblicalUnits: [
       { id: "siclo-peso", name: "Siclo (sheqel)", ratio: 11.4, desc: "La unidad de peso fundamental entre los hebreos (~11,4 gramos). 20 guerás o 2 becas." },
@@ -1125,7 +1125,7 @@ const MEASURES_DATA = {
   money: {
     name: "Monedas y Valores",
     source: "it-1 págs. 705-707",
-    wolId: "1200001183",
+    wolId: "1200003106",
     baseMetricUnit: "denarios",
     biblicalUnits: [
       { id: "denario", name: "Denario romano (argénteo)", ratio: 1, desc: "Moneda de plata romana (~3,85 g). Salario habitual por un día de trabajo de 12 horas de un jornalero (Mateo 20:2)." },
@@ -1426,7 +1426,7 @@ function updateDetailCard() {
   document.getElementById("detail-unit-name").textContent = unitBib.name;
   document.getElementById("detail-ratio").textContent = `1 ${unitBib.name} = ${unitBib.ratio} ${data.baseMetricUnit}`;
   document.getElementById("detail-text").textContent = unitBib.desc;
-  document.getElementById("detail-source").innerHTML = `Fuente oficial: <em>Perspicacia para comprender las Escrituras</em> (${data.source}).`;
+  document.getElementById("detail-source").innerHTML = `Fuente oficial: <a href="https://wol.jw.org/es/wol/d/r4/lp-s/${data.wolId}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:underline;"><em>Perspicacia para comprender las Escrituras</em> (${data.source})</a>.`;
 }
 
 /* Render Biblical Examples */

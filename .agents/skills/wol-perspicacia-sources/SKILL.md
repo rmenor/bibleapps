@@ -4,6 +4,7 @@ description: >
   Directrices obligatorias de investigación y documentación bíblica. Exige usar siempre y
   exclusivamente wol.jw.org, con máxima prioridad en la enciclopedia "Perspicacia para comprender las Escrituras" (it-1 e it-2).
   Prohíbe estrictamente el uso de información sacada de internet, fuentes seculares especulativas o fuentes dudosas.
+  Exige verificación exhaustiva previa de todo enlace y wolId en wol.jw.org (comprobando título y status 200).
   Trigger: Al redactar, documentar, verificar o desarrollar contenidos bíblicos, cronológicos, geográficos, biográficos o lingüísticos para las aplicaciones bíblicas.
 license: Apache-2.0
 metadata:
@@ -88,14 +89,32 @@ Al agregar notas explicativas, fichas o tooltips en las aplicaciones:
 1. Incluir siempre la referencia bibliográfica formal:
    - Ejemplo: `Perspicacia para comprender las Escrituras, volumen 1, página 892.`
    - O abreviado: `it-1 págs. 892-895` / `it-2 págs. 450-452`.
-2. Proporcionar enlace directo al artículo en wol.jw.org si corresponde:
-   - `https://wol.jw.org/es/wol/d/r4/lp-s/120000XXXX`
+2. Proporcionar enlace directo al artículo en wol.jw.org en español:
+   - `https://wol.jw.org/es/wol/d/r4/lp-s/{documentId}`
    - O enlace a la búsqueda de la voz en wol.jw.org:
    - `https://wol.jw.org/es/wol/s/r4/lp-s?q={termino}`
+3. **Idioma obligatorio en URLs:** Todas las URLs externas hacia wol.jw.org deben usar estrictamente la edición en español (`/es/wol/...`). Queda prohibido dejar enlaces con prefijos de otros idiomas como `/ru/` o `/en/`.
 
 ---
 
-## 5. Protocolo de Verificación ante Dudas
+## 5. Validación Exhaustiva Obligatoria de Enlaces e IDs Documentales (wolId)
+
+> **REGLA DE VERIFICACIÓN EXHAUSTIVA DE REFERENCIAS:**
+> Queda terminantemente prohibido adivinar, aproximar o copiar identificadores numéricos (`wolId` o `120000XXXX`) sin comprobarlos previamente de forma real.
+
+1. **Particularidad del sistema de numeración de Perspicacia en WOL:**
+   - Los números de documento (`120000XXXX`) de los dos tomos de *Perspicacia para comprender las Escrituras* en wol.jw.org están indexados según el orden alfabético de la obra original en inglés (*Insight on the Scriptures*).
+   - Por tanto, la posición alfabética en español **NO COINCIDE** con la numeración secuencial:
+     - Por ejemplo, *"Pesos y medidas"* (letra P en español) corresponde a *"Weights and Measures"* (letra W en inglés), teniendo el ID `1200004596`. Si se asume erróneamente un número de la P como `1200004561`, este apunta a *"Víbora"*.
+     - *"Dinero"* corresponde a *"Money"*, teniendo el ID `1200003106` (en lugar de `1200001183`, que corresponde a *"Dinhabá"*).
+2. **Protocolo obligatorio antes de integrar cualquier enlace o `wolId`:**
+   - Todo identificador o enlace debe ser consultado en directo mediante petición HTTP (o búsqueda en `https://wol.jw.org/es/wol/s/r4/lp-s?q={termino}`).
+   - Se debe verificar que la respuesta HTTP sea **200 OK** y que la etiqueta `<title>` de la página corresponda exactamente al término bíblico o geográfico que se está documentando.
+   - Ante cualquier actualización del código o base de datos, ejecutar una comprobación automatizada de integridad de enlaces para asegurar un 100% de enlaces válidos.
+
+---
+
+## 6. Protocolo de Verificación ante Dudas
 
 Si ante un dato surge conflicto entre lo que indica internet y lo que indica *Perspicacia*:
 1. **La voz de Perspicacia prevalece de forma inapelable.**
