@@ -35,8 +35,13 @@ Aplicación interactiva y cartografía vectorial de las tierras bíblicas docume
 ### 3. 📜 Armonía de los Evangelios — **[Próximamente]**
 Cotejo paralelo y sinóptico de Mateo, Marcos, Lucas y Juan en orden cronológico.
 
-### 4. ⚖️ Conversor de Pesas, Medidas y Monedas — **[Próximamente]**
-Calculadora de conversión de codos, talentos, siclos y medidas bíblicas a estándares métricos.
+### 4. ⚖️ Conversor de Pesas, Medidas y Monedas (`/medidas`) — **[Disponible]**
+Calculadora interactiva en tiempo real fundamentada estrictamente en *Perspicacia para comprender las Escrituras* y *wol.jw.org*:
+- **4 Módulos de conversión y consulta**:
+  1. **Calculadora Bidireccional en Vivo**: Conversión instantánea de unidades bíblicas a métricas (y viceversa) para Longitud (dedo, palmo, codo, caña, estadio, milla), Líquidos (log, hin, bat, coro), Secos (cab, ómer, seah, efá, létek, hómer), Pesas (guerá, beca, pim, siclo, mina, talento) y Monedas (lepta, cuadrante, as, denario, dracma, didracma, estáter, dárico).
+  2. **Ejemplos Bíblicos Clave**: Dimensiones del arca de Noé, altura y armadura de Goliat, estatua de oro de Nabucodonosor, mar fundido de Salomón, las dos monedas de la viuda y la parábola de los talentos.
+  3. **Tablas Maestras de Perspicacia**: Resumen canónico de proporciones, equivalencias y textos bíblicos.
+  4. **Estimador de Poder Adquisitivo y Jornales**: Cálculo del valor laboral histórico según el denario romano (1 jornada de 12 horas).
 
 ---
 
@@ -97,6 +102,9 @@ Abre directamente `index.html` en tu navegador favorito (Chrome, Safari, Firefox
 ├── atlas/
 │   └── index.html        # Aplicación interactiva de Atlas y Geografía Bíblica
 ├── atlas.html            # Copia directa de compatibilidad para rutas planas
+├── medidas/
+│   └── index.html        # Aplicación interactiva de Pesas, Medidas y Monedas
+├── medidas.html          # Copia directa de compatibilidad para rutas planas
 ├── vercel.json           # Configuración de URLs limpias, redirecciones y seguridad para Vercel
 ├── package.json          # Metadatos del proyecto y script de desarrollo local
 ├── .agents/skills/       # Skills especializadas para asistentes de IA

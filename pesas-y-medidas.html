@@ -1,0 +1,1611 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversor de Pesas, Medidas y Monedas Bíblicas | Apps Bíblicas</title>
+<meta name="description" content="Calculadora interactiva de conversión de medidas bíblicas (codos, batos, talentos, siclos, denarios) al sistema métrico decimal. Fundamentada rigurosamente en Perspicacia para comprender las Escrituras y wol.jw.org.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef1f5;
+  --surface:#ffffff;
+  --surface2:#e4e9f0;
+  --surface3:#f7f9fb;
+  --ink:#1a2233;
+  --muted:#586377;
+  --line:#cfd7e2;
+  --accent:#234a7d;
+  --accent-light:#e5eef9;
+  --accent-hover:#19355a;
+  --c-length:#2b6f9e;
+  --c-liquid:#16a085;
+  --c-dry:#b4532a;
+  --c-weight:#75507a;
+  --c-money:#d35400;
+  --fix:#2f7d4f;
+  --fix-bg:#e3f1e8;
+  --warn:#9a6210;
+  --warn-bg:#faedd0;
+  --shadow:0 4px 18px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 24px rgba(35,74,125,0.12);
+  --radius:12px;
+  --serif:'PT Serif',Georgia,'Times New Roman',serif;
+  --sans:'PT Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f141c;
+    --surface:#171e29;
+    --surface2:#1f2836;
+    --surface3:#131922;
+    --ink:#e6ebf3;
+    --muted:#93a0b5;
+    --line:#2c3748;
+    --accent:#8fb3e8;
+    --accent-light:#182638;
+    --accent-hover:#b0ccfa;
+    --c-length:#5b9fd0;
+    --c-liquid:#2ecc71;
+    --c-dry:#e08a5b;
+    --c-weight:#c39bd0;
+    --c-money:#e67e22;
+    --fix:#6fcf97;
+    --fix-bg:#1c3326;
+    --warn:#e6b450;
+    --warn-bg:#382c12;
+    --shadow:0 4px 18px rgba(0,0,0,0.3);
+    --shadow-hover:0 8px 26px rgba(0,0,0,0.45);
+  }
+}
+
+:root[data-theme="dark"]{
+  --bg:#0f141c;
+  --surface:#171e29;
+  --surface2:#1f2836;
+  --surface3:#131922;
+  --ink:#e6ebf3;
+  --muted:#93a0b5;
+  --line:#2c3748;
+  --accent:#8fb3e8;
+  --accent-light:#182638;
+  --accent-hover:#b0ccfa;
+  --c-length:#5b9fd0;
+  --c-liquid:#2ecc71;
+  --c-dry:#e08a5b;
+  --c-weight:#c39bd0;
+  --c-money:#e67e22;
+  --fix:#6fcf97;
+  --fix-bg:#1c3326;
+  --warn:#e6b450;
+  --warn-bg:#382c12;
+  --shadow:0 4px 18px rgba(0,0,0,0.3);
+  --shadow-hover:0 8px 26px rgba(0,0,0,0.45);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font:16px/1.55 var(--sans);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+a{color:var(--accent);text-decoration:none;transition:color .15s}
+a:hover{color:var(--accent-hover)}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px;width:100%}
+
+/* Header */
+header.top-bar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.top-bar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:62px;
+  gap:12px;
+}
+.brand-group{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--ink);
+  border-radius:999px;
+  padding:5px 12px;
+  font:500 13px var(--sans);
+  transition:all .15s ease;
+}
+.home-link:hover{
+  background:var(--surface2);
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.app-heading{
+  font:700 18px/1.2 var(--serif);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.badge-version{
+  font:600 11px var(--sans);
+  text-transform:uppercase;
+  background:var(--fix-bg);
+  color:var(--fix);
+  padding:2px 7px;
+  border-radius:6px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.themebtn{
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--ink);
+  border-radius:999px;
+  padding:6px 12px;
+  font:500 13px var(--sans);
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.themebtn:hover{background:var(--surface2);border-color:var(--accent)}
+
+/* Nav Tabs */
+nav.app-tabs{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:62px;
+  z-index:40;
+}
+nav.app-tabs .wrap{
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+nav.app-tabs button{
+  flex:0 0 auto;
+  background:none;
+  border:0;
+  border-bottom:3px solid transparent;
+  color:var(--muted);
+  font:600 14px var(--sans);
+  padding:12px 14px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  transition:all .15s;
+}
+nav.app-tabs button:hover{color:var(--ink)}
+nav.app-tabs button[aria-selected="true"]{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+}
+
+/* Source Banner */
+.sources-banner{
+  background:color-mix(in srgb,var(--accent-light) 65%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));
+  border-left:4px solid var(--accent);
+  border-radius:10px;
+  padding:10px 14px;
+  margin:18px 0 20px;
+  font-size:13px;
+  line-height:1.45;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.sources-text strong{color:var(--accent)}
+.sources-link{
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 9px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-size:12.5px;
+}
+
+/* Tab Panels */
+section.tab-panel{
+  display:none;
+  padding-bottom:60px;
+}
+section.tab-panel.active{
+  display:block;
+}
+
+/* Category Selector Pill Bar */
+.cat-pill-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:20px;
+}
+.cat-pill{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 14px;
+  font:600 13px var(--sans);
+  color:var(--muted);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .15s;
+}
+.cat-pill:hover{
+  background:var(--surface2);
+  color:var(--ink);
+}
+.cat-pill.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#ffffff;
+}
+
+/* Converter Interactive Card */
+.converter-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px;
+  box-shadow:var(--shadow);
+  margin-bottom:24px;
+}
+.conv-grid{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:20px;
+  align-items:center;
+}
+@media (max-width:760px){
+  .conv-grid{grid-template-columns:1fr;gap:14px}
+}
+.conv-box{
+  background:var(--surface3);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:16px;
+}
+.conv-label{
+  font:600 12px var(--sans);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--muted);
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+}
+.conv-input-row{
+  display:flex;
+  gap:10px;
+}
+.conv-num-input{
+  flex:1;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px 14px;
+  font:700 20px var(--serif);
+  color:var(--ink);
+  outline:none;
+  min-width:0;
+}
+.conv-num-input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent);
+}
+.conv-select{
+  width:160px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+  font:600 14px var(--sans);
+  color:var(--ink);
+  outline:none;
+}
+.conv-swap-btn{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  align-self:center;
+  margin:0 auto;
+  transition:all .15s;
+}
+.conv-swap-btn:hover{
+  background:var(--accent-light);
+  border-color:var(--accent);
+  transform:scale(1.08);
+}
+
+/* Live Detail Note */
+.conv-detail-box{
+  margin-top:20px;
+  padding:14px 18px;
+  border-radius:10px;
+  background:var(--surface2);
+  border-left:4px solid var(--accent);
+  font-size:14px;
+  line-height:1.5;
+}
+.conv-detail-header{
+  font:700 15px var(--serif);
+  margin-bottom:4px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.conv-detail-desc{
+  color:var(--ink);
+  margin-bottom:6px;
+}
+.conv-detail-source{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* Famous Biblical Examples Cards */
+.examples-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:16px;
+  margin-top:16px;
+}
+.example-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:all .15s;
+}
+.example-card:hover{
+  border-color:color-mix(in srgb,var(--accent) 40%,var(--line));
+  box-shadow:var(--shadow-hover);
+}
+.example-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.example-title{
+  font:700 17px/1.2 var(--serif);
+}
+.example-tag{
+  font:600 11px var(--sans);
+  text-transform:uppercase;
+  padding:2px 7px;
+  border-radius:4px;
+  background:var(--surface2);
+  color:var(--muted);
+}
+.example-stat-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  background:var(--surface3);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+  text-align:center;
+}
+.example-stat-val{
+  font:700 17px/1.2 var(--serif);
+  color:var(--accent);
+}
+.example-stat-lbl{
+  font-size:11.5px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.example-desc{
+  font-size:13.5px;
+  color:var(--ink);
+  line-height:1.45;
+}
+.example-ref{
+  margin-top:auto;
+  padding-top:8px;
+  border-top:1px dashed var(--line);
+  font-size:12px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+}
+
+/* Master Data Tables */
+.table-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  margin-bottom:24px;
+}
+.table-head-bar{
+  padding:16px 20px;
+  background:var(--surface3);
+  border-bottom:1px solid var(--line);
+}
+.table-title{
+  font:700 18px var(--serif);
+  margin-bottom:4px;
+}
+.table-sub{
+  font-size:13px;
+  color:var(--muted);
+}
+.scroll-table{
+  overflow-x:auto;
+}
+table.master-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  text-align:left;
+}
+table.master-table th{
+  background:var(--surface2);
+  color:var(--muted);
+  font:600 12px var(--sans);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+table.master-table td{
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+table.master-table tr:hover td{
+  background:var(--surface3);
+}
+.metric-badge{
+  font-weight:700;
+  color:var(--accent);
+}
+
+/* Wage / Labor Purchasing Power Calculator */
+.wage-calculator-box{
+  background:var(--surface3);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:20px;
+  margin-bottom:24px;
+}
+.wage-input-grid{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:16px;
+  align-items:end;
+  max-width:440px;
+  margin-bottom:16px;
+}
+.wage-results-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;
+}
+.wage-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:14px;
+  text-align:center;
+}
+.wage-card-val{
+  font:700 22px/1.1 var(--serif);
+  color:var(--accent);
+  margin-bottom:4px;
+}
+.wage-card-title{
+  font:600 13px var(--sans);
+  color:var(--ink);
+}
+.wage-card-sub{
+  font-size:11.5px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+/* Footer */
+footer.app-footer{
+  background:var(--surface);
+  border-top:1px solid var(--line);
+  padding:28px 0;
+  margin-top:auto;
+  font-size:13.5px;
+  color:var(--muted);
+}
+.footer-wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:16px;
+}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="wrap top-bar-inner">
+    <div class="brand-group">
+      <a href="../" class="home-link" title="Volver al Portal de Apps Bíblicas">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Apps Bíblicas</span>
+      </a>
+      <h1 class="app-heading">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path>
+          <path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path>
+          <path d="M7 21h10"></path>
+          <path d="M12 3v18"></path>
+          <path d="M3 7h18"></path>
+        </svg>
+        <span>Conversor de Pesas, Medidas y Monedas</span>
+        <span class="badge-version">v1.0</span>
+      </h1>
+    </div>
+
+    <div class="top-actions">
+      <a href="../atlas/" class="home-link" title="Abrir Atlas">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
+        <span>Atlas</span>
+      </a>
+      <a href="../cronologia/" class="home-link" title="Abrir Cronología">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span>Cronología</span>
+      </a>
+      <button class="themebtn" id="themeBtn" aria-label="Cambiar tema claro/oscuro">
+        <span id="themeText">Tema</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="app-tabs">
+  <div class="wrap">
+    <button class="tab-btn" data-tab="converter" aria-selected="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
+      <span>Calculadora Interactiva</span>
+    </button>
+    <button class="tab-btn" data-tab="examples" aria-selected="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+      <span>Ejemplos Bíblicos Clave</span>
+    </button>
+    <button class="tab-btn" data-tab="tables" aria-selected="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+      <span>Tablas Maestras de Perspicacia</span>
+    </button>
+    <button class="tab-btn" data-tab="wages" aria-selected="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/></svg>
+      <span>Poder Adquisitivo y Jornales</span>
+    </button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- Verification and Source Rule Banner -->
+  <div class="sources-banner">
+    <div class="sources-text">
+      <strong>Rigor y Documentación Exclusiva:</strong> Todas las equivalencias métricas, relaciones fraccionales y valores ponderales se basan estrictamente en la biblioteca <strong>wol.jw.org</strong> y la obra enciclopédica <em>Perspicacia para comprender las Escrituras</em> (artículos «Pesas y medidas», vol. 2, págs. 656-659, y «Dinero», vol. 1, págs. 705-707).
+    </div>
+    <a href="https://wol.jw.org/es/wol/d/r4/lp-s/1200004561" target="_blank" rel="noopener" class="sources-link">
+      <span>Ver «Pesas y medidas» en wol.jw.org</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+    </a>
+  </div>
+
+  <!-- TAB 1: INTERACTIVE CONVERTER -->
+  <section id="panel-converter" class="tab-panel active">
+    
+    <!-- Category Pill Bar -->
+    <div class="cat-pill-bar" id="category-pills">
+      <button class="cat-pill active" data-cat="length">📏 Longitud y Distancia</button>
+      <button class="cat-pill" data-cat="liquid">🏺 Líquidos (Capacidad)</button>
+      <button class="cat-pill" data-cat="dry">🌾 Secos (Capacidad)</button>
+      <button class="cat-pill" data-cat="weight">⚖️ Pesas / Masa</button>
+      <button class="cat-pill" data-cat="money">🪙 Monedas y Valores</button>
+    </div>
+
+    <!-- Main Converter Card -->
+    <div class="converter-card">
+      <div class="conv-grid">
+        
+        <!-- Left Box: Biblical Unit -->
+        <div class="conv-box">
+          <div class="conv-label">
+            <span>Unidad Bíblica</span>
+            <span id="biblical-unit-family">Antiguo / Nuevo Testamento</span>
+          </div>
+          <div class="conv-input-row">
+            <input type="number" id="input-biblical" class="conv-num-input" value="1" min="0" step="any" aria-label="Cantidad bíblica">
+            <select id="select-biblical" class="conv-select" aria-label="Seleccionar unidad bíblica"></select>
+          </div>
+        </div>
+
+        <!-- Center Swap Button -->
+        <button id="btn-swap-units" class="conv-swap-btn" title="Invertir dirección de cálculo" aria-label="Invertir cálculo">
+          ⇄
+        </button>
+
+        <!-- Right Box: Modern Metric Unit -->
+        <div class="conv-box">
+          <div class="conv-label">
+            <span>Sistema Métrico Decimal</span>
+            <span>Estándar Internacional</span>
+          </div>
+          <div class="conv-input-row">
+            <input type="number" id="input-metric" class="conv-num-input" value="0.445" min="0" step="any" aria-label="Cantidad métrica">
+            <select id="select-metric" class="conv-select" aria-label="Seleccionar unidad métrica"></select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Contextual Explanation from Perspicacia -->
+      <div class="conv-detail-box" id="conv-detail">
+        <div class="conv-detail-header">
+          <span id="detail-unit-name">Codo común (heb. ’am·máh)</span>
+          <span class="metric-badge" id="detail-ratio">1 codo ≈ 44,5 cm (2 palmos o 6 palmos menores)</span>
+        </div>
+        <p class="conv-detail-desc" id="detail-text">
+          Distancia aproximada entre el codo y la punta del dedo medio. Medida elemental de longitud entre los hebreos y base para las dimensiones del arca de Noé, el tabernáculo y el templo de Salomón.
+        </p>
+        <div class="conv-detail-source" id="detail-source">
+          Fuente oficial: <em>Perspicacia para comprender las Escrituras</em>, tomo 1, páginas 500-501.
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TAB 2: FAMOUS BIBLICAL EXAMPLES -->
+  <section id="panel-examples" class="tab-panel">
+    <div class="examples-grid" id="examples-container">
+      <!-- Generated dynamically -->
+    </div>
+  </section>
+
+  <!-- TAB 3: MASTER TABLES FROM PERSPICACIA -->
+  <section id="panel-tables" class="tab-panel">
+    
+    <!-- Table 1: Longitude -->
+    <div class="table-card">
+      <div class="table-head-bar">
+        <h3 class="table-title">1. Medidas Bíblicas de Longitud</h3>
+        <p class="table-sub">Basadas principalmente en proporciones del cuerpo humano o distancias de viaje.</p>
+      </div>
+      <div class="scroll-table">
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Nombre Original</th>
+              <th>Equivalencia Bíblica</th>
+              <th>Métrico Decimal</th>
+              <th>Textos de Referencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dedo</strong></td>
+              <td><em>’ets·bá‘</em></td>
+              <td>1/4 de palmo menor</td>
+              <td><span class="metric-badge">~1,85 cm</span></td>
+              <td>Jeremías 52:21</td>
+            </tr>
+            <tr>
+              <td><strong>Palmo menor</strong></td>
+              <td><em>té·faj</em></td>
+              <td>4 dedos (1/3 de palmo)</td>
+              <td><span class="metric-badge">~7,4 cm</span></td>
+              <td>Éxodo 25:25; 1 Reyes 7:26</td>
+            </tr>
+            <tr>
+              <td><strong>Palmo</strong></td>
+              <td><em>zé·ret</em></td>
+              <td>3 palmos menores (1/2 codo)</td>
+              <td><span class="metric-badge">~22,2 cm</span></td>
+              <td>Éxodo 28:16; 1 Samuel 17:4</td>
+            </tr>
+            <tr>
+              <td><strong>Codo común</strong></td>
+              <td><em>’am·máh</em></td>
+              <td>2 palmos (6 palmos menores)</td>
+              <td><span class="metric-badge">~44,5 cm</span></td>
+              <td>Génesis 6:15; Deuteronomio 3:11</td>
+            </tr>
+            <tr>
+              <td><strong>Codo largo</strong></td>
+              <td><em>’am·máh</em></td>
+              <td>7 palmos menores (codo real)</td>
+              <td><span class="metric-badge">~51,8 cm</span></td>
+              <td>Ezequiel 40:5; 43:13</td>
+            </tr>
+            <tr>
+              <td><strong>Caña común</strong></td>
+              <td><em>qa·néh</em></td>
+              <td>6 codos comunes</td>
+              <td><span class="metric-badge">~2,67 m</span></td>
+              <td>Ezequiel 40:5; 41:8</td>
+            </tr>
+            <tr>
+              <td><strong>Caña larga</strong></td>
+              <td><em>qa·néh</em></td>
+              <td>6 codos largos</td>
+              <td><span class="metric-badge">~3,11 m</span></td>
+              <td>Ezequiel 40:5</td>
+            </tr>
+            <tr>
+              <td><strong>Braza</strong></td>
+              <td><em>or·gui·á</em> (gr.)</td>
+              <td>4 codos (extensión de brazos)</td>
+              <td><span class="metric-badge">~1,8 m</span></td>
+              <td>Hechos 27:28</td>
+            </tr>
+            <tr>
+              <td><strong>Estadio romano</strong></td>
+              <td><em>stá·di·on</em> (gr.)</td>
+              <td>1/8 de milla romana</td>
+              <td><span class="metric-badge">~185 m</span></td>
+              <td>Lucas 24:13; Juan 11:18</td>
+            </tr>
+            <tr>
+              <td><strong>Milla romana</strong></td>
+              <td><em>mí·li·on</em> (gr.)</td>
+              <td>8 estadios (1.000 pasos dobles)</td>
+              <td><span class="metric-badge">~1.479,5 m (~1,48 km)</span></td>
+              <td>Mateo 5:41</td>
+            </tr>
+            <tr>
+              <td><strong>Camino de un sábado</strong></td>
+              <td><em>sabbátou hodós</em></td>
+              <td>2.000 codos tradicionales</td>
+              <td><span class="metric-badge">~1 km (~6 estadios)</span></td>
+              <td>Hechos 1:12; Josué 3:4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Table 2: Liquids -->
+    <div class="table-card">
+      <div class="table-head-bar">
+        <h3 class="table-title">2. Medidas de Capacidad para Líquidos</h3>
+        <p class="table-sub">Utilizadas para aceite de oliva, vino, agua y leche.</p>
+      </div>
+      <div class="scroll-table">
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Nombre Original</th>
+              <th>Relación Fraccional</th>
+              <th>Capacidad Métrica</th>
+              <th>Textos de Referencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Log</strong></td>
+              <td><em>logh</em></td>
+              <td>1/12 de hin (1/72 de bat)</td>
+              <td><span class="metric-badge">~0,31 litros</span></td>
+              <td>Levítico 14:10, 12, 21</td>
+            </tr>
+            <tr>
+              <td><strong>Hin</strong></td>
+              <td><em>hin</em></td>
+              <td>1/6 de bat (12 logs)</td>
+              <td><span class="metric-badge">~3,67 litros</span></td>
+              <td>Éxodo 29:40; Levítico 19:36</td>
+            </tr>
+            <tr>
+              <td><strong>Bat</strong></td>
+              <td><em>bath</em></td>
+              <td>1/10 de coro (6 hins)</td>
+              <td><span class="metric-badge">~22 litros</span></td>
+              <td>1 Reyes 7:26; Ezequiel 45:10, 14</td>
+            </tr>
+            <tr>
+              <td><strong>Coro</strong></td>
+              <td><em>kor</em></td>
+              <td>10 batos</td>
+              <td><span class="metric-badge">~220 litros</span></td>
+              <td>1 Reyes 5:11; Lucas 16:7</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Table 3: Dry Measures -->
+    <div class="table-card">
+      <div class="table-head-bar">
+        <h3 class="table-title">3. Medidas de Capacidad para Secos</h3>
+        <p class="table-sub">Para grano, harina de flor, trigo, cebada y semillas.</p>
+      </div>
+      <div class="scroll-table">
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Nombre Original</th>
+              <th>Relación Fraccional</th>
+              <th>Capacidad Métrica</th>
+              <th>Textos de Referencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Cab</strong></td>
+              <td><em>qav</em></td>
+              <td>1/6 de seah (1/18 de efá)</td>
+              <td><span class="metric-badge">~1,22 litros</span></td>
+              <td>2 Reyes 6:25</td>
+            </tr>
+            <tr>
+              <td><strong>Ómer</strong></td>
+              <td><em>‘ó·mer</em></td>
+              <td>1/10 de efá (ración diaria de maná)</td>
+              <td><span class="metric-badge">~2,2 litros</span></td>
+              <td>Éxodo 16:16, 18, 36</td>
+            </tr>
+            <tr>
+              <td><strong>Seah</strong></td>
+              <td><em>se·’áh</em></td>
+              <td>1/3 de efá (6 cabs)</td>
+              <td><span class="metric-badge">~7,33 litros</span></td>
+              <td>Génesis 18:6; 2 Reyes 7:1</td>
+            </tr>
+            <tr>
+              <td><strong>Efá</strong></td>
+              <td><em>’e·fáh</em></td>
+              <td>10 ómeres (3 seahs)</td>
+              <td><span class="metric-badge">~22 litros</span></td>
+              <td>Éxodo 16:36; Levítico 19:36</td>
+            </tr>
+            <tr>
+              <td><strong>Létek</strong></td>
+              <td><em>lé·thej</em></td>
+              <td>5 efás (1/2 hómer)</td>
+              <td><span class="metric-badge">~110 litros</span></td>
+              <td>Oseas 3:2</td>
+            </tr>
+            <tr>
+              <td><strong>Hómer / Coro</strong></td>
+              <td><em>jo·mer / kor</em></td>
+              <td>10 efás</td>
+              <td><span class="metric-badge">~220 litros</span></td>
+              <td>Levítico 27:16; Ezequiel 45:11</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Table 4: Weights and Currencies -->
+    <div class="table-card">
+      <div class="table-head-bar">
+        <h3 class="table-title">4. Pesas, Metales Preciosos y Monedas</h3>
+        <p class="table-sub">Valores ponderales basados en siclos de plata y piezas circulantes en Judea y Roma.</p>
+      </div>
+      <div class="scroll-table">
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Origen / Metal</th>
+              <th>Equivalencia Ponderal</th>
+              <th>Masa Aprox.</th>
+              <th>Equivalencia Laboral / Textos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Guerá</strong></td>
+              <td>Hebreo / Plata</td>
+              <td>1/20 de siclo</td>
+              <td><span class="metric-badge">~0,57 gramos</span></td>
+              <td>Éxodo 30:13; Levítico 27:25</td>
+            </tr>
+            <tr>
+              <td><strong>Beca</strong></td>
+              <td>Hebreo / Plata</td>
+              <td>10 guerás (1/2 siclo)</td>
+              <td><span class="metric-badge">~5,7 gramos</span></td>
+              <td>Éxodo 38:26 (impuesto del censo)</td>
+            </tr>
+            <tr>
+              <td><strong>Pim</strong></td>
+              <td>Hebreo / Bronce</td>
+              <td>2/3 de siclo</td>
+              <td><span class="metric-badge">~7,6 gramos</span></td>
+              <td>1 Samuel 13:21 (afilar herramientas)</td>
+            </tr>
+            <tr>
+              <td><strong>Siclo</strong></td>
+              <td>Hebreo / Plata</td>
+              <td>2 becas (20 guerás)</td>
+              <td><span class="metric-badge">~11,4 gramos</span></td>
+              <td>Génesis 23:15; Éxodo 30:13</td>
+            </tr>
+            <tr>
+              <td><strong>Mina</strong></td>
+              <td>Hebreo / Plata</td>
+              <td>50 siclos</td>
+              <td><span class="metric-badge">~570 gramos</span></td>
+              <td>Ezequiel 45:12; Esdras 2:69</td>
+            </tr>
+            <tr>
+              <td><strong>Talento</strong></td>
+              <td>Hebreo / Plata</td>
+              <td>60 minas (3.000 siclos)</td>
+              <td><span class="metric-badge">~34,2 kilogramos</span></td>
+              <td>Éxodo 38:25-27; Mateo 18:24</td>
+            </tr>
+            <tr>
+              <td><strong>Lepta (Blanca)</strong></td>
+              <td>Judío / Cobre</td>
+              <td>1/2 cuadrante (1/128 denario)</td>
+              <td><span class="metric-badge">Moneda mínima</span></td>
+              <td>Marcos 12:42 (la viuda pobre)</td>
+            </tr>
+            <tr>
+              <td><strong>Cuadrante</strong></td>
+              <td>Romano / Cobre</td>
+              <td>2 leptas (1/64 denario)</td>
+              <td><span class="metric-badge">Cobre</span></td>
+              <td>Mateo 5:26; Marcos 12:42</td>
+            </tr>
+            <tr>
+              <td><strong>As (Asarión)</strong></td>
+              <td>Romano / Bronce</td>
+              <td>4 cuadrantes (1/16 denario)</td>
+              <td><span class="metric-badge">Bronce</span></td>
+              <td>Mateo 10:29 (dos gorriones por un as)</td>
+            </tr>
+            <tr>
+              <td><strong>Denario</strong></td>
+              <td>Romano / Plata</td>
+              <td>16 ases (moneda estándar)</td>
+              <td><span class="metric-badge">~3,85 gramos</span></td>
+              <td>Mateo 20:2 (jornal de 1 día de 12 h)</td>
+            </tr>
+            <tr>
+              <td><strong>Dracma</strong></td>
+              <td>Griego / Plata</td>
+              <td>≈ 1 denario romano</td>
+              <td><span class="metric-badge">~3,4 gramos</span></td>
+              <td>Lucas 15:8 (moneda perdida)</td>
+            </tr>
+            <tr>
+              <td><strong>Didracma</strong></td>
+              <td>Griego / Plata</td>
+              <td>2 dracmas (medio siclo)</td>
+              <td><span class="metric-badge">~6,8 gramos</span></td>
+              <td>Mateo 17:24 (impuesto del templo)</td>
+            </tr>
+            <tr>
+              <td><strong>Tetradracma (Estáter)</strong></td>
+              <td>Griego / Plata</td>
+              <td>4 dracmas (1 siclo)</td>
+              <td><span class="metric-badge">~13,6 gramos</span></td>
+              <td>Mateo 17:27 (pago por Jesús y Pedro)</td>
+            </tr>
+            <tr>
+              <td><strong>Dárico</strong></td>
+              <td>Persa / Oro</td>
+              <td>Moneda de oro macizo</td>
+              <td><span class="metric-badge">~8,4 gramos</span></td>
+              <td>1 Crónicas 29:7; Esdras 8:27</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TAB 4: WAGE AND PURCHASING POWER CALCULATOR -->
+  <section id="panel-wages" class="tab-panel">
+    <div class="wage-calculator-box">
+      <h3 class="table-title">Estimador de Poder Adquisitivo y Esfuerzo Laboral Bíblico</h3>
+      <p class="table-sub" style="margin-bottom:16px">
+        En las Escrituras, el <strong>denario romano</strong> era el pago estándar por una jornada completa de trabajo agrícola de doce horas (Mateo 20:2). Ingresa tu ingreso diario estimado o el salario mínimo de referencia para comparar de manera intuitiva el esfuerzo humano que representaban los tesoros, tributos y ofrendas bíblicas.
+      </p>
+
+      <div class="wage-input-grid">
+        <div>
+          <label for="wage-input" style="font:600 12px var(--sans);text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">
+            Ingreso o Jornada de Referencia (Ej. € o $ al día):
+          </label>
+          <input type="number" id="wage-input" class="conv-num-input" value="50" min="1" step="1">
+        </div>
+        <button id="btn-calc-wage" class="themebtn" style="padding:10px 16px;background:var(--accent);color:#fff">
+          Actualizar Cálculos
+        </button>
+      </div>
+
+      <div class="wage-results-grid">
+        <div class="wage-card">
+          <div class="wage-card-val" id="res-wage-denarius">50,00 €</div>
+          <div class="wage-card-title">1 Denario Romano</div>
+          <div class="wage-card-sub">1 día de trabajo (12 horas)</div>
+        </div>
+
+        <div class="wage-card">
+          <div class="wage-card-val" id="res-wage-sparrows">3,13 €</div>
+          <div class="wage-card-title">1 Asarión (2 gorriones)</div>
+          <div class="wage-card-sub">1/16 de denario (~45 minutos)</div>
+        </div>
+
+        <div class="wage-card">
+          <div class="wage-card-val" id="res-wage-widow">0,78 €</div>
+          <div class="wage-card-title">2 Leptas (Viuda Pobre)</div>
+          <div class="wage-card-sub">1/64 de denario (~11 minutos)</div>
+        </div>
+
+        <div class="wage-card">
+          <div class="wage-card-val" id="res-wage-ointment">15.000 €</div>
+          <div class="wage-card-title">Ungüento de María (300 denarios)</div>
+          <div class="wage-card-sub">Casi 1 año entero de salario</div>
+        </div>
+
+        <div class="wage-card">
+          <div class="wage-card-val" id="res-wage-mina">2.500 €</div>
+          <div class="wage-card-title">1 Mina (50 siclos ≈ 50 denarios)</div>
+          <div class="wage-card-sub">Parábola de las minas (Lucas 19)</div>
+        </div>
+
+        <div class="wage-card">
+          <div class="wage-card-val" id="res-wage-talent">300.000 €</div>
+          <div class="wage-card-title">1 Talento de Plata</div>
+          <div class="wage-card-sub">6.000 denarios (≈ 20 años de labor)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <div class="wrap footer-wrap">
+    <div>
+      <strong>Apps Bíblicas</strong> — Suite de Investigación Histórica y Textual.
+    </div>
+    <div>
+      Equivalencias fundamentadas con rigor estricto según <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a> y <em>Perspicacia para comprender las Escrituras</em>.
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPT: APPLICATION LOGIC -->
+<script>
+/* =========================================================================
+   1. DATASET OF BIBLICAL MEASURES (STRICTLY FROM WOL.JW.ORG / PERSPICACIA)
+   ========================================================================= */
+const MEASURES_DATA = {
+  length: {
+    name: "Longitud y Distancia",
+    source: "it-2 págs. 656-657",
+    wolId: "1200004561",
+    baseMetricUnit: "metros",
+    biblicalUnits: [
+      { id: "codo", name: "Codo común", ratio: 0.445, desc: "Distancia desde el codo hasta la punta del dedo medio (~44,5 cm). Unidad primordial de construcción." },
+      { id: "codo-largo", name: "Codo largo (real)", ratio: 0.518, desc: "Un codo común más un palmo menor (~51,8 cm). Usado en las visiones de Ezequiel." },
+      { id: "palmo", name: "Palmo (zéret)", ratio: 0.222, desc: "Distancia entre la punta del pulgar y el meñique con la mano extendida (~22,2 cm, medio codo)." },
+      { id: "palmo-menor", name: "Palmo menor (téfej)", ratio: 0.074, desc: "El ancho de la mano a la altura de los cuatro dedos juntos (~7,4 cm, 1/6 de codo)." },
+      { id: "dedo", name: "Dedo (’etsbá‘)", ratio: 0.0185, desc: "El grosor de un dedo humano (~1,85 cm, 1/4 de palmo menor)." },
+      { id: "cana", name: "Caña común (qanéh)", ratio: 2.67, desc: "Seis codos comunes de longitud (~2,67 metros). Vara de medir." },
+      { id: "cana-larga", name: "Caña larga", ratio: 3.108, desc: "Seis codos largos de longitud (~3,11 metros). Usada para medir el templo milenario." },
+      { id: "braza", name: "Braza (orguiá)", ratio: 1.8, desc: "Extensión de los brazos abiertos (~1,8 metros). Usada por marineros para medir profundidades (Hechos 27:28)." },
+      { id: "estadio", name: "Estadio romano", ratio: 185, desc: "Un octavo de milla romana (~185 metros). Medida griega y romana de distancias." },
+      { id: "milla-romana", name: "Milla romana", ratio: 1479.5, desc: "Ocho estadios (~1.480 metros o 1.000 pasos dobles romanos de 5 pies)." },
+      { id: "camino-sabado", name: "Camino de un sábado", ratio: 1000, desc: "Unos 2.000 codos (~1 km). Distancia autorizada para caminar en sábado (Hechos 1:12)." }
+    ],
+    metricUnits: [
+      { id: "m", name: "Metros (m)", factor: 1 },
+      { id: "cm", name: "Centímetros (cm)", factor: 0.01 },
+      { id: "mm", name: "Milímetros (mm)", factor: 0.001 },
+      { id: "km", name: "Kilómetros (km)", factor: 1000 }
+    ]
+  },
+  liquid: {
+    name: "Capacidad para Líquidos",
+    source: "it-2 pág. 657",
+    wolId: "1200004561",
+    baseMetricUnit: "litros",
+    biblicalUnits: [
+      { id: "bat", name: "Bat", ratio: 22, desc: "La medida líquida estándar del registro bíblico (~22 litros). Décima parte de un coro." },
+      { id: "hin", name: "Hin", ratio: 3.67, desc: "Un sexto de bat (~3,67 litros o 12 logs). Usado habitualmente para porciones de aceite y vino en los sacrificios." },
+      { id: "log", name: "Log", ratio: 0.31, desc: "Un doceavo de hin (~0,31 litros o 310 ml). La medida líquida bíblica más pequeña." },
+      { id: "coro-liq", name: "Coro (líquido)", ratio: 220, desc: "Diez batos (~220 litros). Gran medida para grandes provisiones de aceite o vino." }
+    ],
+    metricUnits: [
+      { id: "l", name: "Litros (l)", factor: 1 },
+      { id: "ml", name: "Mililitros (ml)", factor: 0.001 },
+      { id: "hl", name: "Hectolitros (hl)", factor: 100 },
+      { id: "m3", name: "Metros cúbicos (m³)", factor: 1000 }
+    ]
+  },
+  dry: {
+    name: "Capacidad para Secos",
+    source: "it-2 págs. 657-658",
+    wolId: "1200004561",
+    baseMetricUnit: "litros",
+    biblicalUnits: [
+      { id: "efa", name: "Efá", ratio: 22, desc: "Unidad seca estándar (~22 litros). Contiene 10 ómeres o 3 seahs. Equivalente en volumen al bat líquido." },
+      { id: "omer", name: "Ómer", ratio: 2.2, desc: "Décima parte de un efá (~2,2 litros). Ración diaria individual de maná recogida en el desierto (Éxodo 16:16)." },
+      { id: "seah", name: "Seah", ratio: 7.33, desc: "Tercera parte de un efá (~7,33 litros). Medida común de harina para hornear pan." },
+      { id: "cab", name: "Cab", ratio: 1.22, desc: "Un sexto de seah (~1,22 litros o 1/18 de efá). Medida mencionada en tiempos de hambruna en Samaria (2 Reyes 6:25)." },
+      { id: "letek", name: "Létek", ratio: 110, desc: "Medio hómer (~110 litros o 5 efás). Usada por Oseas para comprar a su esposa Gómer (Oseas 3:2)." },
+      { id: "homer", name: "Hómer / Coro", ratio: 220, desc: "Diez efás (~220 litros). La mayor medida de capacidad para grano." }
+    ],
+    metricUnits: [
+      { id: "l", name: "Litros (l)", factor: 1 },
+      { id: "ml", name: "Mililitros (ml)", factor: 0.001 },
+      { id: "hl", name: "Hectolitros (hl)", factor: 100 }
+    ]
+  },
+  weight: {
+    name: "Pesas / Masa",
+    source: "it-2 págs. 658-659",
+    wolId: "1200004561",
+    baseMetricUnit: "gramos",
+    biblicalUnits: [
+      { id: "siclo-peso", name: "Siclo (sheqel)", ratio: 11.4, desc: "La unidad de peso fundamental entre los hebreos (~11,4 gramos). 20 guerás o 2 becas." },
+      { id: "guera", name: "Guerá", ratio: 0.57, desc: "Un vigésimo de siclo (~0,57 gramos). La unidad ponderal hebrea más ligera." },
+      { id: "beca", name: "Beca (medio siclo)", ratio: 5.7, desc: "Diez guerás (~5,7 gramos). Cuota del censo estipulada para el santuario (Éxodo 38:26)." },
+      { id: "pim", name: "Pim (2/3 siclo)", ratio: 7.6, desc: "Dos tercios de siclo (~7,6 gramos). Precio cobrado por los filisteos para afilar aperos (1 Samuel 13:21)." },
+      { id: "mina-peso", name: "Mina", ratio: 570, desc: "Cincuenta siclos de plata (~570 gramos). Medio kilogramo largo." },
+      { id: "talento-peso", name: "Talento (kikkar)", ratio: 34200, desc: "Sesenta minas o 3.000 siclos (~34,2 kilogramos). El peso que podía transportar un hombre adulto en hombros." }
+    ],
+    metricUnits: [
+      { id: "g", name: "Gramos (g)", factor: 1 },
+      { id: "kg", name: "Kilogramos (kg)", factor: 1000 },
+      { id: "mg", name: "Miligramos (mg)", factor: 0.001 },
+      { id: "ton", name: "Toneladas (t)", factor: 1000000 }
+    ]
+  },
+  money: {
+    name: "Monedas y Valores",
+    source: "it-1 págs. 705-707",
+    wolId: "1200001183",
+    baseMetricUnit: "denarios",
+    biblicalUnits: [
+      { id: "denario", name: "Denario romano (argénteo)", ratio: 1, desc: "Moneda de plata romana (~3,85 g). Salario habitual por un día de trabajo de 12 horas de un jornalero (Mateo 20:2)." },
+      { id: "dracma", name: "Dracma griega", ratio: 0.9, desc: "Moneda de plata griega (~3,4 g). De valor muy similar al denario romano (Lucas 15:8)." },
+      { id: "didracma", name: "Didracma (medio siclo)", ratio: 1.8, desc: "Dos dracmas (~6,8 g de plata). Importe del impuesto anual del templo de Jehová por persona (Mateo 17:24)." },
+      { id: "estater", name: "Estáter (Tetradracma)", ratio: 3.6, desc: "Cuatro dracmas (~13,6 g de plata). Pagó el tributo del templo por dos personas (Jesús y Pedro, Mateo 17:27)." },
+      { id: "as-moneda", name: "As (Asarión)", ratio: 0.0625, desc: "Un dieciseisavo de denario (1/16). Moneda de bronce romana con la que se compraban 2 gorriones (Mateo 10:29)." },
+      { id: "cuadrante", name: "Cuadrante", ratio: 0.015625, desc: "Un sesentaicuatroavo de denario (1/64 o 4 leptas). Pequeña moneda de cobre romana (Mateo 5:26)." },
+      { id: "lepta", name: "Lepta (Blanca judía)", ratio: 0.0078125, desc: "Un ciento veintiochoavo de denario (1/128). La moneda judía de bronce más diminuta; ofrenda de la viuda pobre (Marcos 12:42)." },
+      { id: "siclo-moneda", name: "Siclo de plata", ratio: 3.6, desc: "≈ 4 denarios (~11,4 g de plata). Moneda nacional judía por excelencia." },
+      { id: "mina-moneda", name: "Mina de plata", ratio: 180, desc: "Cincuenta siclos (≈ 200 denarios / 570 g de plata). En Lucas 19, cada siervo recibe 1 mina." },
+      { id: "talento-moneda", name: "Talento de plata", ratio: 10800, desc: "60 minas = 3.000 siclos (≈ 10.800 denarios o ~34,2 kg de plata). Una suma inmensa equivalente a décadas de trabajo." }
+    ],
+    metricUnits: [
+      { id: "denarios", name: "Denarios (jornadas de 12 h)", factor: 1 },
+      { id: "dracmas", name: "Dracmas griegas", factor: 0.9 },
+      { id: "g-plata", name: "Gramos de plata pura (~)", factor: 0.26 }
+    ]
+  }
+};
+
+/* =========================================================================
+   2. FAMOUS BIBLICAL EXAMPLES DATASET
+   ========================================================================= */
+const BIBLICAL_EXAMPLES = [
+  {
+    title: "El Arca de Noé",
+    tag: "Génesis 6:15",
+    valBiblical: "300 × 50 × 30 codos",
+    valMetric: "133,5 × 22,3 × 13,4 metros",
+    desc: "Un cofre flotante descomunal con un volumen de unos 40.000 m³ (similar al de un gran buque de carga moderno), con capacidad para albergar a los supervivientes y a todas las familias de animales terrestres.",
+    ref: "it-1 págs. 207-210"
+  },
+  {
+    title: "La Estatura de Goliat",
+    tag: "1 Samuel 17:4, 5",
+    valBiblical: "6 codos y un palmo",
+    valMetric: "≈ 2,89 metros de altura",
+    desc: "El gigante filisteo de Gat llevaba una cota de malla de escamas de cobre que pesaba 5.000 siclos (~57 kg) y la hoja de hierro de su lanza pesaba 600 siclos (~6,8 kg).",
+    ref: "it-1 pág. 1029"
+  },
+  {
+    title: "La Estatua de Oro de Nabucodonosor",
+    tag: "Daniel 3:1",
+    valBiblical: "60 codos alto × 6 ancho",
+    valMetric: "26,7 m alto × 2,67 m ancho",
+    desc: "Erigida en la llanura de Dura para la adoración obligatoria del imperio babilónico. Una altura colosal equivalente a un edificio moderno de nueve plantas.",
+    ref: "it-1 pág. 876"
+  },
+  {
+    title: "El Mar Fundido del Templo",
+    tag: "1 Reyes 7:23, 26",
+    valBiblical: "2.000 batos (10 codos diám.)",
+    valMetric: "≈ 44.000 litros (4,45 m diám.)",
+    desc: "Inmenso recipiente de cobre que descansaba sobre doce toros esculpidos en el atrio de los sacerdotes para las abluciones ceremoniales. Su espesor era de un palmo menor (~7,4 cm).",
+    ref: "it-2 pág. 306"
+  },
+  {
+    title: "Las Dos Monedas de la Viuda Pobre",
+    tag: "Marcos 12:42",
+    valBiblical: "2 leptas = 1 cuadrante",
+    valMetric: "1/64 de denario (~11 minutos)",
+    desc: "Una aportación materialmente insignificante pero espiritualmente de valor incalculable: Jesús elogió que ella echó «todo cuanto tenía, todo su sustento».",
+    ref: "it-1 pág. 706"
+  },
+  {
+    title: "El Frasco de Ungüento de María",
+    tag: "Juan 12:3-5",
+    valBiblical: "1 libra de nardo auténtico",
+    valMetric: "≈ 327 g (más de 300 denarios)",
+    desc: "María, hermana de Lázaro, ungió los pies de Jesús con este perfume costosísimo, cuyo valor equivalía prácticamente al salario íntegro de un trabajador a lo largo de casi un año.",
+    ref: "it-2 pág. 471"
+  },
+  {
+    title: "La Parábola de los Dos Deudores",
+    tag: "Mateo 18:23-35",
+    valBiblical: "10.000 talentos vs. 100 denarios",
+    valMetric: "342 toneladas vs. 385 g de plata",
+    desc: "Contraste colosal: 10.000 talentos de plata representaban 60 millones de denarios (una deuda astronómica imposible de saldar en muchas vidas humanas) frente a 100 denarios (unos 3 meses de jornal).",
+    ref: "it-2 pág. 1081"
+  },
+  {
+    title: "La Ración Diaria de Maná",
+    tag: "Éxodo 16:16, 36",
+    valBiblical: "1 ómer por persona",
+    valMetric: "≈ 2,2 litros diarios",
+    desc: "La provisión milagrosa provista por Dios en el desierto para alimentar a unos 3 millones de israelitas durante 40 años. La porción justa y nutritiva para una jornada.",
+    ref: "it-2 pág. 291"
+  }
+];
+
+/* =========================================================================
+   3. APP STATE & CONTROLLER
+   ========================================================================= */
+let currentCategory = "length";
+let isBiblicalSource = true; // true: user typed in biblical, false: user typed in metric
+
+function initApp() {
+  setupTabs();
+  setupTheme();
+  setupCategoryPills();
+  setupConverterEvents();
+  renderExamples();
+  setupWageCalculator();
+  updateCategory(currentCategory);
+}
+
+/* Tabs */
+function setupTabs() {
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach(b => b.setAttribute("aria-selected", "false"));
+      btn.setAttribute("aria-selected", "true");
+
+      const tabId = btn.getAttribute("data-tab");
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      const targetPanel = document.getElementById(`panel-${tabId}`);
+      if (targetPanel) targetPanel.classList.add("active");
+    });
+  });
+}
+
+/* Theme */
+function setupTheme() {
+  const themeBtn = document.getElementById("themeBtn");
+  const themeText = document.getElementById("themeText");
+  const storedTheme = localStorage.getItem("bibleapps_theme");
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    themeText.textContent = theme === "dark" ? "☀️ Claro" : "🌙 Oscuro";
+  }
+
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
+
+  themeBtn.addEventListener("click", () => {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    const next = isDark ? "light" : "dark";
+    applyTheme(next);
+    localStorage.setItem("bibleapps_theme", next);
+  });
+}
+
+/* Category Pills */
+function setupCategoryPills() {
+  const pills = document.querySelectorAll(".cat-pill");
+  pills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      pills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      updateCategory(pill.getAttribute("data-cat"));
+    });
+  });
+}
+
+/* Switch Category */
+function updateCategory(catId) {
+  currentCategory = catId;
+  const data = MEASURES_DATA[catId];
+  if (!data) return;
+
+  // Populate Selectors
+  const selBiblical = document.getElementById("select-biblical");
+  const selMetric = document.getElementById("select-metric");
+  selBiblical.innerHTML = "";
+  selMetric.innerHTML = "";
+
+  data.biblicalUnits.forEach(u => {
+    const opt = document.createElement("option");
+    opt.value = u.id;
+    opt.textContent = u.name;
+    selBiblical.appendChild(opt);
+  });
+
+  data.metricUnits.forEach(m => {
+    const opt = document.createElement("option");
+    opt.value = m.id;
+    opt.textContent = m.name;
+    selMetric.appendChild(opt);
+  });
+
+  // Reset inputs
+  document.getElementById("input-biblical").value = 1;
+  document.getElementById("biblical-unit-family").textContent = data.name;
+
+  convertFromBiblical();
+  updateDetailCard();
+}
+
+/* Setup Converter Inputs and Swap */
+function setupConverterEvents() {
+  const inputBib = document.getElementById("input-biblical");
+  const selBib = document.getElementById("select-biblical");
+  const inputMet = document.getElementById("input-metric");
+  const selMet = document.getElementById("select-metric");
+  const btnSwap = document.getElementById("btn-swap-units");
+
+  inputBib.addEventListener("input", () => {
+    isBiblicalSource = true;
+    convertFromBiblical();
+  });
+
+  selBib.addEventListener("change", () => {
+    convertFromBiblical();
+    updateDetailCard();
+  });
+
+  inputMet.addEventListener("input", () => {
+    isBiblicalSource = false;
+    convertFromMetric();
+  });
+
+  selMet.addEventListener("change", () => {
+    if (isBiblicalSource) {
+      convertFromBiblical();
+    } else {
+      convertFromMetric();
+    }
+  });
+
+  btnSwap.addEventListener("click", () => {
+    // Invert source focus
+    if (isBiblicalSource) {
+      inputMet.focus();
+      inputMet.select();
+      isBiblicalSource = false;
+    } else {
+      inputBib.focus();
+      inputBib.select();
+      isBiblicalSource = true;
+    }
+  });
+}
+
+/* Conversion Math: Biblical to Metric */
+function convertFromBiblical() {
+  const data = MEASURES_DATA[currentCategory];
+  const inputBib = document.getElementById("input-biblical");
+  const selBib = document.getElementById("select-biblical");
+  const inputMet = document.getElementById("input-metric");
+  const selMet = document.getElementById("select-metric");
+
+  const valBib = parseFloat(inputBib.value) || 0;
+  const unitBib = data.biblicalUnits.find(u => u.id === selBib.value);
+  const unitMet = data.metricUnits.find(m => m.id === selMet.value);
+  if (!unitBib || !unitMet) return;
+
+  // Base value = valBib * unitBib.ratio (in base unit, e.g. meters, liters, grams, denarios)
+  const baseValue = valBib * unitBib.ratio;
+  // Metric value = baseValue / unitMet.factor
+  const resultMetric = baseValue / unitMet.factor;
+
+  inputMet.value = formatDecimals(resultMetric);
+}
+
+/* Conversion Math: Metric to Biblical */
+function convertFromMetric() {
+  const data = MEASURES_DATA[currentCategory];
+  const inputBib = document.getElementById("input-biblical");
+  const selBib = document.getElementById("select-biblical");
+  const inputMet = document.getElementById("input-metric");
+  const selMet = document.getElementById("select-metric");
+
+  const valMet = parseFloat(inputMet.value) || 0;
+  const unitBib = data.biblicalUnits.find(u => u.id === selBib.value);
+  const unitMet = data.metricUnits.find(m => m.id === selMet.value);
+  if (!unitBib || !unitMet) return;
+
+  // Base value = valMet * unitMet.factor
+  const baseValue = valMet * unitMet.factor;
+  // Biblical value = baseValue / unitBib.ratio
+  const resultBiblical = baseValue / unitBib.ratio;
+
+  inputBib.value = formatDecimals(resultBiblical);
+}
+
+function formatDecimals(val) {
+  if (val === 0) return 0;
+  if (Math.abs(val) >= 1000) return Math.round(val * 100) / 100;
+  if (Math.abs(val) >= 1) return Math.round(val * 1000) / 1000;
+  return parseFloat(val.toPrecision(4));
+}
+
+/* Update Contextual Note */
+function updateDetailCard() {
+  const data = MEASURES_DATA[currentCategory];
+  const selBib = document.getElementById("select-biblical");
+  const unitBib = data.biblicalUnits.find(u => u.id === selBib.value);
+  if (!unitBib) return;
+
+  document.getElementById("detail-unit-name").textContent = unitBib.name;
+  document.getElementById("detail-ratio").textContent = `1 ${unitBib.name} = ${unitBib.ratio} ${data.baseMetricUnit}`;
+  document.getElementById("detail-text").textContent = unitBib.desc;
+  document.getElementById("detail-source").innerHTML = `Fuente oficial: <em>Perspicacia para comprender las Escrituras</em> (${data.source}).`;
+}
+
+/* Render Biblical Examples */
+function renderExamples() {
+  const container = document.getElementById("examples-container");
+  container.innerHTML = "";
+
+  BIBLICAL_EXAMPLES.forEach(ex => {
+    const card = document.createElement("div");
+    card.className = "example-card";
+    card.innerHTML = `
+      <div class="example-head">
+        <h4 class="example-title">${ex.title}</h4>
+        <span class="example-tag">${ex.tag}</span>
+      </div>
+      <div class="example-stat-row">
+        <div>
+          <div class="example-stat-val">${ex.valBiblical}</div>
+          <div class="example-stat-lbl">Texto Bíblico</div>
+        </div>
+        <div>
+          <div class="example-stat-val">${ex.valMetric}</div>
+          <div class="example-stat-lbl">Equivalencia Métrica</div>
+        </div>
+      </div>
+      <p class="example-desc">${ex.desc}</p>
+      <div class="example-ref">
+        <span>Fuente oficial:</span>
+        <strong>${ex.ref}</strong>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+/* Wage Calculator */
+function setupWageCalculator() {
+  const wageInput = document.getElementById("wage-input");
+  const btnCalc = document.getElementById("btn-calc-wage");
+
+  function calcWages() {
+    const wage = parseFloat(wageInput.value) || 50; // daily wage for 12h
+
+    // 1 denarius = 1 day = wage
+    document.getElementById("res-wage-denarius").textContent = formatCurrency(wage);
+    // 1 asarion = 1/16 denarius
+    document.getElementById("res-wage-sparrows").textContent = formatCurrency(wage / 16);
+    // 2 leptas = 1/64 denarius
+    document.getElementById("res-wage-widow").textContent = formatCurrency(wage / 64);
+    // 300 denarii = 300 * wage
+    document.getElementById("res-wage-ointment").textContent = formatCurrency(wage * 300);
+    // 1 mina = 50 denarii
+    document.getElementById("res-wage-mina").textContent = formatCurrency(wage * 50);
+    // 1 talent = 6,000 denarii
+    document.getElementById("res-wage-talent").textContent = formatCurrency(wage * 6000);
+  }
+
+  function formatCurrency(n) {
+    return n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  }
+
+  wageInput.addEventListener("input", calcWages);
+  btnCalc.addEventListener("click", calcWages);
+  calcWages();
+}
+
+// Universal file:// protocol normalizer on DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+  initApp();
+
+  if (window.location.protocol === 'file:') {
+    document.querySelectorAll('a').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      if (href === '../' || href === '/') {
+        a.setAttribute('href', '../index.html');
+      } else if (href === '../atlas/' || href === '/atlas/' || href === '/atlas') {
+        a.setAttribute('href', '../atlas/index.html');
+      } else if (href === '../cronologia/' || href === '/cronologia/' || href === '/cronologia') {
+        a.setAttribute('href', '../cronologia/index.html');
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>

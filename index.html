@@ -548,7 +548,8 @@ footer.site-footer{
       <a href="#apps" class="nav-link">Catálogo de Apps</a>
       <a href="#rigor" class="nav-link">Metodología</a>
       <a href="cronologia/" class="btn btn-secondary" style="padding:7px 12px;font-size:13px">Cronología</a>
-      <a href="atlas/" class="btn btn-primary" style="padding:7px 12px;font-size:13px">Atlas Bíblico</a>
+      <a href="atlas/" class="btn btn-secondary" style="padding:7px 12px;font-size:13px">Atlas Bíblico</a>
+      <a href="medidas/" class="btn btn-primary" style="padding:7px 12px;font-size:13px">Pesas y Medidas</a>
       <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
         <span id="themeText">Tema</span>
       </button>
@@ -702,13 +703,16 @@ footer.site-footer{
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h18"></path></svg>
         </div>
         <h3 class="app-title">Conversor de Pesas, Medidas y Monedas</h3>
-        <span class="app-badge badge-wip">En desarrollo</span>
+        <span class="app-badge badge-available">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          Disponible ahora
+        </span>
         <p class="app-desc">
-          Calculadora de conversión de medidas del Antiguo y Nuevo Testamento (codos, cañas, estadios, talentos, siclos, batos, gomeres) a unidades métricas y valores contemporáneos.
+          Calculadora interactiva en tiempo real: codos, cañas, estadios, talentos, siclos, denarios, batos y gomeres al sistema métrico decimal. Incluye ejemplos de relatos bíblicos y estimador de esfuerzo laboral según Perspicacia y wol.jw.org.
         </p>
         <div class="app-card-footer">
-          <span style="font-size:13px;color:var(--muted)">Próxima actualización</span>
-          <span style="font-size:13px;font-weight:600;color:var(--muted)">v1.4</span>
+          <span style="font-size:13px;color:var(--muted)">Acceso directo</span>
+          <a href="medidas/" class="btn btn-primary" style="padding:6px 12px;font-size:13px">Abrir Conversor →</a>
         </div>
       </article>
 
@@ -776,6 +780,7 @@ footer.site-footer{
     <div class="footer-links">
       <a href="cronologia/">Cronología</a>
       <a href="atlas/">Atlas Bíblico</a>
+      <a href="medidas/">Pesas y Medidas</a>
       <a href="#apps">Catálogo</a>
       <a href="#rigor">Metodología</a>
     </div>
@@ -817,6 +822,8 @@ footer.site-footer{
       } else if (href.startsWith('/cronologia') || href === 'cronologia/' || href === './cronologia/' || href === 'cronologia') {
         var hash = href.includes('#') ? href.slice(href.indexOf('#')) : '';
         a.setAttribute('href', 'cronologia/index.html' + hash);
+      } else if (href.startsWith('/medidas') || href === 'medidas/' || href === './medidas/' || href === 'medidas' || href.startsWith('/pesas-y-medidas')) {
+        a.setAttribute('href', 'medidas/index.html');
       } else if (href === '/') {
         a.setAttribute('href', 'index.html');
       }

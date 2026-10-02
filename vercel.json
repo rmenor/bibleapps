@@ -30,6 +30,22 @@
     {
       "source": "/atlas/",
       "destination": "/atlas/index.html"
+    },
+    {
+      "source": "/medidas",
+      "destination": "/medidas/index.html"
+    },
+    {
+      "source": "/medidas/",
+      "destination": "/medidas/index.html"
+    },
+    {
+      "source": "/pesas-y-medidas",
+      "destination": "/medidas/index.html"
+    },
+    {
+      "source": "/pesas-y-medidas/",
+      "destination": "/medidas/index.html"
     }
   ],
   "headers": [
@@ -65,6 +81,15 @@
     },
     {
       "source": "/atlas/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/medidas/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

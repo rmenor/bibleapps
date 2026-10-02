@@ -837,6 +837,10 @@ footer.app-footer{
     </div>
 
     <div class="top-actions">
+      <a href="../medidas/" class="home-link" title="Abrir Pesas y Medidas">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path></svg>
+        <span>Pesas y Medidas</span>
+      </a>
       <a href="../cronologia/" class="home-link" title="Abrir Cronología">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         <span>Cronología</span>
@@ -2089,6 +2093,8 @@ document.addEventListener("DOMContentLoaded", () => {
         a.setAttribute('href', '../index.html');
       } else if (href === '../cronologia/' || href === '/cronologia/' || href === '/cronologia') {
         a.setAttribute('href', '../cronologia/index.html');
+      } else if (href === '../medidas/' || href === '/medidas/' || href === '/medidas') {
+        a.setAttribute('href', '../medidas/index.html');
       }
     });
   }
