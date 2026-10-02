@@ -1,0 +1,365 @@
+/**
+ * BibleApps - Estilos canónicos compartidos para Header, Main y App-Shell
+ * Repositorio: /css/header-main.css
+ * 
+ * Reglas de diseño estandarizadas según .agents/skills/bibleapps-app-design/SKILL.md:
+ * - Ancho canónico de <main> y .wrap: 1200px
+ * - Controles flotantes: .homebtn (izquierda) y .themebtn (derecha)
+ * - Prohibición estricta de enlaces a otras apps en la cabecera
+ * - Header canónico: header.top (h1, kicker, stats, details.about)
+ * - Navegación sticky: nav.tabs
+ * - Sistema de tema claro/oscuro compatible con script anti-FOUC
+ * - Soporte universal para protocolo file:// y entornos web
+ */
+
+/* ==========================================================================
+   1. Variables de Tema y Diseño Canónico
+   ========================================================================== */
+:root {
+  --maxw: 1200px;
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --surface2: #e4e9f0;
+  --surface3: #f7f9fb;
+  --ink: #1a2233;
+  --muted: #586377;
+  --line: #cfd7e2;
+  --accent: #234a7d;
+  --accent-light: #e5eef9;
+  --accent-hover: #19355a;
+  --c-bible: #b4532a;
+  --fix: #2f7d4f;
+  --fix-bg: #e3f1e8;
+  --warn: #9a6210;
+  --warn-bg: #faedd0;
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 8px 24px rgba(35, 74, 125, 0.12);
+  --radius: 12px;
+  --serif: 'PT Serif', Georgia, 'Times New Roman', serif;
+  --sans: 'PT Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141c;
+    --surface: #171e29;
+    --surface2: #1f2836;
+    --surface3: #131922;
+    --ink: #e6ebf3;
+    --muted: #93a0b5;
+    --line: #2c3748;
+    --accent: #8fb3e8;
+    --accent-light: #182638;
+    --accent-hover: #b0ccfa;
+    --c-bible: #e08a5b;
+    --fix: #6fcf97;
+    --fix-bg: #1c3326;
+    --warn: #e6b450;
+    --warn-bg: #382c12;
+    --shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.45);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f141c;
+  --surface: #171e29;
+  --surface2: #1f2836;
+  --surface3: #131922;
+  --ink: #e6ebf3;
+  --muted: #93a0b5;
+  --line: #2c3748;
+  --accent: #8fb3e8;
+  --accent-light: #182638;
+  --accent-hover: #b0ccfa;
+  --c-bible: #e08a5b;
+  --fix: #6fcf97;
+  --fix-bg: #1c3326;
+  --warn: #e6b450;
+  --warn-bg: #382c12;
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   2. Reseteo Base y Normalización
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color .15s;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   3. Ancho Canónico: Contenedor .wrap y <main>
+   ========================================================================== */
+.wrap {
+  max-width: var(--maxw, 1200px);
+  margin: 0 auto;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+main {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1 0 auto;
+}
+
+main.wrap {
+  max-width: var(--maxw, 1200px);
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   4. Controles Flotantes Superiores (.homebtn y .themebtn)
+   ========================================================================== */
+.homebtn {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font: 500 13px var(--sans);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s, border-color .15s, color .15s;
+  z-index: 25;
+}
+
+.themebtn {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: 500 13px var(--sans);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  z-index: 25;
+}
+
+.homebtn:hover,
+.themebtn:hover {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   5. Bloque Principal del Encabezado (header.top)
+   ========================================================================== */
+header.top {
+  padding: 28px 0 8px;
+}
+
+.kicker {
+  font: 600 12px var(--sans);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1 {
+  font: 700 clamp(26px, 4.4vw, 42px)/1.12 var(--serif);
+  margin: 6px 0 10px;
+  letter-spacing: -.01em;
+}
+
+.lead {
+  color: var(--muted);
+  max-width: 760px;
+  margin: 0 0 16px;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.stat {
+  white-space: nowrap;
+}
+
+.stat b {
+  font: 600 12.5px var(--sans);
+  color: var(--ink);
+  margin-right: 3px;
+}
+
+details.about {
+  margin: 8px 0 12px;
+}
+
+details.about summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  user-select: none;
+}
+
+details.about p.lead {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   6. Barra de Pestañas Pegajosa (nav.tabs)
+   ========================================================================== */
+nav.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+nav.tabs .wrap {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+nav.tabs button {
+  flex: 0 0 auto;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  color: var(--muted);
+  font: 600 14px var(--sans);
+  padding: 13px 14px;
+  cursor: pointer;
+}
+
+nav.tabs button[aria-selected="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+nav.tabs button:focus-visible,
+.chip:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   7. Elementos Auxiliares Comunes (Banner de Fuentes y Footer)
+   ========================================================================== */
+.sources-banner {
+  background: color-mix(in srgb, var(--accent-light) 65%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sources-text strong {
+  color: var(--accent);
+}
+
+.sources-link {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12.5px;
+}
+
+footer.app-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+footer.app-footer .footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   8. Reglas Adaptativas (Responsive) y de Impresión
+   ========================================================================== */
+@media (max-width: 760px) {
+  .themebtn {
+    top: 10px;
+  }
+  .homebtn {
+    top: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  header.top {
+    padding-top: 48px;
+  }
+}
+
+@media print {
+  nav.tabs,
+  .themebtn,
+  .homebtn {
+    display: none !important;
+  }
+}
