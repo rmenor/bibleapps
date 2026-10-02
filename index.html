@@ -8,6 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch(e){}
+  })();
+</script>
 <style>
 :root{
   --bg:#eef1f5;
@@ -798,7 +806,7 @@ footer.site-footer{
     if(themeText) themeText.textContent = theme === 'dark' ? '☀️ Claro' : '🌙 Oscuro';
   }
 
-  const savedTheme = localStorage.getItem('theme');
+  const savedTheme = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
   applyTheme(initialTheme);
@@ -808,9 +816,18 @@ footer.site-footer{
       const current = r.dataset.theme || (prefersDark ? 'dark' : 'light');
       const next = current === 'dark' ? 'light' : 'dark';
       applyTheme(next);
-      try { localStorage.setItem('theme', next); } catch(e){}
+      try {
+        localStorage.setItem('theme', next);
+        localStorage.setItem('bibleapps_theme', next);
+      } catch(e){}
     });
   }
+
+  window.addEventListener('storage', function(e){
+    if((e.key === 'theme' || e.key === 'bibleapps_theme') && e.newValue){
+      applyTheme(e.newValue);
+    }
+  });
 
   // Compatibilidad universal si se abre directamente el archivo HTML (protocolo file://)
   if (window.location.protocol === 'file:') {

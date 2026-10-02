@@ -8,6 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch(e){}
+  })();
+</script>
 
 <!-- Leaflet CSS: Local vendor with CDN fallback -->
 <link rel="stylesheet" href="vendor/leaflet.css" onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';">
@@ -112,115 +120,38 @@ a:hover{color:var(--accent-hover)}
 
 .wrap{max-width:1280px;margin:0 auto;padding:0 16px;width:100%}
 
-/* Header */
-header.top-bar{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:color-mix(in srgb,var(--bg) 92%,transparent);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
-}
-.top-bar-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  height:62px;
-  gap:12px;
-}
-.brand-group{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.home-link{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  color:var(--ink);
-  border-radius:999px;
-  padding:5px 12px;
-  font:500 13px var(--sans);
-  transition:all .15s ease;
-}
-.home-link:hover{
-  background:var(--surface2);
-  border-color:var(--accent);
-  color:var(--accent);
-}
-.app-heading{
-  font:700 19px/1.2 var(--serif);
-  color:var(--ink);
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.badge-version{
-  font:600 11px var(--sans);
-  text-transform:uppercase;
-  background:var(--fix-bg);
-  color:var(--fix);
-  padding:2px 7px;
-  border-radius:6px;
-  letter-spacing:.05em;
-}
+/* Navigation buttons matching cronologia */
+.homebtn{position:absolute;left:16px;top:14px;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 14px;font:500 13px var(--sans);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:background .15s,border-color .15s;z-index:25}
+.homebtn:hover,.themebtn:hover{background:var(--surface2);border-color:var(--accent);color:var(--accent)}
+.themebtn{position:absolute;right:16px;top:14px;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 12px;font:500 13px var(--sans);cursor:pointer;transition:background .15s,border-color .15s;z-index:25}
 
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.themebtn{
-  background:var(--surface);
-  border:1px solid var(--line);
-  color:var(--ink);
-  border-radius:999px;
-  padding:6px 12px;
-  font:500 13px var(--sans);
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  transition:all .15s ease;
-}
-.themebtn:hover{background:var(--surface2);border-color:var(--accent)}
+/* Header matching cronologia */
+header.top{padding:28px 0 8px}
+.kicker{font:600 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(26px,4.4vw,42px)/1.12 var(--serif);margin:6px 0 10px;letter-spacing:-.01em}
+.lead{color:var(--muted);max-width:760px;margin:0 0 16px}
+.stats{display:flex;flex-wrap:wrap;gap:2px 14px;margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.stat{white-space:nowrap}
+.stat b{font:600 12.5px var(--sans);color:var(--ink);margin-right:3px}
+details.about{margin:8px 0 12px}
+details.about summary{cursor:pointer;color:var(--muted);font-size:13px;user-select:none}
+details.about p.lead{margin:8px 0 0;font-size:14px;line-height:1.5}
 
-/* Nav Tabs */
-nav.app-tabs{
-  background:var(--surface);
-  border-bottom:1px solid var(--line);
-  position:sticky;
-  top:62px;
-  z-index:900;
+/* Tabs matching cronologia */
+nav.tabs{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{flex:0 0 auto;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:600 14px var(--sans);padding:13px 14px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs button:focus-visible,.chip:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (max-width:760px){
+  .themebtn{top:10px}
+  .homebtn{top:10px;padding:5px 10px;font-size:12px}
+  .homebtn-sub{display:none}
+  header.top{padding-top:48px}
 }
-nav.app-tabs .wrap{
-  display:flex;
-  gap:4px;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-nav.app-tabs button{
-  flex:0 0 auto;
-  background:none;
-  border:0;
-  border-bottom:3px solid transparent;
-  color:var(--muted);
-  font:600 14px var(--sans);
-  padding:12px 14px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  transition:all .15s;
-}
-nav.app-tabs button:hover{color:var(--ink)}
-nav.app-tabs button[aria-selected="true"]{
-  color:var(--accent);
-  border-bottom-color:var(--accent);
-}
+@media print{nav.tabs,.themebtn,.homebtn{display:none}}
+
 
 /* Source Banner */
 .sources-banner{
@@ -700,72 +631,41 @@ footer.app-footer{
 </head>
 <body>
 
-<header class="top-bar">
-  <div class="wrap top-bar-inner">
-    <div class="brand-group">
-      <a href="../" class="home-link" title="Volver al Portal de Apps Bíblicas">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
-        <span>Apps Bíblicas</span>
-      </a>
-      <h1 class="app-heading">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-          <line x1="8" y1="2" x2="8" y2="18"></line>
-          <line x1="16" y1="6" x2="16" y2="22"></line>
-        </svg>
-        <span>Atlas y Geografía Bíblica</span>
-        <span class="badge-version">v1.2</span>
-      </h1>
-    </div>
+<a class="homebtn" href="../" title="Volver al portal de Apps Bíblicas">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  <span>Apps Bíblicas</span>
+</a>
+<a class="homebtn homebtn-sub" style="left:auto;right:185px" href="../cronologia/" title="Abrir Tabla cronológica">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+  <span>Cronología</span>
+</a>
+<a class="homebtn homebtn-sub" style="left:auto;right:85px" href="../medidas/" title="Abrir Pesas y Medidas">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path></svg>
+  <span>Medidas</span>
+</a>
+<button class="themebtn" id="theme" aria-label="Cambiar tema">Tema</button>
 
-    <div class="top-actions">
-      <a href="../medidas/" class="home-link" title="Abrir Pesas y Medidas">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path></svg>
-        <span>Pesas y Medidas</span>
-      </a>
-      <a href="../cronologia/" class="home-link" title="Abrir Cronología">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        <span>Cronología</span>
-      </a>
-      <button class="themebtn" id="themeBtn" aria-label="Cambiar tema claro/oscuro">
-        <span id="themeText">Tema</span>
-      </button>
-    </div>
+<header class="top"><div class="wrap">
+  <h1>Atlas y Geografía Bíblica</h1>
+  <div class="stats">
+    <span class="stat"><b>40+</b> lugares bíblicos georreferenciados</span>
+    <span class="stat"><b>12</b> tribus de Israel</span>
+    <span class="stat"><b>6</b> ciudades de refugio</span>
+    <span class="stat"><b>3</b> rutas históricas (Éxodo, Jesús, Pablo)</span>
   </div>
-</header>
+  <details class="about"><summary>Acerca de la geografía y fuentes de Perspicacia</summary>
+    <p class="lead">Atlas cartográfico interactivo fundamentado estrictamente en la enciclopedia «Perspicacia para comprender las Escrituras» (it-1 e it-2) y <a href="https://wol.jw.org/es/wol/d/r4/lp-s/1200001646" target="_blank" rel="noopener">wol.jw.org</a>. Las ubicaciones, límites tribales, distancias en estadios y rutas se contrastan con las evidencias bíblicas y arqueológicas reconocidas en dichas fuentes.</p>
+  </details>
+</div></header>
 
-<nav class="app-tabs">
-  <div class="wrap">
-    <button class="tab-btn" data-tab="map" aria-selected="true">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-      <span>Mapa Cartográfico Real</span>
-    </button>
-    <button class="tab-btn" data-tab="topo" aria-selected="false">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 16 5-5 4 4 6-7 5 5"></path><path d="M2 20h20"></path></svg>
-      <span>Relieve y Corte Topográfico</span>
-    </button>
-    <button class="tab-btn" data-tab="tribes" aria-selected="false">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
-      <span>Reparto de las 12 Tribus</span>
-    </button>
-    <button class="tab-btn" data-tab="distances" aria-selected="false">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m16 12-4-4-4 4"></path><path d="M12 16V8"></path></svg>
-      <span>Calculador de Distancias Bíblicas</span>
-    </button>
-  </div>
-</nav>
+<nav class="tabs"><div class="wrap" role="tablist">
+  <button role="tab" aria-selected="true" data-tab="map" class="tab-btn">Mapa Principal</button>
+  <button role="tab" aria-selected="false" data-tab="topo" class="tab-btn">Relieve Topográfico</button>
+  <button role="tab" aria-selected="false" data-tab="tribes" class="tab-btn">12 Tribus de Israel</button>
+  <button role="tab" aria-selected="false" data-tab="distances" class="tab-btn">Calculadora de Distancias</button>
+</div></nav>
 
-<main class="wrap">
-
-  <div class="sources-banner">
-    <div class="sources-text">
-      <strong>Rigor y Documentación Exclusiva:</strong> Todos los lugares, coordenadas, identificaciones arqueológicas y rutas se fundamentan estrictamente en <strong>wol.jw.org</strong> y la enciclopedia <em>Perspicacia para comprender las Escrituras</em> (tomos 1 y 2).
-    </div>
-    <a href="https://wol.jw.org/es/wol/d/r4/lp-s/1200001646" target="_blank" rel="noopener" class="sources-link">
-      <span>Ver artículo «Geografía» en wol.jw.org</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-    </a>
-  </div>
+<main class="wrap" style="padding-top:16px">
 
   <!-- TAB 1: INTERACTIVE REAL MAP -->
   <section id="panel-map" class="tab-panel active">
@@ -1718,25 +1618,30 @@ function setupTabs() {
   });
 }
 
-/* Theme */
+/* Theme matching cronologia */
 function setupTheme() {
-  const themeBtn = document.getElementById("themeBtn");
-  const themeText = document.getElementById("themeText");
-  const storedTheme = localStorage.getItem("bibleapps_theme");
+  const btn = document.getElementById("theme");
+  const saved = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
+  if (saved) document.documentElement.dataset.theme = saved;
 
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    themeText.textContent = theme === "dark" ? "☀️ Claro" : "🌙 Oscuro";
+  if (btn) {
+    btn.onclick = () => {
+      const r = document.documentElement;
+      const dark = matchMedia('(prefers-color-scheme:dark)').matches;
+      const cur = r.dataset.theme || (dark ? 'dark' : 'light');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      r.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+        localStorage.setItem('bibleapps_theme', next);
+      } catch(e){}
+    };
   }
 
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
-
-  themeBtn.addEventListener("click", () => {
-    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-    const next = isDark ? "light" : "dark";
-    applyTheme(next);
-    localStorage.setItem("bibleapps_theme", next);
+  window.addEventListener('storage', e => {
+    if ((e.key === 'theme' || e.key === 'bibleapps_theme') && e.newValue) {
+      document.documentElement.dataset.theme = e.newValue;
+    }
   });
 }
 
