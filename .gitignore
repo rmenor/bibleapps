@@ -1,3 +1,7 @@
 .vercel
 .DS_Store
 *.log
+
+# Allow local vendored libraries (Leaflet for offline map viewing)
+!vendor/
+!atlas/vendor/
