@@ -17,14 +17,41 @@ allowed-tools: Read, Edit, Write, Glob, Grep
 
 ## 1. Principio Fundamental: Suite Hermana Unificada
 
-Todas las aplicaciones del ecosistema **BibleApps** (Cronología, Atlas, Medidas, Armonía de los Evangelios, Genealogías, etc.) deben compartir **exactamente la misma experiencia visual, espacial y ergonómica**.
+Todas las páginas del ecosistema **BibleApps** — excepto la **página principal del portal** (`index.html`), es decir, **cada aplicación individual** (Cronología, Atlas, Medidas, Armonía de los Evangelios, Genealogías, etc.) — deben compartir **exactamente la misma experiencia visual, espacial y ergonómica**.
 
 > **REGLA DE ORO DE IDENTIDAD VISUAL:**
-> Al navegar de una aplicación a otra, el usuario debe percibir que se encuentra dentro de la misma suite coherente. Ninguna aplicación puede inventar un encabezado diferente, cambiar la posición de los controles de tema o inicio, ni usar un ancho de pantalla distinto.
+> Al navegar de una aplicación a otra — o entre el portal y cualquier app — el usuario debe percibir que se encuentra dentro de la misma suite coherente. Ninguna página puede inventar un encabezado diferente, cambiar la posición de los controles de tema o inicio, ni usar un ancho de pantalla distinto.
+
+> **REGLA DE CONSISTENCIA PORTAL ↔ APPS:**
+> La página principal (`index.html`) **ES** una excepción.
 
 ---
 
-## 2. Ancho Canónico Obligatorio (`main` y `.wrap`)
+## 2. Hoja de Estilos Compartida (`css/header-main.css`)
+
+Todas las páginas de la suite — incluida la principal — deben cargar la hoja de estilos canónica compartida que define las variables de tema, el reseteo base, el layout de `.wrap`/`main`, los botones flotantes, el header, las pestañas, el footer y las reglas responsive.
+
+* **Ruta desde las apps:** `../css/header-main.css`
+* **Ruta desde el portal:** `css/header-main.css`
+
+```html
+<!-- Desde una app (atlas/, medidas/, cronologia/) -->
+<link rel="stylesheet" href="../css/header-main.css">
+
+<!-- Desde el portal (index.html en la raíz) -->
+<link rel="stylesheet" href="css/header-main.css">
+```
+
+### Reglas de CSS en las páginas individuales
+
+* **Queda estrictamente prohibido** duplicar en el `<style>` de cada página las variables base (`:root` con `--bg`, `--surface`, `--ink`, etc.), el reseteo (`*`, `html`, `body`, `a`), los estilos de `.wrap`, `.homebtn`, `.themebtn`, `header.top`, `nav.tabs` o `footer.app-footer`. Todo eso viene de `header-main.css`.
+* El `<style>` de cada página solo debe contener:
+  1. Variables de color **específicas** de esa app/portal (e.g. `--c-books`, `--c-sea`, `--c-tribes`) con sus variantes dark.
+  2. Estilos **propios** de esa página (cards, mapas, grids, calculadoras, etc.) que no aplican a otras.
+
+---
+
+## 3. Ancho Canónico Obligatorio (`main` y `.wrap`)
 
 El ancho máximo de visualización está estrictamente normalizado en toda la suite:
 
@@ -48,13 +75,14 @@ El ancho máximo de visualización está estrictamente normalizado en toda la su
   ```
 * **Queda estrictamente prohibido:**
   * Utilizar anchos heterogéneos como `1120px`, `1140px`, `1280px` o `1400px` en `<main>` o `.wrap`.
+  * Utilizar una clase diferente como `.container` en vez de `.wrap`.
   * Diseñar aplicaciones a pantalla completa (*full-width*) sin encapsular el contenido legible en el contenedor `.wrap` de 1200px (los fondos pueden extenderse al 100%, pero la cuadrícula de contenido debe alinearse al ancho canónico).
 
 ---
 
-## 3. Estructura y Formato Canónico del Encabezado (Header)
+## 4. Estructura y Formato Canónico del Encabezado (Header)
 
-Toda aplicación debe implementar el encabezado estructurado en tres componentes obligatorios:
+Toda página (portal o app) debe implementar el encabezado estructurado en tres componentes obligatorios:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -86,21 +114,23 @@ Ubicados en las esquinas superiores, fuera del flujo centrado, con `position: ab
    ```
 2. **Botón Selector de Tema (`.themebtn`)** (esquina superior derecha):
    ```html
-   <button class="themebtn" id="themebtn" type="button" aria-label="Cambiar tema de color" title="Alternar entre tema claro y oscuro">
-     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-       <circle cx="12" cy="12" r="5"></circle>
-       <line x1="12" y1="1" x2="12" y2="3"></line>
-       <line x1="12" y1="21" x2="12" y2="23"></line>
-       <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-       <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-       <line x1="1" y1="12" x2="3" y2="12"></line>
-       <line x1="21" y1="12" x2="23" y2="12"></line>
-       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+   <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
+     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+       <circle cx="12" cy="12" r="5"/>
+       <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+       <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+       <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
      </svg>
-     Tema
+     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+     </svg>
    </button>
    ```
+   La visibilidad del icono sol/luna se controla mediante CSS en `header-main.css` (clases `.icon-sun` / `.icon-moon`), sin necesidad de JavaScript ni dependencias externas como Font Awesome.
+
+   > **PROHIBICIÓN ESTRICTA — NO USAR FONT AWESOME NI ICONOS EXTERNOS:**
+   > Los iconos del `.themebtn` y `.homebtn` deben ser siempre **SVGs inline**. Queda prohibido cargar Font Awesome u otra librería de iconos externa para estos controles.
 
 > **PROHIBICIÓN ESTRICTA — NINGÚN ENLACE A OTRAS APPS EN LA CABECERA / DERECHA:**
 > En la parte superior de la aplicación **únicamente deben existir dos controles**:
