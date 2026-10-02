@@ -102,6 +102,13 @@ Ubicados en las esquinas superiores, fuera del flujo centrado, con `position: ab
    </button>
    ```
 
+> **PROHIBICIÓN ESTRICTA — NINGÚN ENLACE A OTRAS APPS EN LA CABECERA / DERECHA:**
+> En la parte superior de la aplicación **únicamente deben existir dos controles**:
+> 1. A la izquierda: `.homebtn` para regresar a la página principal (`index.html`).
+> 2. A la derecha: `.themebtn` para alternar el tema claro/oscuro.
+> 
+> **Queda terminantemente prohibido** colocar enlaces directos, botones secundarios (`.homebtn-sub`) o accesos a otras aplicaciones en la cabecera, junto al botón de tema o en el menú derecho. Si el usuario desea entrar a otra aplicación de la suite, **debe volver obligatoriamente a la página principal**.
+
 ### B. Bloque Principal del Encabezado (`header.top`)
 ```html
 <header class="top"><div class="wrap">
@@ -293,7 +300,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 Antes de dar por concluida cualquier app o refactorización de interfaz:
 - [ ] ¿El ancho del contenedor `.wrap` y de `<main>` es exactamente `1200px`?
-- [ ] ¿El header tiene los botones flotantes `.homebtn` a la izquierda y `.themebtn` a la derecha?
+- [ ] ¿El header tiene únicamente los dos controles permitidos: `.homebtn` a la izquierda y `.themebtn` a la derecha?
+- [ ] ¿Se eliminaron/omitieron completamente enlaces a otras apps en la cabecera o a la derecha? (El cambio de app se realiza exclusivamente regresando a la principal mediante `.homebtn`).
 - [ ] ¿`header.top` incluye `h1`, `.stats` y `<details class="about">` dentro de `.wrap`?
 - [ ] ¿Existe la barra `nav.tabs` sticky con accesibilidad `aria-selected`?
 - [ ] ¿El `<head>` incluye el script síncrono anti-FOUC con `localStorage`?
