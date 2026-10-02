@@ -815,10 +815,10 @@ footer.app-footer{
             <span id="active-layer-name"><strong>Capa activa:</strong> Todos los Lugares Clave</span>
           </div>
           <div class="base-map-pills">
-            <button class="base-pill active" data-tile="voyager">Pergamino / Clásico</button>
-            <button class="base-pill" data-tile="topo">Relieve Topográfico</button>
-            <button class="base-pill" data-tile="satellite">Satélite Físico</button>
-            <button class="base-pill" data-tile="osm">OpenStreetMap</button>
+            <button class="base-pill active" data-tile="topo">🏔️ Relieve Real</button>
+            <button class="base-pill" data-tile="satellite">🛰️ Satélite Real</button>
+            <button class="base-pill" data-tile="voyager">📜 Pergamino</button>
+            <button class="base-pill" data-tile="osm">🌍 Callejero</button>
           </div>
         </div>
 
@@ -1471,7 +1471,11 @@ function setupLeafletMap() {
     maxZoom: 17
   });
 
-  currentTileLayer = L.tileLayer(TILE_PROVIDERS.voyager.url, TILE_PROVIDERS.voyager.opts).addTo(map);
+  // Real world metric scale bar (20 km / 50 km)
+  L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
+
+  // Default to real physical relief map
+  currentTileLayer = L.tileLayer(TILE_PROVIDERS.topo.url, TILE_PROVIDERS.topo.opts).addTo(map);
 
   markerLayerGroup = L.layerGroup().addTo(map);
   routeLayerGroup = L.layerGroup().addTo(map);
