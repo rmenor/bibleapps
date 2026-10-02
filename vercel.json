@@ -20,7 +20,15 @@
       "destination": "/cronologia/index.html"
     },
     {
+      "source": "/cronologia/",
+      "destination": "/cronologia/index.html"
+    },
+    {
       "source": "/atlas",
+      "destination": "/atlas/index.html"
+    },
+    {
+      "source": "/atlas/",
       "destination": "/atlas/index.html"
     }
   ],
