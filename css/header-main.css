@@ -175,6 +175,27 @@ main.wrap {
   z-index: 25;
 }
 
+.themebtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.themebtn .icon-sun,
+.themebtn .icon-moon { display: none; }
+
+/* Light mode (default): show moon icon (click → go dark) */
+.themebtn .icon-moon { display: inline; }
+
+/* Dark mode: show sun icon (click → go light) */
+:root[data-theme="dark"] .themebtn .icon-sun { display: inline; }
+:root[data-theme="dark"] .themebtn .icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .themebtn .icon-sun { display: inline; }
+  :root:not([data-theme="light"]) .themebtn .icon-moon { display: none; }
+}
+
 .homebtn:hover,
 .themebtn:hover {
   background: var(--surface2);
