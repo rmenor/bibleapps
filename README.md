@@ -97,18 +97,21 @@ Abre directamente `index.html` en tu navegador favorito (Chrome, Safari, Firefox
 
 ```text
 ├── index.html            # Portal y catálogo de Apps Bíblicas (Landing Page)
+├── favicon.svg           # Favicon vectorial oficial (manuscrito bíblico de estudio)
 ├── cronologia/
-│   └── index.html        # Aplicación completa de la Tabla Cronológica Bíblica
+│   ├── index.html        # Aplicación completa de la Tabla Cronológica Bíblica
+│   └── favicon.svg       # Favicon de la app
 ├── atlas/
-│   └── index.html        # Aplicación interactiva de Atlas y Geografía Bíblica
-├── atlas.html            # Copia directa de compatibilidad para rutas planas
+│   ├── index.html        # Aplicación interactiva de Atlas y Geografía Bíblica
+│   └── favicon.svg       # Favicon de la app
 ├── medidas/
-│   └── index.html        # Aplicación interactiva de Pesas, Medidas y Monedas
-├── medidas.html          # Copia directa de compatibilidad para rutas planas
+│   ├── index.html        # Aplicación interactiva de Pesas, Medidas y Monedas
+│   └── favicon.svg       # Favicon de la app
 ├── vercel.json           # Configuración de URLs limpias, redirecciones y seguridad para Vercel
 ├── package.json          # Metadatos del proyecto y script de desarrollo local
-├── .agents/skills/       # Skills especializadas para asistentes de IA
-│   └── wol-perspicacia-sources/ # Regla estricta de fuentes de wol.jw.org y Perspicacia
+├── .agents/skills/       # Skills especializadas para desarrollo y agentes de IA
+│   ├── wol-perspicacia-sources/ # Regla estricta de fuentes de wol.jw.org y Perspicacia
+│   └── bibleapps-app-design/    # Estándar obligatorio de UI (ancho 1200px, formato de header)
 ├── .gitignore            # Archivos temporales y de sistema ignorados por git
 └── README.md             # Esta documentación
 ```
@@ -120,7 +123,9 @@ Abre directamente `index.html` en tu navegador favorito (Chrome, Safari, Firefox
 Todas las aplicaciones de la suite se desarrollan bajo un principio irrenunciable:
 - **Fuente documental exclusiva:** La biblioteca oficial en línea **[wol.jw.org](https://wol.jw.org)** y primordialmente los dos tomos de la obra enciclopédica **«Perspicacia para comprender las Escrituras»** (*it-1* e *it-2*).
 - **Prohibición de fuentes dudosas:** No se admiten datos, cronologías ni especulaciones extraídas de blogs de internet, foros o fuentes no contrastadas ni avaladas por la publicación oficial.
-- **Skill de IA asociada:** Se incluye la skill `.agents/skills/wol-perspicacia-sources/SKILL.md` para garantizar que cualquier desarrollo futuro mantenga esta directriz de manera automatizada.
+- **Skills de IA asociadas:**
+  - `.agents/skills/wol-perspicacia-sources/SKILL.md`: Validación estricta y exhaustiva de fuentes oficiales y enlaces de `wol.jw.org`.
+  - `.agents/skills/bibleapps-app-design/SKILL.md`: Consistencia arquitectónica de diseño, encabezados y ancho uniforme de 1200px en toda la suite.
 
 ---
 
