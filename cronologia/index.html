@@ -265,8 +265,8 @@ nav.tabs .search{flex:0 1 210px;min-width:150px;margin-left:auto;align-self:cent
 body.ontl .toolbar{display:block}
 #yp{position:fixed;left:12px;bottom:14px;z-index:40;background:var(--ink);color:var(--bg);font:700 13.5px var(--sans);padding:6px 12px;border-radius:999px;display:none;pointer-events:none;opacity:.92}
 body.ontl #yp.on{display:block}
-#rail{position:fixed;left:10px;top:calc(var(--navh,60px) + 40px);bottom:60px;width:104px;z-index:25;display:none}
-@media (min-width:1360px){body.ontl #rail{display:block}}
+#rail{position:fixed;left:10px;top:calc(var(--headh,120px) + 24px);bottom:60px;width:104px;z-index:25;display:none;opacity:0;pointer-events:none;transition:opacity .2s ease}
+@media (min-width:1360px){body.ontl #rail.on{display:block;opacity:1;pointer-events:auto}}
 #rail .ln{position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--line)}
 #rail .nd{position:absolute;left:0;width:104px;transform:translateY(-50%);display:flex;align-items:center;gap:7px;font:12.5px var(--sans);color:var(--muted);cursor:pointer;background:none;border:0;padding:0;text-align:left}
 #rail .nd i{flex:none;width:11px;height:11px;margin-left:9px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
@@ -1117,19 +1117,43 @@ document.addEventListener('click',e=>{const b=e.target.closest('.bm');if(b){cons
 (function(){
   const AN=[[-4026,'4026 Adán'],[-2370,'2370 Diluvio'],[-1943,'1943 Abrahán'],[-1513,'1513 Éxodo'],[-997,'997 División'],[-607,'607 Jerusalén'],[29,'29 e. c. Mesías'],[70,'70 e. c.'],[1914,'1914']];
   const n=AN.length,pos=y=>{if(y<=AN[0][0])return 0;if(y>=AN[n-1][0])return 1;for(let i=0;i<n-1;i++){if(y<=AN[i+1][0])return (i+(y-AN[i][0])/(AN[i+1][0]-AN[i][0]))/(n-1);}return 1;};
-  const setNav=()=>document.documentElement.style.setProperty('--navh',$('nav.tabs').offsetHeight+'px');setNav();addEventListener('resize',setNav);
+  const setNav=()=>{
+    const tabs=$('nav.tabs');
+    const tool=$('.toolbar');
+    const tabsH=tabs?tabs.offsetHeight:45;
+    const toolH=(tool&&getComputedStyle(tool).display!=='none')?tool.offsetHeight:0;
+    document.documentElement.style.setProperty('--navh',tabsH+'px');
+    document.documentElement.style.setProperty('--headh',(tabsH+toolH)+'px');
+  };
+  setNav();addEventListener('resize',setNav);
+  const ab=$('details.about');if(ab)ab.addEventListener('toggle',()=>setTimeout(upd,60));
   const rail=$('#rail'),mk=$('#railMk'),yp=$('#yp');
   AN.forEach(a=>{const b=document.createElement('button');b.className='nd';b.style.top=(pos(a[0])*100)+'%';b.innerHTML='<i></i><span>'+a[1]+'</span>';b.onclick=()=>goYear(a[0]);rail.appendChild(b);});
   const fy2=y=>y<0?(-y)+' a. e. c.':y+' e. c.';
   let tick=false;
-  function upd(){tick=false;if(!document.body.classList.contains('ontl'))return;
+  function upd(){
+    tick=false;
+    if(!document.body.classList.contains('ontl'))return;
+    const headEl=$('header.top');
+    const triggerY=headEl?(headEl.offsetTop+headEl.offsetHeight-30):180;
+    const isPastHeader=scrollY>triggerY;
+    rail.classList.toggle('on',isPastHeader);
+    yp.classList.toggle('on',isPastHeader);
     const gs=$$('#list .grp');if(!gs.length)return;const top=130;let lo=0,hi=gs.length-1;
     while(lo<hi){const m=(lo+hi)>>1;if(gs[m].getBoundingClientRect().bottom<top)lo=m+1;else hi=m;}
-    const y=+gs[lo].dataset.sy;yp.textContent=fy2(y);yp.classList.toggle('on',scrollY>200);
-    mk.style.top=(pos(y)*(rail.clientHeight))+'px';}
+    const y=+gs[lo].dataset.sy;
+    yp.textContent=fy2(y);
+    mk.style.top=(pos(y)*(rail.clientHeight))+'px';
+  }
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});
   const _tab=tab;
-  window.tab=function(id){_tab(id);document.body.classList.toggle('ontl',id==='tl');try{localStorage.setItem('chron_tab',id);}catch(e){}if(id==='tl')upd();};
+  window.tab=function(id){
+    _tab(id);
+    document.body.classList.toggle('ontl',id==='tl');
+    setNav();
+    try{localStorage.setItem('chron_tab',id);}catch(e){}
+    if(id==='tl')upd();
+  };
   $$('nav.tabs button[data-tab]').forEach(b=>b.onclick=()=>window.tab(b.dataset.tab));
   $('#q').addEventListener('focus',()=>{if(!document.body.classList.contains('ontl'))window.tab('tl');});
   $('#q').addEventListener('input',()=>{if(!document.body.classList.contains('ontl'))window.tab('tl');});
