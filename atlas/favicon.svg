@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Background Gradient (Deep navy/sapphire) -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f3d68"/>
+      <stop offset="50%" stop-color="#132744"/>
+      <stop offset="100%" stop-color="#0a1524"/>
+    </linearGradient>
+    
+    <!-- Warm Gold Trim -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fceda6"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#916c0e"/>
+    </linearGradient>
+
+    <!-- Page Shading -->
+    <linearGradient id="pageLeft" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#dce3ec"/>
+      <stop offset="35%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#edf1f7"/>
+    </linearGradient>
+    
+    <linearGradient id="pageRight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#dce3ec"/>
+      <stop offset="35%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#edf1f7"/>
+    </linearGradient>
+
+    <!-- Ribbon Accent -->
+    <linearGradient id="ribbon" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b32e18"/>
+      <stop offset="50%" stop-color="#df4328"/>
+      <stop offset="100%" stop-color="#8c1f0d"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#gold)" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- The Open Biblical Manuscript / Study Book -->
+  <g filter="url(#shadow)">
+    <!-- Base / Pages Edge Depth -->
+    <path d="M 11,42 C 19,43 28,45 32,48 C 36,45 45,43 53,42 L 53,44 C 45,45 36,47 32,50 C 28,47 19,45 11,44 Z" fill="#7a5d1c"/>
+    
+    <!-- Left Pages Stack -->
+    <path d="M 12,20 C 20,20 28,22 32,25 L 32,46 C 28,43 20,41 12,41 Z" fill="#cbd5e1"/>
+    <!-- Left Top Leaf -->
+    <path d="M 12,18 C 20,18 28,20 32,23 L 32,44 C 28,41 20,39 12,39 Z" fill="url(#pageLeft)"/>
+
+    <!-- Right Pages Stack -->
+    <path d="M 52,20 C 44,20 36,22 32,25 L 32,46 C 36,43 44,41 52,41 Z" fill="#cbd5e1"/>
+    <!-- Right Top Leaf -->
+    <path d="M 52,18 C 44,18 36,20 32,23 L 32,44 C 36,41 44,39 52,39 Z" fill="url(#pageRight)"/>
+
+    <!-- Central Binding Fold -->
+    <path d="M 31.2,23.5 C 31.8,22.8 32.2,22.8 32.8,23.5 L 32.8,44.5 C 32.2,43.8 31.8,43.8 31.2,44.5 Z" fill="#8898aa" opacity="0.7"/>
+
+    <!-- Left Page Study Text Lines -->
+    <line x1="16" y1="25" x2="27" y2="27" stroke="#7e8f9f" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
+    <line x1="16" y1="29.5" x2="27" y2="31.5" stroke="#7e8f9f" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
+    <line x1="16" y1="34" x2="24" y2="35.5" stroke="#7e8f9f" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
+
+    <!-- Right Page Study Text Lines -->
+    <line x1="37" y1="27" x2="48" y2="25" stroke="#7e8f9f" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
+    <line x1="37" y1="31.5" x2="48" y2="29.5" stroke="#7e8f9f" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
+    <line x1="40" y1="35.5" x2="48" y2="34" stroke="#7e8f9f" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
+
+    <!-- Bookmark Ribbon -->
+    <path d="M 31,23.5 Q 32,24.5 33,23.5 L 34.2,49 L 32,46.8 L 29.8,49 Z" fill="url(#ribbon)"/>
+
+    <!-- Subtle Golden Bookmark Top Head -->
+    <circle cx="32" cy="22.5" r="1.2" fill="url(#gold)"/>
+  </g>
+</svg>
