@@ -1,0 +1,1816 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Библейский атлас и география | Библейские приложения</title>
+  <meta name="description"
+    content="Atlas interactivo de las tierras bíblicas con mapas topográficos reales, reparto de las 12 tribus, rutas del Éxodo y viajes apostólicos. Documentado con Perspicacia para comprender las Escrituras y wol.jw.org.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.setItem('bibleapps_lang','ru'); localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Leaflet CSS: Local vendor with CDN fallback -->
+  <link rel="stylesheet" href="../vendor/leaflet.css"
+    onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';">
+  <!-- Estilos canónicos compartidos de cabecera y estructura main -->
+  <link rel="stylesheet" href="../../../css/header-main.css">
+
+  <style>
+    :root {
+      --c-sea: #2b6f9e;
+      --c-tribes: #2c7564;
+      --c-route1: #c0392b;
+      --c-route2: #8e44ad;
+      --c-route3: #d35400;
+      --c-route4: #16a085;
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --c-sea: #5b9fd0;
+        --c-tribes: #6fc7af;
+        --c-route1: #e74c3c;
+        --c-route2: #bb86fc;
+        --c-route3: #e67e22;
+        --c-route4: #2ecc71;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --c-sea: #5b9fd0;
+      --c-tribes: #6fc7af;
+      --c-route1: #e74c3c;
+      --c-route2: #bb86fc;
+      --c-route3: #e67e22;
+      --c-route4: #2ecc71;
+    }
+
+
+    /* Source Banner */
+    .sources-banner {
+      background: color-mix(in srgb, var(--accent-light) 65%, var(--surface));
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.45;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sources-text strong {
+      color: var(--accent)
+    }
+
+    .sources-link {
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: 12.5px;
+    }
+
+    /* Tab Panels */
+    section.tab-panel {
+      display: none;
+      padding-bottom: 60px;
+    }
+
+    section.tab-panel.active {
+      display: block;
+    }
+
+    /* Map Layout Workspace */
+    .map-workspace {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    @media (max-width:960px) {
+      .map-workspace {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* Sidebar */
+    .map-sidebar {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: calc(100vh - 160px);
+      position: sticky;
+      top: 124px;
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font: 700 15px var(--serif);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    .search-box {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: 14px var(--sans);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    .layer-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .layer-label {
+      font: 600 11.5px var(--sans);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .layer-btn {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 11px;
+      font: 500 13px var(--sans);
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      transition: all .15s;
+    }
+
+    .layer-btn:hover {
+      background: var(--surface2)
+    }
+
+    .layer-btn.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .layer-bullet {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .places-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 260px;
+      overflow-y: auto;
+      margin-top: 2px;
+      padding-right: 4px;
+    }
+
+    .place-item {
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: var(--surface2);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all .12s;
+    }
+
+    .place-item:hover {
+      background: var(--surface3);
+      border-color: var(--accent);
+    }
+
+    .place-item.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .place-category {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Map Container */
+    .map-canvas-container {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface3);
+      font-size: 13px;
+      color: var(--muted);
+      gap: 10px;
+      flex-wrap: wrap;
+      z-index: 10;
+    }
+
+    .base-map-pills {
+      display: flex;
+      gap: 4px;
+    }
+
+    .base-pill {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font: 600 11.5px var(--sans);
+      cursor: pointer;
+      color: var(--muted);
+      transition: all .15s;
+    }
+
+    .base-pill:hover {
+      background: var(--surface2);
+      color: var(--ink)
+    }
+
+    .base-pill.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Real Map Viewport */
+    #map-viewport {
+      width: 100%;
+      height: 680px;
+      background: #d8e8f5;
+      position: relative;
+      z-index: 1;
+    }
+
+    :root[data-theme="dark"] #map-viewport {
+      background: #101a24;
+    }
+
+    /* Custom Vector Leaflet Markers */
+    .biblical-pin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .biblical-pin:hover {
+      transform: scale(1.3);
+      z-index: 9999 !important;
+    }
+
+    .pin-city {
+      background: #234a7d
+    }
+
+    .pin-refugio {
+      background: #d35400;
+      border-color: #ffd700
+    }
+
+    .pin-mountain {
+      background: #8b4513;
+      border-color: #f5deb3
+    }
+
+    .pin-water {
+      background: #2980b9
+    }
+
+    .pin-apostle {
+      background: #27ae60
+    }
+
+    .leaflet-tooltip.biblical-tooltip {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font: 600 12px var(--sans);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+      border-radius: 6px;
+      padding: 4px 8px;
+    }
+
+    /* Detail Drawer */
+    .detail-drawer {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      width: 360px;
+      max-width: calc(100% - 32px);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-hover);
+      padding: 18px;
+      z-index: 1000;
+      max-height: 85%;
+      overflow-y: auto;
+      display: none;
+      animation: slideUp .2s ease-out;
+    }
+
+    .detail-drawer.open {
+      display: block
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .drawer-title {
+      font: 700 20px/1.2 var(--serif);
+      color: var(--ink);
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .drawer-close:hover {
+      background: var(--surface2);
+      color: var(--ink)
+    }
+
+    .drawer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .meta-tag {
+      font: 600 11px var(--sans);
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--surface2);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .drawer-meaning {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 13.5px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-desc {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .drawer-archaeology {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--warn);
+    }
+
+    .drawer-archaeology strong {
+      color: var(--warn)
+    }
+
+    .drawer-source {
+      border-top: 1px dashed var(--line);
+      padding-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .wol-direct-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #ffffff !important;
+      font: 600 12.5px var(--sans);
+      padding: 7px 12px;
+      border-radius: 6px;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .wol-direct-btn:hover {
+      background: var(--accent-hover)
+    }
+
+    /* Topography & Relief Section */
+    .topo-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .section-headline {
+      font: 700 24px/1.2 var(--serif);
+      margin-bottom: 8px
+    }
+
+    .section-subtext {
+      color: var(--muted);
+      font-size: 14.5px;
+      margin-bottom: 20px;
+      max-width: 820px
+    }
+
+    .topo-graph-card {
+      background: var(--surface3);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .topo-svg {
+      width: 100%;
+      height: 240px
+    }
+
+    .topo-note {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    /* Tribes Grid */
+    .tribes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .tribe-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tribe-name {
+      font: 700 18px var(--serif)
+    }
+
+    .refuge-tag {
+      background: var(--warn-bg);
+      color: var(--warn);
+      font: 600 11px var(--sans);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* Distances Calculator Panel */
+    .calculator-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .calc-selectors {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width:700px) {
+      .calc-selectors {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .calc-field label {
+      display: block;
+      font: 600 12.5px var(--sans);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .calc-select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: 15px var(--sans);
+      color: var(--ink);
+    }
+
+    .calc-results-box {
+      background: var(--surface3);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      text-align: center;
+    }
+
+    .calc-metric-val {
+      font: 700 28px/1.1 var(--serif);
+      color: var(--accent)
+    }
+
+    .calc-metric-lbl {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 4px
+    }
+
+    /* Footer */
+    footer.app-footer {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 28px 0;
+      margin-top: auto;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="homebtn" href="../../../ru/" title="Вернуться на портал Библейских приложений">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+    <span>Библейские приложения</span>
+  </a>
+    <div class="lang-switch" role="group" aria-label="Язык" style="position:absolute;right:64px;top:14px;z-index:25">
+    <a href="../es/" class="lang-btn" title="Español" onclick="localStorage.setItem('bibleapps_lang','es')">ES</a>
+    <a href="../ru/" class="lang-btn active" aria-current="page" title="Русский" onclick="localStorage.setItem('bibleapps_lang','ru')">RU</a>
+  </div>
+  <button class="themebtn" id="themeBtn" aria-label="Сменить тему">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+
+  <header class="top">
+    <div class="wrap">
+      <h1>Библейский атлас и география</h1>
+      <div class="stats">
+        <span class="stat"><b>40+</b> мест с геопривязкой</span>
+        <span class="stat"><b>12</b> колен Израиля</span>
+        <span class="stat"><b>6</b> городов-убежищ</span>
+        <span class="stat"><b>3</b> исторических маршрута (Исход, Иисус, Павел)</span>
+      </div>
+      <details class="about">
+        <summary>О географии и источниках энциклопедии «Понимание Писания»</summary>
+        <p class="lead">Atlas cartográfico interactivo fundamentado estrictamente en la enciclopedia «Perspicacia para
+          comprender las Escrituras» (it-1 e it-2) y <a href="https://wol.jw.org/es/wol/d/r4/lp-s/1200000874"
+            target="_blank" rel="noopener">wol.jw.org</a>. Las ubicaciones, límites tribales, distancias en estadios y
+          rutas se contrastan con las evidencias bíblicas y arqueológicas reconocidas en dichas fuentes.</p>
+      </details>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <div class="wrap" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="map" class="tab-btn">Основная карта</button>
+      <button role="tab" aria-selected="false" data-tab="topo" class="tab-btn">Рельеф местности</button>
+      <button role="tab" aria-selected="false" data-tab="tribes" class="tab-btn">12 колен Израиля</button>
+      <button role="tab" aria-selected="false" data-tab="distances" class="tab-btn">Калькулятор расстояний</button>
+    </div>
+  </nav>
+
+  <main class="wrap" style="padding-top:16px">
+
+    <!-- TAB 1: INTERACTIVE REAL MAP -->
+    <section id="panel-map" class="tab-panel active">
+      <div class="map-workspace">
+
+        <!-- Sidebar Controls -->
+        <aside class="map-sidebar">
+          <div class="sidebar-title">
+            <span>Capas y Rutas</span>
+            <span style="font-size:12px;color:var(--muted)" id="visible-count">Lugares</span>
+          </div>
+
+          <input type="text" id="map-search" class="search-box" placeholder="Buscar Jerusalén, Capernaum, Hermón..."
+            autocomplete="off">
+
+          <div class="layer-group">
+            <div class="layer-label">Enfoque Histórico</div>
+            <button class="layer-btn active" data-layer="all">
+              <span class="layer-bullet" style="background:var(--accent)"></span>
+              <span>Todos los Lugares Clave</span>
+            </button>
+            <button class="layer-btn" data-layer="canaan">
+              <span class="layer-bullet" style="background:var(--c-tribes)"></span>
+              <span>Tierra Prometida (Canaán y Tribus)</span>
+            </button>
+            <button class="layer-btn" data-layer="exodus">
+              <span class="layer-bullet" style="background:var(--c-route1)"></span>
+              <span>Ruta del Éxodo (1513 a.e.c.)</span>
+            </button>
+            <button class="layer-btn" data-layer="jesus">
+              <span class="layer-bullet" style="background:var(--c-route3)"></span>
+              <span>Ministerio de Jesús (29-33 e.c.)</span>
+            </button>
+            <button class="layer-btn" data-layer="paul">
+              <span class="layer-bullet" style="background:var(--c-route4)"></span>
+              <span>Viajes de Pablo y Expansión</span>
+            </button>
+          </div>
+
+          <div class="layer-label">Índice de Sitios</div>
+          <div class="places-list" id="places-container"></div>
+        </aside>
+
+        <!-- Map Viewport -->
+        <div class="map-canvas-container">
+          <div class="map-toolbar">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span id="active-layer-name"><strong>Capa activa:</strong> Todos los Lugares Clave</span>
+            </div>
+            <div class="base-map-pills">
+              <button class="base-pill active" data-tile="topo">🏔️ Relieve Real</button>
+              <button class="base-pill" data-tile="satellite">🛰️ Satélite Real</button>
+              <button class="base-pill" data-tile="voyager">📜 Pergamino</button>
+              <button class="base-pill" data-tile="osm">🌍 Callejero</button>
+            </div>
+          </div>
+
+          <!-- Real Leaflet Map Container -->
+          <div id="map-viewport"></div>
+
+          <!-- Detail Drawer -->
+          <div class="detail-drawer" id="detail-drawer">
+            <div class="drawer-header">
+              <h3 class="drawer-title" id="d-name">Jerusalén</h3>
+              <button class="drawer-close" id="drawer-close-btn" aria-label="Cerrar ficha">✕</button>
+            </div>
+            <div class="drawer-meta">
+              <span class="meta-tag" id="d-category">Ciudad Real</span>
+              <span class="meta-tag" id="d-territory">Territorio de Benjamín / Judá</span>
+            </div>
+            <div class="drawer-meaning" id="d-meaning">Significado: «Posesión de Dos Paz»</div>
+            <p class="drawer-desc" id="d-desc"></p>
+            <div class="drawer-archaeology" id="d-archaeology">
+              <strong>Identificación en Perspicacia:</strong> <span id="d-arch-text"></span>
+            </div>
+            <div class="drawer-source">
+              <div><strong>Referencia oficial:</strong> <span id="d-ref"></span></div>
+              <a href="#" target="_blank" rel="noopener" class="wol-direct-btn" id="d-wol-link">
+                <span>Leer en wol.jw.org</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: TOPOGRAPHY & CROSS SECTION -->
+    <section id="panel-topo" class="tab-panel">
+      <div class="topo-panel">
+        <h2 class="section-headline">Perfil y Corte Transversal de Palestina (Oeste a Este)</h2>
+        <p class="section-subtext">
+          En apenas 55 kilómetros en línea recta, el terreno pasa de las playas del mar Mediterráneo (+0 m) al lomo de
+          las colinas de Judea (+800 m) y se desploma abruptamente hacia la fosa del Jordán y el mar Muerto (-400 m bajo
+          el nivel del mar), la depresión más profunda de la Tierra.
+        </p>
+
+        <div class="topo-graph-card">
+          <svg class="topo-svg" viewBox="0 0 900 240" preserveAspectRatio="none">
+            <line x1="50" y1="130" x2="850" y2="130" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4" />
+            <text x="855" y="134" fill="var(--muted)" font-size="11" font-family="var(--sans)">0 m (Nivel del
+              Mar)</text>
+
+            <line x1="50" y1="60" x2="850" y2="60" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 2" />
+            <text x="855" y="64" fill="var(--muted)" font-size="11" font-family="var(--sans)">+800 m (Montes de
+              Judea)</text>
+
+            <line x1="50" y1="200" x2="850" y2="200" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 2" />
+            <text x="855" y="204" fill="var(--muted)" font-size="11" font-family="var(--sans)">-400 m (Mar
+              Salado)</text>
+
+            <path
+              d="M 60,130 Q 140,128 200,120 Q 280,105 340,65 Q 400,55 450,58 Q 510,80 560,195 Q 600,205 640,195 Q 700,85 760,50 L 820,50 L 820,230 L 60,230 Z"
+              fill="color-mix(in srgb,var(--accent) 15%,var(--surface2))" stroke="var(--accent)" stroke-width="2.5" />
+
+            <rect x="20" y="130" width="40" height="100" fill="var(--c-sea)" opacity="0.4" />
+            <path d="M 570,195 Q 600,205 630,195 L 630,230 L 570,230 Z" fill="var(--c-sea)" opacity="0.6" />
+
+            <circle cx="60" cy="130" r="4" fill="var(--accent)" />
+            <text x="60" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)"
+              font-family="var(--sans)">Llanura Costera</text>
+
+            <circle cx="270" cy="110" r="4" fill="var(--accent)" />
+            <text x="270" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)"
+              font-family="var(--sans)">La Sefelá</text>
+
+            <circle cx="430" cy="58" r="5" fill="var(--c-bible)" />
+            <text x="430" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="var(--c-bible)"
+              font-family="var(--serif)">Jerusalén (+750 m)</text>
+
+            <circle cx="600" cy="200" r="5" fill="var(--c-route1)" />
+            <text x="600" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="var(--c-route1)"
+              font-family="var(--serif)">Mar Muerto (-400 m)</text>
+
+            <circle cx="770" cy="50" r="4" fill="var(--accent)" />
+            <text x="770" y="35" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)"
+              font-family="var(--sans)">Meseta de Moab (+900 m)</text>
+          </svg>
+        </div>
+
+        <div class="topo-note">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            style="flex-shrink:0;color:var(--accent)">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>
+            <strong>Documentación según Perspicacia:</strong> Consulta el tomo 2, páginas 581-583, bajo la voz
+            <em>«Palestina»</em>. Viajar «de Jerusalén a Jericó» (Lucas 10:30) suponía descender más de 1.000 metros de
+            altitud en un trayecto de unos 23 km a través del desierto de Judá.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: 12 TRIBES ALLOTMENT -->
+    <section id="panel-tribes" class="tab-panel">
+      <div class="topo-panel">
+        <h2 class="section-headline">El Reparto de la Tierra Prometida entre las 12 Tribus</h2>
+        <p class="section-subtext">
+          Bajo la dirección de Josué y el sumo sacerdote Eleazar, la tierra de Canaán fue distribuida por suertes entre
+          las tribus de Israel (Números 34; Josué 13 al 19). Las 6 ciudades de refugio fueron designadas para
+          salvaguardar al homicida involuntario (Josué 20).
+        </p>
+
+        <div class="tribes-grid" id="tribes-container"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: BIBLICAL DISTANCES CALCULATOR -->
+    <section id="panel-distances" class="tab-panel">
+      <div class="calculator-card">
+        <h2 class="section-headline">Calculador de Distancias y Tiempos de Viaje Bíblicos</h2>
+        <p class="section-subtext">
+          Calcula la distancia geodésica y el tiempo estimado de marcha a pie entre los principales enclaves bíblicos,
+          comparando las medidas en kilómetros con las unidades antiguas registradas en las Escrituras (estadios
+          romanos, codos y jornadas de camino).
+        </p>
+
+        <div class="calc-selectors">
+          <div class="calc-field">
+            <label for="select-origin">Punto de Origen</label>
+            <select id="select-origin" class="calc-select"></select>
+          </div>
+          <div class="calc-field">
+            <label for="select-dest">Punto de Destino</label>
+            <select id="select-dest" class="calc-select"></select>
+          </div>
+          <div>
+            <button id="calc-swap-btn" class="themebtn" style="padding:9px 14px">⇅ Intercambiar</button>
+          </div>
+        </div>
+
+        <div class="calc-results-box">
+          <div>
+            <div class="calc-metric-val" id="res-km">0 km</div>
+            <div class="calc-metric-lbl">Distancia Geodésica</div>
+          </div>
+          <div>
+            <div class="calc-metric-val" id="res-stadia">0</div>
+            <div class="calc-metric-lbl">Estadios Romanos (~185 m)</div>
+          </div>
+          <div>
+            <div class="calc-metric-val" id="res-miles">0</div>
+            <div class="calc-metric-lbl">Millas Romanas (~1.480 m)</div>
+          </div>
+          <div>
+            <div class="calc-metric-val" id="res-days">0 días</div>
+            <div class="calc-metric-lbl">Jornadas a pie (caravana ~25 km/día)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <div class="wrap footer-wrap">
+      <div><strong>Apps Bíblicas</strong> — Suite de Investigación Histórica y Textual.</div>
+      <div>Documentado según <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a> y
+        <em>Perspicacia para comprender las Escrituras</em>.</div>
+    </div>
+  </footer>
+
+  <!-- Leaflet JS: Local vendor with CDN fallback -->
+  <script src="../vendor/leaflet.js"
+    onerror="this.onerror=null;this.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';"></script>
+
+  <script>
+    /* =========================================================================
+       1. BIBLICAL GEOGRAPHY DATASET (STRICTLY FROM WOL.JW.ORG / PERSPICACIA)
+       ========================================================================= */
+    const PLACES = [
+      {
+        id: "jerusalen",
+        name: "Jerusalén",
+        category: "ciudad",
+        territory: "Benjamín / Judá",
+        lat: 31.7767, lon: 35.2345,
+        meaning: "«Posesión de Dos Paz; Fundamento de Dos Paz»",
+        desc: "Capital teocrática de Israel. En el monte Moria, Salomón edificó el templo de Jehová. Sede del trono davídico y escenario cardinal del ministerio, muerte y resurrección de Jesucristo.",
+        archaeology: "Ciudad de David en el Ophel, monte Sion y valle de Hinón (Guehena).",
+        ref: "it-2 págs. 47-60",
+        wolId: "1200002436",
+        layers: ["all", "canaan", "jesus", "paul"]
+      },
+      {
+        id: "hebron",
+        name: "Hebrón (Quiriat-arba)",
+        category: "refugio",
+        territory: "Judá",
+        lat: 31.5297, lon: 35.0938,
+        meaning: "«Asociación; Confraternidad»",
+        desc: "En la cueva de Macpelá reposan los patriarcas Abrahán, Sara, Isaac, Rebeca, Jacob y Lea. Primera capital del rey David durante 7 años y medio. Ciudad de refugio levítica.",
+        archaeology: "Identificada con la moderna el-Khalil.",
+        ref: "it-1 págs. 1114-1116",
+        wolId: "1200001956",
+        layers: ["all", "canaan"]
+      },
+      {
+        id: "belen",
+        name: "Belén (Efrata)",
+        category: "ciudad",
+        territory: "Judá",
+        lat: 31.7054, lon: 35.2024,
+        meaning: "«Casa de Pan»",
+        desc: "Cuna del rey David y lugar exacto profetizado en Miqueas 5:2 donde nació el Mesías prometido, Jesucristo.",
+        archaeology: "Ubicada a unos 8 km al sur de Jerusalén, identificada con Beit Lahm.",
+        ref: "it-1 págs. 312-314",
+        wolId: "1200000694",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "jerico",
+        name: "Jericó",
+        category: "ciudad",
+        territory: "Benjamín",
+        lat: 31.8711, lon: 35.4444,
+        meaning: "«Ciudad de las Palmeras»",
+        desc: "Primera ciudad cananea tomada tras cruzar el Jordán. Situada a unos 250 m bajo el nivel del mar en un frondoso oasis.",
+        archaeology: "Ruinas excavadas en Tell es-Sultan.",
+        ref: "it-2 págs. 42-46",
+        wolId: "1200002426",
+        layers: ["all", "canaan", "exodus", "jesus"]
+      },
+      {
+        id: "siquem",
+        name: "Siquem",
+        category: "refugio",
+        territory: "Efraín / Manasés",
+        lat: 32.2139, lon: 35.2831,
+        meaning: "«Hombro; Espalda»",
+        desc: "Encrucijada estratégica situada entre el monte Ebal y el monte Guerizim. Ciudad de refugio y sitio cercano al pozo de Jacob (Sicar).",
+        archaeology: "Identificada con Tell Balata junto a Nablus.",
+        ref: "it-2 págs. 1039-1041",
+        wolId: "1200003978",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "samaria",
+        name: "Samaria",
+        category: "ciudad",
+        territory: "Manasés (Israel)",
+        lat: 32.2770, lon: 35.1900,
+        meaning: "«Perteneciente a la Familia de Sémer»",
+        desc: "Fundada por el rey Omrí como capital del reino de 10 tribus de Israel. Famosa por sus palacios de marfil y sitiada y destruida por Asiria en 740 a.e.c.",
+        archaeology: "Excavaciones en Sebastiyeh que revelaron suntuosos marfiles fenicios.",
+        ref: "it-2 págs. 917-920",
+        wolId: "1200003816",
+        layers: ["all", "canaan"]
+      },
+      {
+        id: "nazaret",
+        name: "Nazaret",
+        category: "ciudad",
+        territory: "Zabulón (Galilea)",
+        lat: 32.7019, lon: 35.3033,
+        meaning: "Posiblemente «Vástago; Brote»",
+        desc: "Población de la baja Galilea donde se crió Jesús con José y María, y donde trabajó como carpintero hasta su bautismo en 29 e.c.",
+        archaeology: "Ubicada en una cuenca rodeada de colinas sobre el valle de Jezreel.",
+        ref: "it-2 págs. 472-473",
+        wolId: "1200003190",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "capernaum",
+        name: "Capernaum",
+        category: "ciudad",
+        territory: "Neftalí (Galilea)",
+        lat: 32.8811, lon: 35.5750,
+        meaning: "«Aldea de Nahúm (Consuelo)»",
+        desc: "Ciudad base de Jesús durante su extenso ministerio galileo («su propia ciudad», Mateo 9:1). Escenario de incontables milagros junto al mar de Galilea.",
+        archaeology: "Identificada con Tell Hum, con restos de una destacada sinagoga de basalto.",
+        ref: "it-1 págs. 428-430",
+        wolId: "1200000882",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "betsaida",
+        name: "Betsaida",
+        category: "ciudad",
+        territory: "Galilea / Gaulanítide",
+        lat: 32.9100, lon: 35.6300,
+        meaning: "«Casa de Pesca»",
+        desc: "Pueblo natal de Pedro, Andrés y Felipe. Próximo al lugar donde Jesús alimentó milagrosamente a unos 5.000 hombres.",
+        archaeology: "Identificada tentativamente con et-Tell.",
+        ref: "it-1 págs. 325-326",
+        wolId: "1200000708",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "cana",
+        name: "Caná de Galilea",
+        category: "ciudad",
+        territory: "Aser / Zabulón",
+        lat: 32.7470, lon: 35.3380,
+        meaning: "«Lugar de Cañas»",
+        desc: "Lugar donde Jesús efectuó su primer milagro al convertir el agua en vino selecto durante unas bodas.",
+        archaeology: "Identificada con Khirbet Qana, a 13 km al norte de Nazaret.",
+        ref: "it-1 págs. 415-416",
+        wolId: "1200000873",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "cesarea-maritima",
+        name: "Cesarea Marítima",
+        category: "ciudad",
+        territory: "Litoral de Manasés",
+        lat: 32.5000, lon: 34.8900,
+        meaning: "Nombrada en honor de César Augusto",
+        desc: "Puerto monumental construido por Herodes el Grande. Sede de los procuradores romanos. Allí Cornelio fue bautizado y Pablo estuvo prisionero dos años.",
+        archaeology: "Impresionantes ruinas romanas, acueducto y teatro.",
+        ref: "it-1 págs. 466-468",
+        wolId: "1200000853",
+        layers: ["all", "canaan", "paul"]
+      },
+      {
+        id: "cesarea-filipo",
+        name: "Cesarea de Filipo",
+        category: "ciudad",
+        territory: "Faldas del Hermón",
+        lat: 33.2481, lon: 35.6933,
+        meaning: "Cesarea de Filipo",
+        desc: "Junto a las fuentes del Jordán. En sus inmediaciones Pedro declaró: «Tú eres el Cristo, el Hijo del Dios vivo» (Mateo 16:16).",
+        archaeology: "Banyas moderna.",
+        ref: "it-1 págs. 468-469",
+        wolId: "1200000854",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "beerseba",
+        name: "Beerseba",
+        category: "ciudad",
+        territory: "Simeón / Judá",
+        lat: 31.2450, lon: 34.8410,
+        meaning: "«Pozo del Juramento; Pozo de Siete»",
+        desc: "Ciudad clave del Negueb meridional, marcaba el extremo sur de la Tierra Prometida («desde Dan hasta Beerseba»).",
+        archaeology: "Tell es-Saba.",
+        ref: "it-1 págs. 308-310",
+        wolId: "1200000615",
+        layers: ["all", "canaan"]
+      },
+      {
+        id: "dan",
+        name: "Dan (Lais)",
+        category: "ciudad",
+        territory: "Dan (Norte)",
+        lat: 33.2489, lon: 35.6522,
+        meaning: "«Juez»",
+        desc: "Límite septentrional supremo de Israel. Jeroboán colocó allí uno de sus becerros de oro idólatras.",
+        archaeology: "Tell el-Qadi (Tell Dan), con una compuerta cananea de adobe intacta.",
+        ref: "it-1 págs. 627-628",
+        wolId: "1200001115",
+        layers: ["all", "canaan"]
+      },
+      {
+        id: "m-hermon",
+        name: "Monte Hermón",
+        category: "monte",
+        territory: "Líbano / Antilíbano",
+        lat: 33.4167, lon: 35.8500,
+        meaning: "«Dedicado; Sagrado»",
+        desc: "Cumbre más alta de la región (2.814 m), con nieves perpetuas casi todo el año. Probable escenario de la transfiguración de Jesús.",
+        archaeology: "Jebel esh-Sheikh.",
+        ref: "it-1 págs. 1126-1127",
+        wolId: "1200001999",
+        layers: ["all", "canaan", "jesus"]
+      },
+      {
+        id: "m-carmelo",
+        name: "Monte Carmelo",
+        category: "monte",
+        territory: "Aser / Manasés",
+        lat: 32.7300, lon: 35.0500,
+        meaning: "«Huerto; Tierra de Frutas»",
+        desc: "Promontorio fértil que penetra en el Mediterráneo. Escenario de la prueba de Elías contra los 450 profetas de Baal.",
+        archaeology: "El-Muhraqa («lugar de la combustión»).",
+        ref: "it-1 págs. 441-443",
+        wolId: "1200000892",
+        layers: ["all", "canaan"]
+      },
+      {
+        id: "m-nebo",
+        name: "Monte Nebo (Pisgá)",
+        category: "monte",
+        territory: "Moab / Rubén",
+        lat: 31.7683, lon: 35.7253,
+        meaning: "«Nebo / Colina»",
+        desc: "Cima al este del Jordán desde la cual Jehová mostró a Moisés toda la extensión de la Tierra Prometida antes de morir.",
+        archaeology: "Jebel en-Neba en Jordania.",
+        ref: "it-2 págs. 473-474",
+        wolId: "1200003199",
+        layers: ["all", "canaan", "exodus"]
+      },
+      {
+        id: "m-sinai",
+        name: "Monte Sinaí (Horeb)",
+        category: "monte",
+        territory: "Península del Sinaí",
+        lat: 28.5394, lon: 33.9750,
+        meaning: "«Sinaí; Escarpado»",
+        desc: "Montaña sagrada donde Jehová entregó los Diez Mandamientos y la Ley a Moisés y estableció el pacto nacional.",
+        archaeology: "Tradicionalmente identificado con Jebel Musa.",
+        ref: "it-2 págs. 1032-1035",
+        wolId: "1200004135",
+        layers: ["all", "exodus"]
+      },
+      {
+        id: "rameses",
+        name: "Ramesés",
+        category: "ciudad",
+        territory: "Gosén (Egipto)",
+        lat: 30.7870, lon: 31.8210,
+        meaning: "Ciudad de almacenaje en Egipto",
+        desc: "Punto de partida del Éxodo de los israelitas de Egipto en la noche del 14 de Nisán de 1513 a.e.c.",
+        archaeology: "Tell ed-Daba / Qantir.",
+        ref: "it-2 págs. 780-781",
+        wolId: "1200003635",
+        layers: ["all", "exodus"]
+      },
+      {
+        id: "qades-barnea",
+        name: "Qadés-Barnea",
+        category: "ciudad",
+        territory: "Desierto de Parán",
+        lat: 30.6500, lon: 34.4200,
+        meaning: "«Sagrado; Lugar Santo»",
+        desc: "Oasis en el desierto donde acampó Israel y desde donde se enviaron los 12 espías a explorar Canaán.",
+        archaeology: "‘Ain Qudeis / ‘Ain Qudeirat.",
+        ref: "it-2 págs. 763-765",
+        wolId: "1200002564",
+        layers: ["all", "exodus"]
+      },
+      {
+        id: "damasco",
+        name: "Damasco",
+        category: "ciudad",
+        territory: "Siria (Aram)",
+        lat: 33.5138, lon: 36.2765,
+        meaning: "«Damasco»",
+        desc: "Antigua capital de Siria. En el camino a esta ciudad Saulo de Tarso vio la luz resplandeciente del Cristo resucitado.",
+        archaeology: "Calle Recta en la ciudad antigua.",
+        ref: "it-1 págs. 624-627",
+        wolId: "1200001114",
+        layers: ["all", "paul"]
+      },
+      {
+        id: "antioquia-siria",
+        name: "Antioquía de Siria",
+        category: "ciudad",
+        territory: "Siria",
+        lat: 36.2021, lon: 36.1606,
+        meaning: "En honor de Antíoco",
+        desc: "Allí «por primera vez a los discípulos se les llamó cristianos por providencia divina» (Hechos 11:26). Base de las misiones de Pablo.",
+        archaeology: "Antakya moderna en Turquía, junto al río Orontes.",
+        ref: "it-1 págs. 153-155",
+        wolId: "1200000292",
+        layers: ["all", "paul"]
+      },
+      {
+        id: "efeso",
+        name: "Éfeso",
+        category: "ciudad",
+        territory: "Asia Menor",
+        lat: 37.9497, lon: 27.3639,
+        meaning: "«Deseable»",
+        desc: "Gran metrópoli del Asia Menor proconsular con el templo de Ártemis. Pablo predicó allí más de tres años.",
+        archaeology: "Ruinas célebres de la biblioteca de Celso y el gran teatro.",
+        ref: "it-1 págs. 764-768",
+        wolId: "1200001387",
+        layers: ["all", "paul"]
+      },
+      {
+        id: "corinto",
+        name: "Corinto",
+        category: "ciudad",
+        territory: "Acaya (Grecia)",
+        lat: 37.9056, lon: 22.8797,
+        meaning: "«Corinto»",
+        desc: "En el istmo griego entre dos puertos. Pablo residió 18 meses fundando la congregación a la que escribió dos cartas canónicas.",
+        archaeology: "El tribunal o Bema excavado en el ágora.",
+        ref: "it-1 págs. 556-559",
+        wolId: "1200001038",
+        layers: ["all", "paul"]
+      },
+      {
+        id: "atenas",
+        name: "Atenas",
+        category: "ciudad",
+        territory: "Grecia",
+        lat: 37.9838, lon: 23.7275,
+        meaning: "Nombrada en honor a Atenea",
+        desc: "En el Areópago, Pablo pronunció su inmortal discurso ante filósofos epicúreos y estoicos sobre el «Dios desconocido».",
+        archaeology: "La Acrópolis y la colina rocosa del Areópago.",
+        ref: "it-1 págs. 250-254",
+        wolId: "1200000459",
+        layers: ["all", "paul"]
+      },
+      {
+        id: "roma",
+        name: "Roma",
+        category: "ciudad",
+        territory: "Italia",
+        lat: 41.9028, lon: 12.4964,
+        meaning: "«Fuerza»",
+        desc: "Capital del Imperio romano. Destino de Pablo como prisionero donde predicó bajo custodia y escribió sus cartas de prisión.",
+        archaeology: "Foro Romano y Vía Apia.",
+        ref: "it-2 págs. 871-875",
+        wolId: "1200003763",
+        layers: ["all", "paul"]
+      },
+      {
+        id: "babilonia",
+        name: "Babilonia",
+        category: "ciudad",
+        territory: "Mesopotamia",
+        lat: 32.5363, lon: 44.4208,
+        meaning: "«Puerta de Dios; Confusión»",
+        desc: "Junto al río Éufrates. Origen de la torre de Babel y capital del imperio de Nabucodonosor que desoló Jerusalén en 607 a.e.c.",
+        archaeology: "Ruinas de adobe y la Puerta de Istar excavadas junto a Hillah (Irak).",
+        ref: "it-1 págs. 272-277",
+        wolId: "1200000530",
+        layers: ["all"]
+      },
+      {
+        id: "ur",
+        name: "Ur de los Caldeos",
+        category: "ciudad",
+        territory: "Mesopotamia",
+        lat: 30.9622, lon: 46.1044,
+        meaning: "«Luz; Fuego»",
+        desc: "Patria originaria de Abrahán en el sur de Mesopotamia, de la cual salió por fe hacia Canaán obedeciendo a Dios.",
+        archaeology: "Tell el-Muqayyar con su célebre zigurat escalonado.",
+        ref: "it-2 págs. 1176-1177",
+        wolId: "1200004518",
+        layers: ["all"]
+      }
+    ];
+
+    /* =========================================================================
+       2. HISTORICAL ROUTES POLYLINE COORDINATES
+       ========================================================================= */
+    const ROUTES = {
+      exodus: [
+        [30.7870, 31.8210], // Rameses
+        [30.5500, 32.1800], // Succoth
+        [30.0500, 32.4800], // Etham
+        [29.9667, 32.5500], // Red Sea Crossing
+        [29.5800, 32.8000], // Marah
+        [29.3300, 33.0000], // Elim
+        [28.9000, 33.3000], // Wilderness of Sin
+        [28.7000, 33.6500], // Rephidim
+        [28.5394, 33.9750], // Mount Sinai / Horeb
+        [28.8500, 34.3000], // Hazeroth
+        [30.6500, 34.4200], // Kadesh-barnea
+        [29.5500, 35.0000], // Ezion-geber
+        [30.3000, 35.6000], // Around Edom
+        [31.2500, 35.7500], // Arnon river in Moab
+        [31.7683, 35.7253], // Mount Nebo
+        [31.8711, 35.4444]  // Jericho / Jordan plains
+      ],
+      jesus: [
+        [31.7054, 35.2024], // Bethlehem
+        [32.7019, 35.3033], // Nazareth
+        [31.8400, 35.5450], // Baptism in Jordan
+        [32.7470, 35.3380], // Cana
+        [32.8811, 35.5750], // Capernaum
+        [32.9100, 35.6300], // Bethsaida
+        [33.2481, 35.6933], // Caesarea Philippi
+        [32.2139, 35.2831], // Sychar
+        [31.8711, 35.4444], // Jericho
+        [31.7700, 35.2600], // Bethany
+        [31.7767, 35.2345]  // Jerusalem
+      ],
+      paul: [
+        [32.5000, 34.8900], // Caesarea Maritima
+        [33.5600, 35.3700], // Sidon
+        [36.2500, 29.9800], // Myra
+        [36.6800, 27.3700], // Cnidus
+        [34.9300, 24.8100], // Fair Havens (Crete)
+        [35.9179, 14.4099], // Malta shipwreck
+        [37.0750, 15.2860], // Syracuse
+        [38.1100, 15.6500], // Rhegium
+        [40.8200, 14.1200], // Puteoli
+        [41.5100, 13.0400], // Appii Forum
+        [41.9028, 12.4964]  // Rome
+      ]
+    };
+
+    /* =========================================================================
+       3. TRIBES OF ISRAEL (JOSHUA 13-21)
+       ========================================================================= */
+    const TRIBES = [
+      { name: "Judá", capital: "Hebrón / Jerusalén", refuge: "Hebrón (Quriet-arba)", desc: "El territorio más extenso del sur, desde las colinas de Jerusalén hasta el Negueb. De Judá provino el cetro real davídico y Jesucristo.", ref: "it-2 págs. 147-152" },
+      { name: "Benjamín", capital: "Guibeah / Mizpá", refuge: "Territorio central", desc: "Entre Judá y Efraín. Territorio que albergaba Jerusalén, Jericó y Betel. De esta tribu provinieron Saúl y el apóstol Pablo.", ref: "it-1 págs. 317-320" },
+      { name: "Efraín", capital: "Siló / Samaria", refuge: "Siquem", desc: "Tribu dominante del norte. Albergó Siló, sede del tabernáculo por siglos, y el fértil corazón montañoso central.", ref: "it-1 págs. 770-773" },
+      { name: "Manasés (Occidental y Oriental)", capital: "Tirzá / Samaria / Golán", refuge: "Golán (en Basán)", desc: "Dividida en dos mitades: la occidental entre el Mediterráneo y el Jordán, y la oriental en las ricas tierras de pastos de Basán y Galaad.", ref: "it-2 págs. 293-296" },
+      { name: "Simeón", capital: "Beerseba", refuge: "Enclavada en Judá", desc: "Recibió ciudades enclavadas dentro del territorio de Judá en el desértico Negueb meridional (Génesis 49:7).", ref: "it-2 págs. 1026-1028" },
+      { name: "Zabulón", capital: "Belén de Zabulón / Caná", refuge: "Cercana a Quedes", desc: "Asentada en la fértil cuenca de la baja Galilea entre el mar de Galilea y el monte Carmelo.", ref: "it-2 págs. 1227-1229" },
+      { name: "Isacar", capital: "Jezreel / Sunem", refuge: "—", desc: "Ocupó la llanura fértil de Jezreel (Esdrelón), célebre por su agricultura y batallas bíblicas.", ref: "it-1 págs. 1251-1253" },
+      { name: "Aser", capital: "Aco / Tiro", refuge: "—", desc: "Franja costera septentrional a lo largo del mar Mediterráneo, famosa por su aceite de oliva selecto.", ref: "it-1 págs. 238-240" },
+      { name: "Neftalí", capital: "Quedes de Neftalí", refuge: "Quedes en Galilea", desc: "Montes de la alta Galilea y ribera occidental del mar de Galilea («tierra de Zabulón y de Neftalí», Mateo 4:15).", ref: "it-2 págs. 476-478" },
+      { name: "Dan", capital: "Jope / Dan (norte)", refuge: "—", desc: "Asignada originariamente en la costa junto a Jope; más tarde conquistaron Lais a los pies del monte Hermón.", ref: "it-1 págs. 627-630" },
+      { name: "Gad", capital: "Ramot de Galaad", refuge: "Ramot de Galaad", desc: "Tribu transjordana situada en los valles boscosos y quebradas de Galaad al este del río Jordán.", ref: "it-1 págs. 977-980" },
+      { name: "Rubén", capital: "Hesbón / Dibón", refuge: "Bézer (en la meseta)", desc: "El primogénito de Jacob se asentó al este del mar Salado (Muerto) en la meseta de Moab, al norte del río Arnón.", ref: "it-2 págs. 883-886" }
+    ];
+
+    /* =========================================================================
+       4. LEAFLET MAP INITIALIZATION & CONTROLLERS
+       ========================================================================= */
+    let map;
+    let markerLayerGroup;
+    let routeLayerGroup;
+    let currentLayer = "all";
+    let currentSearch = "";
+    let selectedPlaceId = "jerusalen";
+    let currentTileLayer;
+
+    // Tile Providers
+    const TILE_PROVIDERS = {
+      voyager: {
+        url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        opts: { attribution: '© OpenStreetMap, © CARTO', maxZoom: 18, subdomains: 'abcd' }
+      },
+      topo: {
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        opts: { attribution: '© Esri, USGS, NOAA', maxZoom: 18 }
+      },
+      satellite: {
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        opts: { attribution: '© Esri, DigitalGlobe, GeoEye, Earthstar', maxZoom: 18 }
+      },
+      osm: {
+        url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        opts: { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
+      }
+    };
+
+    function initApp() {
+      setupTabs();
+      setupTheme();
+      setupLeafletMap();
+      setupBaseTileSelector();
+      setupLayerButtons();
+      setupSearch();
+      renderPlacesList();
+      renderTribesGrid();
+      setupDistancesCalculator();
+    }
+
+    function setupLeafletMap() {
+      if (typeof L === 'undefined') {
+        document.getElementById('map-viewport').innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">Cargando cartografía... Si estás sin conexión, los datos de las pestañas Relieve, Tribus y Distancias permanecen activos.</div>';
+        return;
+      }
+
+      // Centered on the Promised Land (Jerusalem)
+      map = L.map('map-viewport', {
+        center: [31.7767, 35.2345],
+        zoom: 8,
+        zoomControl: true,
+        minZoom: 4,
+        maxZoom: 17
+      });
+
+      // Real world metric scale bar (20 km / 50 km)
+      L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
+
+      // Default to real physical relief map
+      currentTileLayer = L.tileLayer(TILE_PROVIDERS.topo.url, TILE_PROVIDERS.topo.opts).addTo(map);
+
+      markerLayerGroup = L.layerGroup().addTo(map);
+      routeLayerGroup = L.layerGroup().addTo(map);
+
+      renderMarkers();
+      renderRoutes();
+    }
+
+    /* Base Tile Layer Switcher */
+    function setupBaseTileSelector() {
+      const pills = document.querySelectorAll(".base-pill");
+      pills.forEach(pill => {
+        pill.addEventListener("click", () => {
+          pills.forEach(p => p.classList.remove("active"));
+          pill.classList.add("active");
+          const tileKey = pill.getAttribute("data-tile");
+          if (TILE_PROVIDERS[tileKey] && map) {
+            map.removeLayer(currentTileLayer);
+            currentTileLayer = L.tileLayer(TILE_PROVIDERS[tileKey].url, TILE_PROVIDERS[tileKey].opts).addTo(map);
+          }
+        });
+      });
+    }
+
+    /* Render Custom Biblical Markers on Leaflet */
+    function renderMarkers() {
+      if (!markerLayerGroup) return;
+      markerLayerGroup.clearLayers();
+
+      const filtered = PLACES.filter(p => {
+        const matchesLayer = currentLayer === "all" || p.layers.includes(currentLayer);
+        const matchesSearch = !currentSearch ||
+          p.name.toLowerCase().includes(currentSearch) ||
+          p.desc.toLowerCase().includes(currentSearch) ||
+          p.territory.toLowerCase().includes(currentSearch);
+        return matchesLayer && matchesSearch;
+      });
+
+      document.getElementById("visible-count").textContent = `${filtered.length} sitios`;
+
+      filtered.forEach(p => {
+        let pinClass = "pin-city";
+        let pinSymbol = "●";
+        if (p.category === "refugio") { pinClass = "pin-refugio"; pinSymbol = "🛡️"; }
+        else if (p.category === "monte") { pinClass = "pin-mountain"; pinSymbol = "▲"; }
+        else if (p.category === "agua") { pinClass = "pin-water"; pinSymbol = "⚓"; }
+
+        const customIcon = L.divIcon({
+          className: 'custom-biblical-marker-wrap',
+          html: `<div class="biblical-pin ${pinClass}" id="marker-${p.id}">${pinSymbol}</div>`,
+          iconSize: [26, 26],
+          iconAnchor: [13, 13],
+          popupAnchor: [0, -14]
+        });
+
+        const marker = L.marker([p.lat, p.lon], { icon: customIcon });
+
+        marker.bindTooltip(`<strong>${p.name}</strong><br><small style="color:var(--muted)">${p.territory}</small>`, {
+          className: 'biblical-tooltip',
+          direction: 'top',
+          offset: [0, -10]
+        });
+
+        marker.on('click', () => {
+          selectPlace(p.id, false);
+        });
+
+        markerLayerGroup.addLayer(marker);
+      });
+    }
+
+    /* Render Polyline Routes */
+    function renderRoutes() {
+      if (!routeLayerGroup) return;
+      routeLayerGroup.clearLayers();
+
+      if (currentLayer === "all" || currentLayer === "exodus") {
+        const polyExodus = L.polyline(ROUTES.exodus, {
+          color: 'var(--c-route1)',
+          weight: 3.5,
+          dashArray: '8, 6',
+          opacity: 0.85
+        }).bindTooltip("Ruta del Éxodo (1513 a.e.c.)", { className: 'biblical-tooltip' });
+        routeLayerGroup.addLayer(polyExodus);
+      }
+
+      if (currentLayer === "all" || currentLayer === "jesus") {
+        const polyJesus = L.polyline(ROUTES.jesus, {
+          color: 'var(--c-route3)',
+          weight: 3.5,
+          opacity: 0.85
+        }).bindTooltip("Ministerio Terrestre de Jesús (29-33 e.c.)", { className: 'biblical-tooltip' });
+        routeLayerGroup.addLayer(polyJesus);
+      }
+
+      if (currentLayer === "all" || currentLayer === "paul") {
+        const polyPaul = L.polyline(ROUTES.paul, {
+          color: 'var(--c-route4)',
+          weight: 3,
+          dashArray: '6, 6',
+          opacity: 0.85
+        }).bindTooltip("Viaje a Roma de Pablo (Hechos 27-28)", { className: 'biblical-tooltip' });
+        routeLayerGroup.addLayer(polyPaul);
+      }
+    }
+
+    /* Layer Button Filter */
+    function setupLayerButtons() {
+      const layerButtons = document.querySelectorAll(".layer-btn");
+      layerButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          layerButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentLayer = btn.getAttribute("data-layer");
+
+          const names = {
+            all: "Todos los Lugares Clave",
+            canaan: "Tierra Prometida (Canaán y 12 Tribus)",
+            exodus: "Ruta del Éxodo de Egipto a Canaán",
+            jesus: "Ministerio Terrestre de Jesús",
+            paul: "Viajes de Pablo y Expansión Apostólica"
+          };
+          document.getElementById("active-layer-name").innerHTML = `<strong>Capa activa:</strong> ${names[currentLayer]}`;
+
+          renderMarkers();
+          renderRoutes();
+          renderPlacesList();
+
+          // Auto-fit camera
+          if (map) {
+            if (currentLayer === "canaan" || currentLayer === "jesus") {
+              map.flyTo([32.0, 35.3], 8, { duration: 1.2 });
+            } else if (currentLayer === "exodus") {
+              map.flyTo([29.8, 33.8], 6.5, { duration: 1.2 });
+            } else if (currentLayer === "paul") {
+              map.flyTo([37.0, 24.0], 5, { duration: 1.2 });
+            } else {
+              map.flyTo([32.0, 35.3], 7.5, { duration: 1.2 });
+            }
+          }
+        });
+      });
+    }
+
+    /* Search Controller */
+    function setupSearch() {
+      const searchInput = document.getElementById("map-search");
+      searchInput.addEventListener("input", (e) => {
+        currentSearch = e.target.value.toLowerCase().trim();
+        renderMarkers();
+        renderPlacesList();
+      });
+    }
+
+    /* Render Sidebar Places List */
+    function renderPlacesList() {
+      const placesContainer = document.getElementById("places-container");
+      placesContainer.innerHTML = "";
+
+      const filtered = PLACES.filter(p => {
+        const matchesLayer = currentLayer === "all" || p.layers.includes(currentLayer);
+        const matchesSearch = !currentSearch ||
+          p.name.toLowerCase().includes(currentSearch) ||
+          p.desc.toLowerCase().includes(currentSearch) ||
+          p.territory.toLowerCase().includes(currentSearch);
+        return matchesLayer && matchesSearch;
+      });
+
+      filtered.forEach(p => {
+        const div = document.createElement("div");
+        div.className = `place-item ${p.id === selectedPlaceId ? "active" : ""}`;
+        div.innerHTML = `
+      <div>
+        <strong>${p.name}</strong>
+        <div class="place-category">${p.territory}</div>
+      </div>
+      <span style="font-size:12px;color:var(--muted)">→</span>
+    `;
+        div.addEventListener("click", () => {
+          selectPlace(p.id, true);
+        });
+        placesContainer.appendChild(div);
+      });
+    }
+
+    /* Select Place and Show Drawer */
+    function selectPlace(placeId, shouldFly = false) {
+      selectedPlaceId = placeId;
+      const p = PLACES.find(item => item.id === placeId);
+      if (!p) return;
+
+      const detailDrawer = document.getElementById("detail-drawer");
+      document.getElementById("d-name").textContent = p.name;
+      document.getElementById("d-category").textContent = p.category.toUpperCase();
+      document.getElementById("d-territory").textContent = p.territory;
+      document.getElementById("d-meaning").textContent = `Significado etimológico: ${p.meaning}`;
+      document.getElementById("d-desc").textContent = p.desc;
+      document.getElementById("d-arch-text").textContent = p.archaeology;
+      document.getElementById("d-ref").textContent = p.ref;
+
+      const wolBtn = document.getElementById("d-wol-link");
+      wolBtn.href = `https://wol.jw.org/es/wol/d/r4/lp-s/${p.wolId}`;
+
+      detailDrawer.classList.add("open");
+
+      // Highlight list item
+      document.querySelectorAll(".place-item").forEach(item => item.classList.remove("active"));
+      const activeItem = Array.from(document.querySelectorAll(".place-item")).find(
+        el => el.querySelector("strong") && el.querySelector("strong").textContent === p.name
+      );
+      if (activeItem) activeItem.classList.add("active");
+
+      if (shouldFly && map) {
+        map.flyTo([p.lat, p.lon], 11, { duration: 1.2 });
+      }
+    }
+
+    document.getElementById("drawer-close-btn").addEventListener("click", () => {
+      document.getElementById("detail-drawer").classList.remove("open");
+    });
+
+    /* Tabs */
+    function setupTabs() {
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          tabButtons.forEach(b => b.setAttribute("aria-selected", "false"));
+          btn.setAttribute("aria-selected", "true");
+
+          const tabId = btn.getAttribute("data-tab");
+          document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+          const targetPanel = document.getElementById(`panel-${tabId}`);
+          if (targetPanel) targetPanel.classList.add("active");
+
+          // Invalidate Leaflet map size on tab display
+          if (tabId === "map" && map) {
+            setTimeout(() => map.invalidateSize(), 150);
+          }
+        });
+      });
+    }
+
+    /* Theme matching cronologia */
+    function setupTheme() {
+      const btn = document.getElementById("themeBtn");
+      const saved = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
+      if (saved) document.documentElement.dataset.theme = saved;
+
+      if (btn) {
+        btn.onclick = () => {
+          const r = document.documentElement;
+          const dark = matchMedia('(prefers-color-scheme:dark)').matches;
+          const cur = r.dataset.theme || (dark ? 'dark' : 'light');
+          const next = cur === 'dark' ? 'light' : 'dark';
+          r.dataset.theme = next;
+          try {
+            localStorage.setItem('theme', next);
+            localStorage.setItem('bibleapps_theme', next);
+          } catch (e) { }
+        };
+      }
+
+      window.addEventListener('storage', e => {
+        if ((e.key === 'theme' || e.key === 'bibleapps_theme') && e.newValue) {
+          document.documentElement.dataset.theme = e.newValue;
+        }
+      });
+    }
+
+    /* Render Tribes Tab */
+    function renderTribesGrid() {
+      const container = document.getElementById("tribes-container");
+      container.innerHTML = "";
+
+      TRIBES.forEach(t => {
+        const card = document.createElement("div");
+        card.className = "tribe-card";
+        card.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h3 class="tribe-name">${t.name}</h3>
+        ${t.refuge !== "—" && !t.refuge.includes("Territorio") ? `<span class="refuge-tag">Refugio: ${t.refuge}</span>` : ""}
+      </div>
+      <div style="font-size:12.5px;color:var(--accent);font-weight:600">Capital / Ciudades: ${t.capital}</div>
+      <p style="font-size:13.5px;color:var(--muted);line-height:1.45">${t.desc}</p>
+      <div style="margin-top:auto;padding-top:8px;border-top:1px dashed var(--line);font-size:12px;color:var(--muted)">
+        Fuente: <em>${t.ref}</em>
+      </div>
+    `;
+        container.appendChild(card);
+      });
+    }
+
+    /* Distances Calculator */
+    function setupDistancesCalculator() {
+      const originSel = document.getElementById("select-origin");
+      const destSel = document.getElementById("select-dest");
+
+      PLACES.forEach(p => {
+        const opt1 = document.createElement("option");
+        opt1.value = p.id;
+        opt1.textContent = `${p.name} (${p.territory})`;
+        if (p.id === "jerusalen") opt1.selected = true;
+        originSel.appendChild(opt1);
+
+        const opt2 = document.createElement("option");
+        opt2.value = p.id;
+        opt2.textContent = `${p.name} (${p.territory})`;
+        if (p.id === "capernaum") opt2.selected = true;
+        destSel.appendChild(opt2);
+      });
+
+      function calculate() {
+        const p1 = PLACES.find(item => item.id === originSel.value);
+        const p2 = PLACES.find(item => item.id === destSel.value);
+        if (!p1 || !p2) return;
+
+        const R = 6371; // km
+        const dLat = (p2.lat - p1.lat) * Math.PI / 180;
+        const dLon = (p2.lon - p1.lon) * Math.PI / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(p1.lat * Math.PI / 180) * Math.cos(p2.lat * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const km = Math.round(R * c);
+
+        const stadia = Math.round((km * 1000) / 185);
+        const miles = Math.round((km * 1000) / 1480);
+        const days = Math.max(1, Math.round(km / 25));
+
+        document.getElementById("res-km").textContent = `${km} km`;
+        document.getElementById("res-stadia").textContent = stadia.toLocaleString("es-ES");
+        document.getElementById("res-miles").textContent = miles.toLocaleString("es-ES");
+        document.getElementById("res-days").textContent = `≈ ${days} ${days === 1 ? 'día' : 'días'}`;
+      }
+
+      originSel.addEventListener("change", calculate);
+      destSel.addEventListener("change", calculate);
+
+      document.getElementById("calc-swap-btn").addEventListener("click", () => {
+        const temp = originSel.value;
+        originSel.value = destSel.value;
+        destSel.value = temp;
+        calculate();
+      });
+
+      calculate();
+    }
+
+    // Universal relative link resolution on DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      initApp();
+
+      if (window.location.protocol === 'file:') {
+        document.querySelectorAll('a').forEach(a => {
+          const href = a.getAttribute('href');
+          if (!href) return;
+          if (href === '../../../es/' || href === '../../../es' || href === '../' || href === '/') {
+            a.setAttribute('href', '../../../es/index.html');
+            a.setAttribute('href', '../index.html');
+          } else if (href === '../cronologia/' || href === '/cronologia/' || href === '/cronologia') {
+            a.setAttribute('href', '../cronologia/index.html');
+          } else if (href === '../medidas/' || href === '/medidas/' || href === '/medidas') {
+            a.setAttribute('href', '../medidas/index.html');
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="ru">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tabla cronológica</title>
+  <title>Библейская хронологическая таблица</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&display=swap"
@@ -15,13 +15,13 @@
   <script>
     (function () {
       try {
-        var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+        var t = localStorage.setItem('bibleapps_lang','ru'); localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
         if (t) document.documentElement.dataset.theme = t;
       } catch (e) { }
     })();
   </script>
   <!-- Estilos canónicos compartidos de cabecera y estructura main -->
-  <link rel="stylesheet" href="../css/header-main.css">
+  <link rel="stylesheet" href="../../../css/header-main.css">
   <style>
     :root {
       --c-books: #9a7410;
@@ -2337,23 +2337,27 @@
 </head>
 
 <body>
-  <a class="homebtn" href="../" title="Volver al portal de Apps Bíblicas">
+  <a class="homebtn" href="../../../ru/" title="Вернуться на портал Библейских приложений">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M19 12H5M12 19l-7-7 7-7" />
     </svg>
-    <span>Apps Bíblicas</span>
+    <span>Библейские приложения</span>
   </a>
-  <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
+    <div class="lang-switch" role="group" aria-label="Язык" style="position:absolute;right:64px;top:14px;z-index:25">
+    <a href="../es/" class="lang-btn" title="Español" onclick="localStorage.setItem('bibleapps_lang','es')">ES</a>
+    <a href="../ru/" class="lang-btn active" aria-current="page" title="Русский" onclick="localStorage.setItem('bibleapps_lang','ru')">RU</a>
+  </div>
+  <button class="themebtn" id="themeBtn" aria-label="Сменить тему">
     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>
   <header class="top">
     <div class="wrap">
-      <h1>Tabla cronológica</h1>
+      <h1>Библейская хронологическая таблица</h1>
       <div class="stats" id="stats"></div>
       <details class="about">
-        <summary>Qué significan las marcas</summary>
+        <summary>Значение хронологических отметок</summary>
         <p class="lead">Las fechas se han verificado con «Perspicacia para comprender las Escrituras» y otras
           publicaciones de la Biblioteca en línea Watchtower, y se han calculado con las edades y los plazos de la
           Biblia. En verde se marcan las fechas que se calculan a partir de los datos bíblicos (con fórmula); en
@@ -2364,15 +2368,15 @@
   </header>
   <nav class="tabs">
     <div class="wrap" role="tablist">
-      <button role="tab" aria-selected="true" data-tab="tl">Tiempo</button>
-      <button role="tab" aria-selected="false" data-tab="bk">Biblia</button>
-      <button role="tab" aria-selected="false" data-tab="ge">Genealogías</button>
-      <button role="tab" aria-selected="false" data-tab="na">Naciones</button>
-      <button role="tab" aria-selected="false" data-tab="pa">Patriarcas</button>
-      <button role="tab" aria-selected="false" data-tab="ki">Reyes</button>
-      <button role="tab" aria-selected="false" data-tab="an">Fechas clave</button>
-      <button role="tab" aria-selected="false" data-tab="js">Jesús y los apóstoles</button>
-      <input class="search" id="q" type="search" placeholder="Buscar en la cronología: nombre, año, texto bíblico"
+      <button role="tab" aria-selected="true" data-tab="tl">Время</button>
+      <button role="tab" aria-selected="false" data-tab="bk">Библия</button>
+      <button role="tab" aria-selected="false" data-tab="ge">Родословия</button>
+      <button role="tab" aria-selected="false" data-tab="na">Народы</button>
+      <button role="tab" aria-selected="false" data-tab="pa">Патриархи</button>
+      <button role="tab" aria-selected="false" data-tab="ki">Цари</button>
+      <button role="tab" aria-selected="false" data-tab="an">Ключевые даты</button>
+      <button role="tab" aria-selected="false" data-tab="js">Иисус и апостолы</button>
+      <input class="search" id="q" type="search" placeholder="Поиск в хронологии: имя, год, стих..."
         aria-label="Buscar en la cronología">
     </div>
   </nav>
@@ -3663,7 +3667,8 @@
         document.querySelectorAll('a').forEach(function (a) {
           var href = a.getAttribute('href');
           if (!href) return;
-          if (href === '../' || href === '/') {
+          if (href === '../../../es/' || href === '../../../es' || href === '../' || href === '/') {
+            a.setAttribute('href', '../../../es/index.html');
             a.setAttribute('href', '../index.html');
           } else if (href === '../atlas/' || href === '/atlas/' || href === '/atlas') {
             a.setAttribute('href', '../atlas/index.html');

@@ -5,47 +5,119 @@
   "redirects": [
     {
       "source": "/orginal.html",
-      "destination": "/cronologia",
+      "destination": "/apps/cronologia/es",
       "permanent": true
     },
     {
       "source": "/original.html",
-      "destination": "/cronologia",
+      "destination": "/apps/cronologia/es",
+      "permanent": true
+    },
+    {
+      "source": "/cronologia",
+      "destination": "/apps/cronologia/es",
+      "permanent": true
+    },
+    {
+      "source": "/cronologia/:path*",
+      "destination": "/apps/cronologia/es/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/atlas",
+      "destination": "/apps/atlas/es",
+      "permanent": true
+    },
+    {
+      "source": "/atlas/:path*",
+      "destination": "/apps/atlas/es/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/medidas",
+      "destination": "/apps/medidas/es",
+      "permanent": true
+    },
+    {
+      "source": "/medidas/:path*",
+      "destination": "/apps/medidas/es/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/pesas-y-medidas",
+      "destination": "/apps/medidas/es",
+      "permanent": true
+    },
+    {
+      "source": "/pesas-y-medidas/:path*",
+      "destination": "/apps/medidas/es/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
     {
-      "source": "/cronologia",
-      "destination": "/cronologia/index.html"
+      "source": "/es",
+      "destination": "/es/index.html"
     },
     {
-      "source": "/cronologia/",
-      "destination": "/cronologia/index.html"
+      "source": "/es/",
+      "destination": "/es/index.html"
     },
     {
-      "source": "/atlas",
-      "destination": "/atlas/index.html"
+      "source": "/ru",
+      "destination": "/ru/index.html"
     },
     {
-      "source": "/atlas/",
-      "destination": "/atlas/index.html"
+      "source": "/ru/",
+      "destination": "/ru/index.html"
     },
     {
-      "source": "/medidas",
-      "destination": "/medidas/index.html"
+      "source": "/apps/cronologia/es",
+      "destination": "/apps/cronologia/es/index.html"
     },
     {
-      "source": "/medidas/",
-      "destination": "/medidas/index.html"
+      "source": "/apps/cronologia/es/",
+      "destination": "/apps/cronologia/es/index.html"
     },
     {
-      "source": "/pesas-y-medidas",
-      "destination": "/medidas/index.html"
+      "source": "/apps/cronologia/ru",
+      "destination": "/apps/cronologia/ru/index.html"
     },
     {
-      "source": "/pesas-y-medidas/",
-      "destination": "/medidas/index.html"
+      "source": "/apps/cronologia/ru/",
+      "destination": "/apps/cronologia/ru/index.html"
+    },
+    {
+      "source": "/apps/atlas/es",
+      "destination": "/apps/atlas/es/index.html"
+    },
+    {
+      "source": "/apps/atlas/es/",
+      "destination": "/apps/atlas/es/index.html"
+    },
+    {
+      "source": "/apps/atlas/ru",
+      "destination": "/apps/atlas/ru/index.html"
+    },
+    {
+      "source": "/apps/atlas/ru/",
+      "destination": "/apps/atlas/ru/index.html"
+    },
+    {
+      "source": "/apps/medidas/es",
+      "destination": "/apps/medidas/es/index.html"
+    },
+    {
+      "source": "/apps/medidas/es/",
+      "destination": "/apps/medidas/es/index.html"
+    },
+    {
+      "source": "/apps/medidas/ru",
+      "destination": "/apps/medidas/ru/index.html"
+    },
+    {
+      "source": "/apps/medidas/ru/",
+      "destination": "/apps/medidas/ru/index.html"
     }
   ],
   "headers": [
@@ -71,25 +143,7 @@
       ]
     },
     {
-      "source": "/cronologia/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
-      "source": "/atlas/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
-      "source": "/medidas/(.*)",
+      "source": "/apps/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

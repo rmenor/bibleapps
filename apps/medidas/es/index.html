@@ -25,7 +25,7 @@
   </script>
 
   <!-- Estilos canónicos compartidos de cabecera y estructura main -->
-  <link rel="stylesheet" href="../css/header-main.css">
+  <link rel="stylesheet" href="../../../css/header-main.css">
 
   <style>
     :root {
@@ -441,13 +441,17 @@
 
 <body>
 
-  <a class="homebtn" href="../" title="Volver al portal de Apps Bíblicas">
+  <a class="homebtn" href="../../../es/" title="Volver al portal de Apps Bíblicas">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M19 12H5M12 19l-7-7 7-7" />
     </svg>
     <span>Apps Bíblicas</span>
   </a>
+    <div class="lang-switch" role="group" aria-label="Idioma" style="position:absolute;right:64px;top:14px;z-index:25">
+    <a href="../es/" class="lang-btn active" aria-current="page" title="Español" onclick="localStorage.setItem('bibleapps_lang','es')">ES</a>
+    <a href="../ru/" class="lang-btn" title="Русский" onclick="localStorage.setItem('bibleapps_lang','ru')">RU</a>
+  </div>
   <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -1444,7 +1448,8 @@
         document.querySelectorAll('a').forEach(a => {
           const href = a.getAttribute('href');
           if (!href) return;
-          if (href === '../' || href === '/') {
+          if (href === '../../../es/' || href === '../../../es' || href === '../' || href === '/') {
+            a.setAttribute('href', '../../../es/index.html');
             a.setAttribute('href', '../index.html');
           } else if (href === '../atlas/' || href === '/atlas/' || href === '/atlas') {
             a.setAttribute('href', '../atlas/index.html');

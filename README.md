@@ -8,10 +8,10 @@ Optimizado para su despliegue ultrarrápido y sin configuración en **[Vercel](h
 
 ## 🚀 Aplicaciones Disponibles y Roadmap
 
-### 1. ⏱️ Tabla Cronológica e Histórica Bíblica (`/cronologia`) — **[Disponible]**
+### 1. ⏱️ Tabla Cronológica e Histórica Bíblica (`/apps/cronologia/es`) — **[Disponible]**
 Aplicación interactiva exhaustiva con más de 4.000 años de historia sincronizada:
 - **8 Módulos de visualización**:
-  1. **Tiempo**: Línea temporal global con filtros por eventos bíblicos, libros, imperios mundiales y عصر secular.
+  1. **Tiempo**: Línea temporal global con filtros por eventos bíblicos, libros, imperios mundiales y era secular.
   2. **Biblia**: Libros canónicos, fechas y lugares de redacción, y diagramas de transmisión de manuscritos (hebreos y griegos).
   3. **Genealogías**: Árboles genealógicos desde Adán hasta Jesús.
   4. **Naciones**: Historia y profecías de los imperios mundiales (Babilonia, Medo-Persia, Grecia, Roma).
@@ -23,10 +23,10 @@ Aplicación interactiva exhaustiva con más de 4.000 años de historia sincroniz
 - **Modo oscuro / claro** persistente.
 - **Rigor metodológico**: Contraste explícito entre fechas bíblicas calculadas y discrepancias con la cronología secular.
 
-### 2. 🗺️ Atlas y Geografía Bíblica (`/atlas`) — **[Disponible]**
+### 2. 🗺️ Atlas y Geografía Bíblica (`/apps/atlas/es`) — **[Disponible]**
 Aplicación interactiva y cartografía vectorial de las tierras bíblicas documentada rigurosamente con *Perspicacia para comprender las Escrituras* y *wol.jw.org*:
 - **4 Módulos de estudio**:
-  1. **Mapa Interactivo con Pan y Zoom**: Cartografía SVG con capas conmutables (Tierra Prometida, Éxodo, Ministerio de Jesús, Viajes de Pablo).
+  1. **Mapa Interactivo con Pan y Zoom**: Cartografía con capas conmutables (Tierra Prometida, Éxodo, Ministerio de Jesús, Viajes de Pablo).
   2. **Relieve y Perfil Topográfico de Palestina**: Corte transversal este-oeste con cotas desde el mar Mediterráneo (+0 m) hasta los montes de Judea (+800 m) y la depresión del mar Muerto (-400 m).
   3. **Reparto de las 12 Tribus**: Mapa y fichas detalladas de los territorios asignados por Josué y las 6 ciudades de refugio levíticas.
   4. **Calculador de Distancias Bíblicas**: Conversión geodésica instantánea a estadios romanos, millas romanas y jornadas de camino a pie.
@@ -35,7 +35,7 @@ Aplicación interactiva y cartografía vectorial de las tierras bíblicas docume
 ### 3. 📜 Armonía de los Evangelios — **[Próximamente]**
 Cotejo paralelo y sinóptico de Mateo, Marcos, Lucas y Juan en orden cronológico.
 
-### 4. ⚖️ Conversor de Pesas, Medidas y Monedas (`/medidas`) — **[Disponible]**
+### 4. ⚖️ Conversor de Pesas, Medidas y Monedas (`/apps/medidas/es`) — **[Disponible]**
 Calculadora interactiva en tiempo real fundamentada estrictamente en *Perspicacia para comprender las Escrituras* y *wol.jw.org*:
 - **4 Módulos de conversión y consulta**:
   1. **Calculadora Bidireccional en Vivo**: Conversión instantánea de unidades bíblicas a métricas (y viceversa) para Longitud (dedo, palmo, codo, caña, estadio, milla), Líquidos (log, hin, bat, coro), Secos (cab, ómer, seah, efá, létek, hómer), Pesas (guerá, beca, pim, siclo, mina, talento) y Monedas (lepta, cuadrante, as, denario, dracma, didracma, estáter, dárico).
@@ -96,23 +96,33 @@ Abre directamente `index.html` en tu navegador favorito (Chrome, Safari, Firefox
 ## 📁 Estructura del Repositorio
 
 ```text
-├── index.html            # Portal y catálogo de Apps Bíblicas (Landing Page)
+├── index.html            # Enrutador inteligente de idioma (detecta preferencia y redirige a /es/ o /ru/)
+├── es/
+│   └── index.html        # Portal principal en Español
+├── ru/
+│   └── index.html        # Portal principal en Ruso
+├── apps/
+│   ├── cronologia/
+│   │   ├── es/index.html # Tabla Cronológica Bíblica en Español
+│   │   ├── ru/index.html # Tabla Cronológica Bíblica en Ruso
+│   │   └── favicon.svg   # Favicon de la app
+│   ├── atlas/
+│   │   ├── es/index.html # Atlas y Geografía Bíblica en Español
+│   │   ├── ru/index.html # Atlas y Geografía Bíblica en Ruso
+│   │   ├── vendor/       # Librería Leaflet cartográfica
+│   │   └── favicon.svg   # Favicon de la app
+│   └── medidas/
+│       ├── es/index.html # Conversor de Pesas, Medidas y Monedas en Español
+│       ├── ru/index.html # Conversor de Pesas, Medidas y Monedas en Ruso
+│       └── favicon.svg   # Favicon de la app
+├── css/
+│   └── header-main.css   # Estilos canónicos unificados (1200px, temas, botones y selectores)
+├── vendor/               # Dependencias locales compartidas (Leaflet)
 ├── favicon.svg           # Favicon vectorial oficial (manuscrito bíblico de estudio)
-├── cronologia/
-│   ├── index.html        # Aplicación completa de la Tabla Cronológica Bíblica
-│   └── favicon.svg       # Favicon de la app
-├── atlas/
-│   ├── index.html        # Aplicación interactiva de Atlas y Geografía Bíblica
-│   └── favicon.svg       # Favicon de la app
-├── medidas/
-│   ├── index.html        # Aplicación interactiva de Pesas, Medidas y Monedas
-│   └── favicon.svg       # Favicon de la app
-├── vercel.json           # Configuración de URLs limpias, redirecciones y seguridad para Vercel
-├── package.json          # Metadatos del proyecto y script de desarrollo local
-├── .agents/skills/       # Skills especializadas para desarrollo y agentes de IA
-│   ├── wol-perspicacia-sources/ # Regla estricta de fuentes de wol.jw.org y Perspicacia
-│   └── bibleapps-app-design/    # Estándar obligatorio de UI (ancho 1200px, formato de header)
-├── .gitignore            # Archivos temporales y de sistema ignorados por git
+├── vercel.json           # Enrutamiento, redirecciones históricas y cabeceras de caché/seguridad
+├── package.json          # Metadatos del proyecto y scripts de desarrollo
+├── .agents/skills/       # Directrices de arquitectura, fuentes de Perspicacia y diseño UI/UX
+├── .gitignore            # Archivos ignorados por git
 └── README.md             # Esta documentación
 ```
 
