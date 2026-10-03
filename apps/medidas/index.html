@@ -12,445 +12,39 @@
   <link
     href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap"
     rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link rel="alternate icon" type="image/svg+xml" href="../../../favicon.svg">
-  <link rel="apple-touch-icon" href="../favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
   <script>
     (function () {
       try {
-        var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+        var t = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
         if (t) document.documentElement.dataset.theme = t;
+        var p = new URLSearchParams(window.location.search);
+        var l = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+        if (l === "ru" || l === "es") document.documentElement.lang = l;
       } catch (e) { }
     })();
   </script>
 
   <!-- Estilos canónicos compartidos de cabecera y estructura main -->
-  <link rel="stylesheet" href="../../../css/header-main.css">
+  <link rel="stylesheet" href="../../css/header-main.css">
 
-  <style>
-    :root {
-      --c-length: #2b6f9e;
-      --c-liquid: #16a085;
-      --c-dry: #b4532a;
-      --c-weight: #75507a;
-      --c-money: #d35400;
-    }
-
-    @media (prefers-color-scheme:dark) {
-      :root:not([data-theme="light"]) {
-        --c-length: #5b9fd0;
-        --c-liquid: #2ecc71;
-        --c-dry: #e08a5b;
-        --c-weight: #c39bd0;
-        --c-money: #e67e22;
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --c-length: #5b9fd0;
-      --c-liquid: #2ecc71;
-      --c-dry: #e08a5b;
-      --c-weight: #c39bd0;
-      --c-money: #e67e22;
-    }
-
-    /* Tab Panels */
-    section.tab-panel {
-      display: none;
-      padding-bottom: 60px;
-    }
-
-    section.tab-panel.active {
-      display: block;
-    }
-
-    /* Category Selector Pill Bar */
-    .cat-pill-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .cat-pill {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px 14px;
-      font: 600 13px var(--sans);
-      color: var(--muted);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all .15s;
-    }
-
-    .cat-pill:hover {
-      background: var(--surface2);
-      color: var(--ink);
-    }
-
-    .cat-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #ffffff;
-    }
-
-    /* Converter Interactive Card */
-    .converter-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-    }
-
-    .conv-grid {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 20px;
-      align-items: center;
-    }
-
-    @media (max-width:760px) {
-      .conv-grid {
-        grid-template-columns: 1fr;
-        gap: 14px
-      }
-    }
-
-    .conv-box {
-      background: var(--surface3);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 16px;
-    }
-
-    .conv-label {
-      font: 600 12px var(--sans);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--muted);
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .conv-input-row {
-      display: flex;
-      gap: 10px;
-    }
-
-    .conv-num-input {
-      flex: 1;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px 14px;
-      font: 700 20px var(--serif);
-      color: var(--ink);
-      outline: none;
-      min-width: 0;
-    }
-
-    .conv-num-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
-    }
-
-    .conv-select {
-      width: 160px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font: 600 14px var(--sans);
-      color: var(--ink);
-      outline: none;
-    }
-
-    .conv-swap-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: var(--surface);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      align-self: center;
-      margin: 0 auto;
-      transition: all .15s;
-    }
-
-    .conv-swap-btn:hover {
-      background: var(--accent-light);
-      border-color: var(--accent);
-      transform: scale(1.08);
-    }
-
-    /* Live Detail Note */
-    .conv-detail-box {
-      margin-top: 20px;
-      padding: 14px 18px;
-      border-radius: 10px;
-      background: var(--surface2);
-      border-left: 4px solid var(--accent);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .conv-detail-header {
-      font: 700 15px var(--serif);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .conv-detail-desc {
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
-    .conv-detail-source {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* Famous Biblical Examples Cards */
-    .examples-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-
-    .example-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: all .15s;
-    }
-
-    .example-card:hover {
-      border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
-      box-shadow: var(--shadow-hover);
-    }
-
-    .example-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .example-title {
-      font: 700 17px/1.2 var(--serif);
-    }
-
-    .example-tag {
-      font: 600 11px var(--sans);
-      text-transform: uppercase;
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: var(--surface2);
-      color: var(--muted);
-    }
-
-    .example-stat-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: var(--surface3);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .example-stat-val {
-      font: 700 17px/1.2 var(--serif);
-      color: var(--accent);
-    }
-
-    .example-stat-lbl {
-      font-size: 11.5px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .example-desc {
-      font-size: 13.5px;
-      color: var(--ink);
-      line-height: 1.45;
-    }
-
-    .example-ref {
-      margin-top: auto;
-      padding-top: 8px;
-      border-top: 1px dashed var(--line);
-      font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    /* Master Data Tables */
-    .table-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-    }
-
-    .table-head-bar {
-      padding: 16px 20px;
-      background: var(--surface3);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .table-title {
-      font: 700 18px var(--serif);
-      margin-bottom: 4px;
-    }
-
-    .table-sub {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .scroll-table {
-      overflow-x: auto;
-    }
-
-    table.master-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      text-align: left;
-    }
-
-    table.master-table th {
-      background: var(--surface2);
-      color: var(--muted);
-      font: 600 12px var(--sans);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--line);
-      white-space: nowrap;
-    }
-
-    table.master-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: middle;
-    }
-
-    table.master-table tr:hover td {
-      background: var(--surface3);
-    }
-
-    .metric-badge {
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    /* Wage / Labor Purchasing Power Calculator */
-    .wage-calculator-box {
-      background: var(--surface3);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-
-    .wage-input-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: end;
-      max-width: 440px;
-      margin-bottom: 16px;
-    }
-
-    .wage-results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-    }
-
-    .wage-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 14px;
-      text-align: center;
-    }
-
-    .wage-card-val {
-      font: 700 22px/1.1 var(--serif);
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
-
-    .wage-card-title {
-      font: 600 13px var(--sans);
-      color: var(--ink);
-    }
-
-    .wage-card-sub {
-      font-size: 11.5px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    /* Footer */
-    footer.app-footer {
-      background: var(--surface);
-      border-top: 1px solid var(--line);
-      padding: 28px 0;
-      margin-top: auto;
-      font-size: 13.5px;
-      color: var(--muted);
-    }
-
-    .footer-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/medidas.css">
 </head>
 
 <body>
 
-  <a class="homebtn" href="../../../es/" title="Volver al portal de Apps Bíblicas">
+  <a class="homebtn" id="homeBtn" href="../../" title="Volver al portal de Apps Bíblicas">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M19 12H5M12 19l-7-7 7-7" />
     </svg>
-    <span>Apps Bíblicas</span>
+    <span id="homeBtnText">Apps Bíblicas</span>
   </a>
-    <div class="lang-switch" role="group" aria-label="Idioma" style="position:absolute;right:64px;top:14px;z-index:25">
-    <a href="../es/" class="lang-btn active" aria-current="page" title="Español" onclick="localStorage.setItem('bibleapps_lang','es')">ES</a>
-    <a href="../ru/" class="lang-btn" title="Русский" onclick="localStorage.setItem('bibleapps_lang','ru')">RU</a>
+    <div class="lang-switch" role="group" aria-label="Idioma / Язык" style="position:absolute;right:64px;top:14px;z-index:25">
+    <button type="button" class="lang-btn" id="lang-btn-es" title="Español" onclick="setLanguage('es')">ES</button>
+    <button type="button" class="lang-btn" id="lang-btn-ru" title="Русский" onclick="setLanguage('ru')">RU</button>
   </div>
   <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -986,7 +580,7 @@
     /* =========================================================================
        1. DATASET OF BIBLICAL MEASURES (STRICTLY FROM WOL.JW.ORG / PERSPICACIA)
        ========================================================================= */
-    const MEASURES_DATA = {
+    let MEASURES_DATA = {
       length: {
         name: "Longitud y Distancia",
         source: "it-2 págs. 656-657",
@@ -1097,7 +691,7 @@
     /* =========================================================================
        2. FAMOUS BIBLICAL EXAMPLES DATASET
        ========================================================================= */
-    const BIBLICAL_EXAMPLES = [
+    let BIBLICAL_EXAMPLES = [
       {
         title: "El Arca de Noé",
         tag: "Génesis 6:15",
@@ -1432,7 +1026,7 @@
       }
 
       function formatCurrency(n) {
-        return n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+        const curLocale = (document.documentElement.lang === "ru") ? "ru-RU" : "es-ES"; return n.toLocaleString(curLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
       }
 
       wageInput.addEventListener("input", calcWages);
@@ -1440,21 +1034,145 @@
       calcWages();
     }
 
+    function setLanguage(l) {
+      try { localStorage.setItem("bibleapps_lang", l); } catch (e) { }
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", l);
+      window.location.href = url.toString();
+    }
+
+    function applyUI(ui, lang) {
+      if (!ui) return;
+      if (ui.app_title) {
+        document.title = ui.app_title + " | Apps Bíblicas";
+        const h1 = document.querySelector("header.top h1");
+        if (h1) h1.textContent = ui.app_title;
+      }
+      if (ui.about_title) {
+        const sum = document.querySelector("details.about summary");
+        if (sum) sum.textContent = ui.about_title;
+      }
+      if (ui.about_lead) {
+        const lead = document.querySelector("details.about p.lead");
+        if (lead) lead.innerHTML = ui.about_lead;
+      }
+      if (ui.tab_converter) {
+        const b = document.querySelector(".tabs button[data-tab='converter']");
+        if (b) b.textContent = ui.tab_converter;
+      }
+      if (ui.tab_examples) {
+        const b = document.querySelector(".tabs button[data-tab='examples']");
+        if (b) b.textContent = ui.tab_examples;
+      }
+      if (ui.tab_tables) {
+        const b = document.querySelector(".tabs button[data-tab='tables']");
+        if (b) b.textContent = ui.tab_tables;
+      }
+      if (ui.tab_wages) {
+        const b = document.querySelector(".tabs button[data-tab='wages']");
+        if (b) b.textContent = ui.tab_wages;
+      }
+      const catMap = { length: "cat_length", liquid: "cat_liquid", dry: "cat_dry", weight: "cat_weight", money: "cat_money" };
+      const icons = { length: "📏 ", liquid: "🏺 ", dry: "🌾 ", weight: "⚖️ ", money: "🪙 " };
+      document.querySelectorAll(".cat-pill").forEach(pill => {
+        const cat = pill.dataset.cat;
+        if (cat && ui[catMap[cat]]) pill.textContent = (icons[cat] || "") + ui[catMap[cat]];
+      });
+      if (ui.conv_biblical_label) {
+        const l = document.querySelector(".conv-box .conv-label span");
+        if (l) l.textContent = ui.conv_biblical_label;
+      }
+      if (ui.conv_metric_label) {
+        const l = document.querySelectorAll(".conv-box .conv-label span")[1];
+        if (l) l.textContent = ui.conv_metric_label;
+      }
+      if (ui.btn_reset) {
+        const r = document.getElementById("btn-reset");
+        if (r) r.textContent = ui.btn_reset;
+      }
+      if (ui.btn_copy) {
+        const c = document.getElementById("btn-copy");
+        if (c) c.textContent = ui.btn_copy;
+      }
+      if (ui.wage_title) {
+        const wt = document.querySelector("#panel-wages h2");
+        if (wt) wt.textContent = ui.wage_title;
+      }
+      if (ui.wage_desc) {
+        const wd = document.querySelector("#panel-wages .lead");
+        if (wd) wd.textContent = ui.wage_desc;
+      }
+      if (ui.wage_input_label) {
+        const wl = document.querySelector("#panel-wages label[for='wage-input']");
+        if (wl) wl.textContent = ui.wage_input_label;
+      }
+      if (ui.wage_calc_btn) {
+        const wb = document.getElementById("btn-calc-wage");
+        if (wb) wb.textContent = ui.wage_calc_btn;
+      }
+      if (ui.table_search_placeholder) {
+        const ts = document.getElementById("table-search");
+        if (ts) ts.placeholder = ui.table_search_placeholder;
+      }
+    }
+
+    async function loadI18n() {
+      const p = new URLSearchParams(window.location.search);
+      const lang = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+      const activeLang = (lang === "ru") ? "ru" : "es";
+      document.documentElement.lang = activeLang;
+
+      const btnEs = document.getElementById("lang-btn-es");
+      const btnRu = document.getElementById("lang-btn-ru");
+      const homeBtn = document.getElementById("homeBtn");
+      const homeBtnText = document.getElementById("homeBtnText");
+      if (btnEs && btnRu) {
+        if (activeLang === "ru") {
+          btnRu.classList.add("active");
+          btnRu.setAttribute("aria-current", "page");
+          btnEs.classList.remove("active");
+          btnEs.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Вернуться на портал Библейских приложений");
+          if (homeBtnText) homeBtnText.textContent = "Библейские приложения";
+        } else {
+          btnEs.classList.add("active");
+          btnEs.setAttribute("aria-current", "page");
+          btnRu.classList.remove("active");
+          btnRu.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Volver al portal de Apps Bíblicas");
+          if (homeBtnText) homeBtnText.textContent = "Apps Bíblicas";
+        }
+      }
+
+      try {
+        const res = await fetch("locales/" + activeLang + ".json");
+        if (res.ok) {
+          const json = await res.json();
+          if (json.measuresData) MEASURES_DATA = json.measuresData;
+          if (json.bibleExamples) BIBLICAL_EXAMPLES = json.bibleExamples;
+          if (json.ui) applyUI(json.ui, activeLang);
+        }
+      } catch (e) {
+        console.warn("Uso de datos locales integrados (modo offline/file://).", e);
+      }
+      initApp();
+    }
+
     // Universal file:// protocol normalizer on DOM ready
     document.addEventListener("DOMContentLoaded", () => {
-      initApp();
+      loadI18n();
 
       if (window.location.protocol === 'file:') {
         document.querySelectorAll('a').forEach(a => {
           const href = a.getAttribute('href');
           if (!href) return;
-          if (href === '../../../es/' || href === '../../../es' || href === '../' || href === '/') {
-            a.setAttribute('href', '../../../es/index.html');
-            a.setAttribute('href', '../index.html');
-          } else if (href === '../atlas/' || href === '/atlas/' || href === '/atlas') {
-            a.setAttribute('href', '../atlas/index.html');
-          } else if (href === '../cronologia/' || href === '/cronologia/' || href === '/cronologia') {
-            a.setAttribute('href', '../cronologia/index.html');
+          const l = document.documentElement.lang || "es";
+          if (href === "../../" || href === "../../../es/" || href === "../../../ru/") {
+            a.setAttribute("href", "../../" + l + "/index.html");
+          } else if (href.includes("atlas")) {
+            a.setAttribute("href", "../atlas/index.html");
+          } else if (href.includes("cronologia")) {
+            a.setAttribute("href", "../cronologia/index.html");
           }
         });
       }

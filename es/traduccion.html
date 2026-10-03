@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instrucciones y Guía de Traducción | Apps Bíblicas</title>
+  <meta name="description"
+    content="Guía exhaustiva para traductores y colaboradores de Apps Bíblicas. Normas de investigación bíblica en Perspicacia y wol.jw.org, formatos de archivo y flujo de trabajo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="alternate icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="apple-touch-icon" href="../favicon.svg">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Estilos canónicos compartidos de cabecera y estructura main -->
+  <link rel="stylesheet" href="../css/header-main.css">
+
+  <link rel="stylesheet" href="../css/traduccion.css">
+</head>
+
+<body>
+  <!-- Controles flotantes superiores según bibleapps-app-design -->
+  <a class="homebtn" href="index.html" title="Volver al portal principal de Apps Bíblicas">
+    <span class="homebtn-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </span>
+    Apps Bíblicas <span class="homebtn-sub">Portal</span>
+  </a>
+
+  <div style="position:absolute; right:16px; top:14px; display:inline-flex; align-items:center; gap:8px; z-index:25;">
+    <!-- Selector de idioma -->
+    <div class="lang-switch" role="group" aria-label="Seleccionar idioma">
+      <button class="lang-btn active" id="btnLangEs" type="button" title="Español">ES</button>
+      <button class="lang-btn" id="btnLangRu" type="button" title="Русский">RU</button>
+    </div>
+
+    <!-- Selector de tema -->
+    <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Bloque Principal del Encabezado (header.top) -->
+  <header class="top">
+    <div class="wrap">
+      <div class="kicker">Ecosistema Abierto de Apps Bíblicas</div>
+      <h1>Instrucciones para Traductores y Colaboradores</h1>
+      <div class="stats">
+        <span class="stat"><b>100%</b> Desacoplado de código HTML/JS</span>
+        <span class="stat"><b>Fuentes:</b> Perspicacia y wol.jw.org</span>
+        <span class="stat"><b>Formatos:</b> JSON estructurado y Excel/CSV</span>
+      </div>
+      <details class="about">
+        <summary>¿Cómo funciona el sistema de traducción de Apps Bíblicas?</summary>
+        <p class="lead">
+          Para que cualquier persona pueda traducir o mejorar los textos de la suite sin necesidad de conocimientos de programación, hemos desacoplado todos los textos, títulos, descripciones y datos históricos en archivos independientes. 
+          Al traducir, únicamente se edita el texto en su idioma, preservando intacta la lógica técnica de cada aplicación.
+        </p>
+      </details>
+    </div>
+  </header>
+
+  <!-- Barra de Pestañas Pegajosa (nav.tabs) -->
+  <nav class="tabs">
+    <div class="wrap" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="tab-flujo" class="tab-btn">Flujo de Trabajo</button>
+      <button role="tab" aria-selected="false" data-tab="tab-wol" class="tab-btn">Normas Bíblicas (wol.jw.org)</button>
+      <button role="tab" aria-selected="false" data-tab="tab-formato" class="tab-btn">Formato de Archivos</button>
+      <button role="tab" aria-selected="false" data-tab="tab-herramientas" class="tab-btn">Herramientas (CLI)</button>
+    </div>
+  </nav>
+
+  <!-- Contenedor Principal (main.wrap) -->
+  <main class="wrap doc-section">
+
+    <!-- PESTAÑA 1: FLUJO DE TRABAJO -->
+    <section id="tab-flujo" class="tab-panel active" role="tabpanel">
+      <div class="prose-block">
+        <h2>¿Cómo traducir una aplicación de la suite?</h2>
+        <p>
+          El proceso está diseñado para ser directo y sin fricción. No necesitas instalar programas complejos ni compilar código si no lo deseas.
+        </p>
+      </div>
+
+      <div class="card-grid">
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">1</span>
+            <h3>Arquitectura Descentralizada por App</h3>
+          </div>
+          <p>
+            Cada aplicación de la suite es completamente independiente y autónoma. Las traducciones residen dentro de cada app en su carpeta <code>apps/{app}/locales/</code>:
+          </p>
+          <ul>
+            <li><code>apps/medidas/locales/</code> — Pesas, medidas y monedas bíblicas</li>
+            <li><code>apps/atlas/locales/</code> — Lugares bíblicos, rutas y 12 tribus</li>
+            <li><code>apps/cronologia/locales/</code> — Cronología, reyes, profetas y eras</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">2</span>
+            <h3>Elige la App y el Idioma</h3>
+          </div>
+          <p>
+            Cada carpeta <code>locales/</code> contiene el archivo base <code>es.json</code>, traducciones existentes (ej. <code>ru.json</code>) y una plantilla <code>_template.json</code> con sus <code>INSTRUCCIONES.md</code>:
+          </p>
+          <ul>
+            <li><strong>Modo JSON:</strong> Edita directamente el archivo del idioma correspondiente en la app elegida.</li>
+            <li><strong>Autonomía total:</strong> Puedes traducir una app individualmente sin necesidad de tocar las demás.</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">3</span>
+            <h3>Consulta wol.jw.org</h3>
+          </div>
+          <p>
+            <strong>Regla de oro:</strong> Nunca traduzcas literalmente nombres bíblicos propios, medidas antiguas ni libros canónicos.
+          </p>
+          <ul>
+            <li>Comprueba siempre la voz en *Perspicacia para comprender las Escrituras* en tu idioma en <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a>.</li>
+            <li>Usa la <em>Traducción del Nuevo Mundo</em> oficial de tu idioma.</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">4</span>
+            <h3>Carga Dinámica en index.html</h3>
+          </div>
+          <p>
+            Al añadir o actualizar un idioma:
+          </p>
+          <ul>
+            <li>El archivo <code>index.html</code> de cada app consume dinámicamente su JSON de <code>../locales/{lang}.json</code>.</li>
+            <li>Los estilos visuales están 100% desacoplados en archivos <code>.css</code> independientes.</li>
+            <li>Compatibilidad universal garantizada tanto en servidores web como en protocolo <code>file://</code> sin conexión.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert-box alert-info">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div>
+          <strong>¿Deseas traducir a un nuevo idioma (ej. Francés, Alemán, Portugués)?</strong>
+          Solicita el paquete de traducción base o genera la carpeta ejecutando <code>npm run i18n:new -- --lang=xx --name="Tu Idioma"</code>.
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 2: NORMAS BÍBLICAS -->
+    <section id="tab-wol" class="tab-panel" role="tabpanel">
+      <div class="prose-block">
+        <h2>Directrices de Investigación y Fuentes Bíblicas</h2>
+        <p>
+          La suite Apps Bíblicas exige el más alto nivel de fidelidad histórica y textual. Todo dato o término debe fundamentarse exclusivamente en la biblioteca oficial <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a>.
+        </p>
+      </div>
+
+      <div class="alert-box alert-warn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>
+          <strong>Prohibición Estricta: Fuentes Seculares Especulativas</strong>
+          Queda totalmente prohibido utilizar Wikipedia, diccionarios laicos, foros o traducciones automáticas generales para términos bíblicos o cronología. Cada término debe verificarse en <em>Perspicacia</em> en el idioma de destino.
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width:25%">Categoría</th>
+              <th style="width:35%">Fuente Obligatoria (wol.jw.org)</th>
+              <th style="width:40%">Instrucción para el Traductor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Topónimos y Geografía</strong> (Atlas)</td>
+              <td><em>Perspicacia</em> (it-1 / it-2) y folleto <em>«Veamos la buena tierra»</em></td>
+              <td>Buscar el nombre del lugar bíblico en el tomo correspondiente. Utilizar la ortografía canónica de la Traducción del Nuevo Mundo en su idioma (ej. <em>Susa</em>, <em>Meguidó</em>, <em>Hebrón</em>).</td>
+            </tr>
+            <tr>
+              <td><strong>Pesas, Medidas y Monedas</strong> (Medidas)</td>
+              <td><em>Perspicacia</em>, artículo «Pesas y medidas»</td>
+              <td>Las equivalencias métricas son universales (codo = ~44,5 cm; bato = ~22 l), pero el nombre de la unidad debe concordar con Perspicacia en su idioma (ej. español: <em>Codo</em>; ruso: <em>Локоть</em>; inglés: <em>Cubit</em>).</td>
+            </tr>
+            <tr>
+              <td><strong>Cronología y Personajes</strong> (Cronología)</td>
+              <td><em>Perspicacia</em>, artículos «Cronología», «Reyes», «Profeta»</td>
+              <td>Mantener con precisión las fechas a.e.c. / e.c. señaladas en Perspicacia (Creación 4026 a.e.c., Diluvio 2370 a.e.c., Éxodo 1513 a.e.c., Desolación de Jerusalén 607 a.e.c., etc.).</td>
+            </tr>
+            <tr>
+              <td><strong>Manuscritos y Códices</strong> (Historia)</td>
+              <td><em>Perspicacia</em> y libro <em>«Toda Escritura es inspirada»</em></td>
+              <td>Utilizar la denominación tradicional establecida (ej. <em>Códice Sinaítico</em>, <em>Alejandrino</em>, <em>Papiro Chester Beatty</em>).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert-box alert-fix">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div>
+          <strong>Consejo práctico de búsqueda en wol.jw.org:</strong>
+          Si buscas un término en tu idioma, escribe en la barra de búsqueda de WOL: <code>it-1 [termino]</code> o <code>it-2 [termino]</code>. Eso te llevará directamente al artículo enciclopédico oficial.
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 3: FORMATO DE ARCHIVOS -->
+    <section id="tab-formato" class="tab-panel" role="tabpanel">
+      <div class="prose-block">
+        <h2>Estructura del Archivo de Traducción (JSON)</h2>
+        <p>
+          Cada fichero contiene pares de datos organizados para facilitar la tarea al traductor y proveerle el contexto necesario.
+        </p>
+      </div>
+
+      <div class="code-block">
+        <span class="code-tag">JSON</span>
+<pre>{
+  "_meta": {
+    "language": "ru",
+    "language_name": "Русский",
+    "app": "medidas"
+  },
+  "ui": {
+    "app_title": {
+      "source": "Conversor de Pesas, Medidas y Monedas Bíblicas",
+      "translation": "Конвертер библейских мер, весов и монет",
+      "context": "Título principal H1 de la aplicación"
+    },
+    "reset_button": {
+      "source": "Restablecer",
+      "translation": "Сбросить",
+      "context": "Botón de acción en la calculadora (máx. 16 caracteres)"
+    }
+  },
+  "data": {
+    "units": {
+      "codo": {
+        "name": {
+          "source": "Codo",
+          "translation": "Локоть",
+          "context": "Unidad de longitud. Perspicacia it-1 voz 'Codo'"
+        },
+        "description": {
+          "source": "Distancia desde el codo hasta el dedo medio (~44,5 cm).",
+          "translation": "Расстояние от локтя до конца среднего пальца (~44,5 см).",
+          "context": "Definición canónica de Perspicacia"
+        }
+      }
+    }
+  }
+}</pre>
+      </div>
+
+      <div class="prose-block">
+        <h2>Reglas Importantes al Escribir la Traducción</h2>
+      </div>
+
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>1. Solo edita <code>"translation"</code></h3>
+          <p>
+            No modifiques las claves (como <code>"app_title"</code>), ni el campo <code>"source"</code>, ni el campo <code>"context"</code>. Si modificas las claves, el sistema no podrá enlazar el texto en la aplicación.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>2. Conserva las etiquetas HTML</h3>
+          <p>
+            Si el texto original contiene etiquetas como <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code> o <code>&lt;br&gt;</code>, debes mantenerlas en la misma posición semántica en tu traducción:
+          </p>
+          <p style="font-size:13px; font-family:monospace; margin-top:8px;">
+            Fuente: &lt;strong&gt;100%&lt;/strong&gt; fuentes verificadas<br>
+            Traducción: &lt;strong&gt;100%&lt;/strong&gt; проверенные источники
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>3. Respeta los marcadores dinámicos</h3>
+          <p>
+            Si una frase contiene variables entre llaves como <code>{count}</code> o <code>{unit}</code>, déjalas exactamente igual:
+          </p>
+          <p style="font-size:13px; font-family:monospace; margin-top:8px;">
+            Fuente: Equivale a {value} metros<br>
+            Traducción: Эквивалентно {value} метрам
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>4. Caracteres especiales y comillas</h3>
+          <p>
+            En formato JSON, si necesitas escribir comillas dobles dentro de una frase, debes escaparlas con una barra invertida: <code>\"ejemplo\"</code>, o usar comillas angulares latinas (<code>«ejemplo»</code>) según las normas tipográficas de tu idioma.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 4: HERRAMIENTAS Y CLI -->
+    <section id="tab-herramientas" class="tab-panel" role="tabpanel">
+      <div class="prose-block">
+        <h2>Comandos de Automatización para Desarrolladores</h2>
+        <p>
+          Si trabajas en local clonando el repositorio con Node.js instalado, dispones de una suite de comandos automáticos en <code>scripts/</code> para gestionar las traducciones sin esfuerzo:
+        </p>
+      </div>
+
+      <div class="table-container">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width:30%">Comando</th>
+              <th style="width:40%">Descripción</th>
+              <th style="width:30%">Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>npm run i18n:check</code></td>
+              <td>Valida la integridad y sintaxis de todos los archivos JSON en cada aplicación (<code>apps/*/locales/</code>).</td>
+              <td><code>npm run i18n:check</code></td>
+            </tr>
+            <tr>
+              <td><code>npm run i18n:new</code></td>
+              <td>Genera la plantilla del nuevo idioma en todas las aplicaciones simultáneamente a partir de sus <code>_template.json</code>.</td>
+              <td><code>npm run i18n:new -- --lang=fr --name="Français"</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert-box alert-info">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div>
+          <strong>Cero dependencias en tiempo de ejecución:</strong>
+          Los scripts de <code>scripts/</code> utilizan exclusivamente APIs nativas de Node.js (sistema de archivos y utilidades JSON/CSV), manteniendo el repositorio limpio, ligero y libre de dependencias pesadas.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pie de página canónico según bibleapps-app-design -->
+  <footer class="app-footer">
+    <div class="wrap footer-wrap">
+      <div>
+        <strong>Apps Bíblicas</strong> — Suite de Investigación Histórica y Textual.
+      </div>
+      <div>
+        Documentado con rigor según <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a> y <em>Perspicacia para comprender las Escrituras</em>.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script interactivo de pestañas, tema y normalización de enlaces -->
+  <script>
+    (function () {
+      // 1. Selector de Pestañas
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetTab = btn.getAttribute('data-tab');
+
+          tabBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabPanels.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          const panel = document.getElementById(targetTab);
+          if (panel) panel.classList.add('active');
+        });
+      });
+
+      // 2. Selector de Idioma (Navegación ES <-> RU)
+      const btnEs = document.getElementById('btnLangEs');
+      const btnRu = document.getElementById('btnLangRu');
+
+      if (btnEs) {
+        btnEs.addEventListener('click', () => {
+          try { localStorage.setItem('bibleapps_lang', 'es'); } catch (e) { }
+          window.location.href = 'traduccion.html';
+        });
+      }
+      if (btnRu) {
+        btnRu.addEventListener('click', () => {
+          try { localStorage.setItem('bibleapps_lang', 'ru'); } catch (e) { }
+          window.location.href = '../ru/traduccion.html';
+        });
+      }
+
+      // 3. Selector de Tema Claro / Oscuro con sincronización storage
+      const themeBtn = document.getElementById('themeBtn');
+      function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+      }
+
+      const savedTheme = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+      applyTheme(initialTheme);
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+          const current = document.documentElement.dataset.theme || (prefersDark ? 'dark' : 'light');
+          const next = current === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          try {
+            localStorage.setItem('theme', next);
+            localStorage.setItem('bibleapps_theme', next);
+          } catch (e) { }
+        });
+      }
+
+      window.addEventListener('storage', function (e) {
+        if ((e.key === 'theme' || e.key === 'bibleapps_theme') && e.newValue) {
+          applyTheme(e.newValue);
+        }
+      });
+
+      // 4. Normalizador de enlaces para protocolo file://
+      if (window.location.protocol === 'file:') {
+        document.querySelectorAll('a').forEach(function (a) {
+          var href = a.getAttribute('href');
+          if (!href) return;
+          if (href.endsWith('/')) {
+            a.setAttribute('href', href + 'index.html');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

@@ -31,13 +31,13 @@ Todas las páginas del ecosistema **BibleApps** — excepto la **página princip
 
 Todas las páginas de la suite — incluida la principal — deben cargar la hoja de estilos canónica compartida que define las variables de tema, el reseteo base, el layout de `.wrap`/`main`, los botones flotantes, el header, las pestañas, el footer y las reglas responsive.
 
-* **Ruta desde las apps (`apps/{app}/{lang}/`):** `../../../css/header-main.css`
+* **Ruta desde las apps (`apps/{app}/`):** `../../css/header-main.css`
 * **Ruta desde los portales de idioma (`es/`, `ru/`):** `../css/header-main.css`
 * **Ruta desde la raíz:** `css/header-main.css`
 
 ```html
-<!-- Desde una app (apps/atlas/es/, apps/cronologia/ru/, etc.) -->
-<link rel="stylesheet" href="../../../css/header-main.css">
+<!-- Desde una app (apps/atlas/, apps/cronologia/, apps/medidas/) -->
+<link rel="stylesheet" href="../../css/header-main.css">
 
 <!-- Desde un portal de idioma (es/, ru/) -->
 <link rel="stylesheet" href="../css/header-main.css">

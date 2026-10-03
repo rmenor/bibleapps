@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "language": "xx",
+    "language_name": "Nombre de tu Idioma",
+    "app": "medidas",
+    "version": "1.0.0"
+  },
+  "ui": {
+    "app_title": "",
+    "app_subtitle": "",
+    "kicker": "",
+    "stat_units": "",
+    "stat_sources": "",
+    "stat_metric": "",
+    "about_title": "",
+    "about_lead": "",
+    "tab_converter": "",
+    "tab_tables": "",
+    "tab_examples": "",
+    "tab_wages": "",
+    "cat_length": "",
+    "cat_liquid": "",
+    "cat_dry": "",
+    "cat_weight": "",
+    "cat_money": "",
+    "conv_biblical_label": "",
+    "conv_metric_label": "",
+    "btn_reset": "",
+    "btn_copy": "",
+    "table_search_placeholder": "",
+    "wage_title": "",
+    "wage_desc": "",
+    "wage_input_label": "",
+    "wage_calc_btn": "",
+    "footer_title": "",
+    "footer_sub": ""
+  },
+  "measuresData": {},
+  "bibleExamples": []
+}

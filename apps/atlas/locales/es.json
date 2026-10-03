@@ -1,0 +1,759 @@
+{
+  "_meta": {
+    "language": "es",
+    "language_name": "Español",
+    "app": "atlas",
+    "version": "1.0.0",
+    "name": "Atlas Bíblico Interactivo"
+  },
+  "ui": {
+    "title": "Atlas y Geografía Bíblica | Apps Bíblicas",
+    "h1": "Atlas y Geografía Bíblica",
+    "stat1": "40+ lugares bíblicos georreferenciados",
+    "stat2": "12 tribus de Israel",
+    "stat3": "6 ciudades de refugio",
+    "stat4": "3 rutas históricas (Éxodo, Jesús, Pablo)",
+    "about_summary": "Acerca de la geografía y fuentes de Perspicacia",
+    "tab_map": "Mapa Principal",
+    "tab_topo": "Relieve Topográfico",
+    "tab_tribes": "12 Tribus de Israel",
+    "tab_distances": "Calculadora de Distancias",
+    "search_placeholder": "Buscar Jerusalén, Capernaum, Hermón..."
+  },
+  "places": [
+    {
+      "id": "jerusalen",
+      "name": "Jerusalén",
+      "category": "ciudad",
+      "territory": "Benjamín / Judá",
+      "lat": 31.7767,
+      "lon": 35.2345,
+      "meaning": "«Posesión de Dos Paz; Fundamento de Dos Paz»",
+      "desc": "Capital teocrática de Israel. En el monte Moria, Salomón edificó el templo de Jehová. Sede del trono davídico y escenario cardinal del ministerio, muerte y resurrección de Jesucristo.",
+      "archaeology": "Ciudad de David en el Ophel, monte Sion y valle de Hinón (Guehena).",
+      "ref": "it-2 págs. 47-60",
+      "wolId": "1200002436",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus",
+        "paul"
+      ]
+    },
+    {
+      "id": "hebron",
+      "name": "Hebrón (Quiriat-arba)",
+      "category": "refugio",
+      "territory": "Judá",
+      "lat": 31.5297,
+      "lon": 35.0938,
+      "meaning": "«Asociación; Confraternidad»",
+      "desc": "En la cueva de Macpelá reposan los patriarcas Abrahán, Sara, Isaac, Rebeca, Jacob y Lea. Primera capital del rey David durante 7 años y medio. Ciudad de refugio levítica.",
+      "archaeology": "Identificada con la moderna el-Khalil.",
+      "ref": "it-1 págs. 1114-1116",
+      "wolId": "1200001956",
+      "layers": [
+        "all",
+        "canaan"
+      ]
+    },
+    {
+      "id": "belen",
+      "name": "Belén (Efrata)",
+      "category": "ciudad",
+      "territory": "Judá",
+      "lat": 31.7054,
+      "lon": 35.2024,
+      "meaning": "«Casa de Pan»",
+      "desc": "Cuna del rey David y lugar exacto profetizado en Miqueas 5:2 donde nació el Mesías prometido, Jesucristo.",
+      "archaeology": "Ubicada a unos 8 km al sur de Jerusalén, identificada con Beit Lahm.",
+      "ref": "it-1 págs. 312-314",
+      "wolId": "1200000694",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "jerico",
+      "name": "Jericó",
+      "category": "ciudad",
+      "territory": "Benjamín",
+      "lat": 31.8711,
+      "lon": 35.4444,
+      "meaning": "«Ciudad de las Palmeras»",
+      "desc": "Primera ciudad cananea tomada tras cruzar el Jordán. Situada a unos 250 m bajo el nivel del mar en un frondoso oasis.",
+      "archaeology": "Ruinas excavadas en Tell es-Sultan.",
+      "ref": "it-2 págs. 42-46",
+      "wolId": "1200002426",
+      "layers": [
+        "all",
+        "canaan",
+        "exodus",
+        "jesus"
+      ]
+    },
+    {
+      "id": "siquem",
+      "name": "Siquem",
+      "category": "refugio",
+      "territory": "Efraín / Manasés",
+      "lat": 32.2139,
+      "lon": 35.2831,
+      "meaning": "«Hombro; Espalda»",
+      "desc": "Encrucijada estratégica situada entre el monte Ebal y el monte Guerizim. Ciudad de refugio y sitio cercano al pozo de Jacob (Sicar).",
+      "archaeology": "Identificada con Tell Balata junto a Nablus.",
+      "ref": "it-2 págs. 1039-1041",
+      "wolId": "1200003978",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "samaria",
+      "name": "Samaria",
+      "category": "ciudad",
+      "territory": "Manasés (Israel)",
+      "lat": 32.277,
+      "lon": 35.19,
+      "meaning": "«Perteneciente a la Familia de Sémer»",
+      "desc": "Fundada por el rey Omrí como capital del reino de 10 tribus de Israel. Famosa por sus palacios de marfil y sitiada y destruida por Asiria en 740 a.e.c.",
+      "archaeology": "Excavaciones en Sebastiyeh que revelaron suntuosos marfiles fenicios.",
+      "ref": "it-2 págs. 917-920",
+      "wolId": "1200003816",
+      "layers": [
+        "all",
+        "canaan"
+      ]
+    },
+    {
+      "id": "nazaret",
+      "name": "Nazaret",
+      "category": "ciudad",
+      "territory": "Zabulón (Galilea)",
+      "lat": 32.7019,
+      "lon": 35.3033,
+      "meaning": "Posiblemente «Vástago; Brote»",
+      "desc": "Población de la baja Galilea donde se crió Jesús con José y María, y donde trabajó como carpintero hasta su bautismo en 29 e.c.",
+      "archaeology": "Ubicada en una cuenca rodeada de colinas sobre el valle de Jezreel.",
+      "ref": "it-2 págs. 472-473",
+      "wolId": "1200003190",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "capernaum",
+      "name": "Capernaum",
+      "category": "ciudad",
+      "territory": "Neftalí (Galilea)",
+      "lat": 32.8811,
+      "lon": 35.575,
+      "meaning": "«Aldea de Nahúm (Consuelo)»",
+      "desc": "Ciudad base de Jesús durante su extenso ministerio galileo («su propia ciudad», Mateo 9:1). Escenario de incontables milagros junto al mar de Galilea.",
+      "archaeology": "Identificada con Tell Hum, con restos de una destacada sinagoga de basalto.",
+      "ref": "it-1 págs. 428-430",
+      "wolId": "1200000882",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "betsaida",
+      "name": "Betsaida",
+      "category": "ciudad",
+      "territory": "Galilea / Gaulanítide",
+      "lat": 32.91,
+      "lon": 35.63,
+      "meaning": "«Casa de Pesca»",
+      "desc": "Pueblo natal de Pedro, Andrés y Felipe. Próximo al lugar donde Jesús alimentó milagrosamente a unos 5.000 hombres.",
+      "archaeology": "Identificada tentativamente con et-Tell.",
+      "ref": "it-1 págs. 325-326",
+      "wolId": "1200000708",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "cana",
+      "name": "Caná de Galilea",
+      "category": "ciudad",
+      "territory": "Aser / Zabulón",
+      "lat": 32.747,
+      "lon": 35.338,
+      "meaning": "«Lugar de Cañas»",
+      "desc": "Lugar donde Jesús efectuó su primer milagro al convertir el agua en vino selecto durante unas bodas.",
+      "archaeology": "Identificada con Khirbet Qana, a 13 km al norte de Nazaret.",
+      "ref": "it-1 págs. 415-416",
+      "wolId": "1200000873",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "cesarea-maritima",
+      "name": "Cesarea Marítima",
+      "category": "ciudad",
+      "territory": "Litoral de Manasés",
+      "lat": 32.5,
+      "lon": 34.89,
+      "meaning": "Nombrada en honor de César Augusto",
+      "desc": "Puerto monumental construido por Herodes el Grande. Sede de los procuradores romanos. Allí Cornelio fue bautizado y Pablo estuvo prisionero dos años.",
+      "archaeology": "Impresionantes ruinas romanas, acueducto y teatro.",
+      "ref": "it-1 págs. 466-468",
+      "wolId": "1200000853",
+      "layers": [
+        "all",
+        "canaan",
+        "paul"
+      ]
+    },
+    {
+      "id": "cesarea-filipo",
+      "name": "Cesarea de Filipo",
+      "category": "ciudad",
+      "territory": "Faldas del Hermón",
+      "lat": 33.2481,
+      "lon": 35.6933,
+      "meaning": "Cesarea de Filipo",
+      "desc": "Junto a las fuentes del Jordán. En sus inmediaciones Pedro declaró: «Tú eres el Cristo, el Hijo del Dios vivo» (Mateo 16:16).",
+      "archaeology": "Banyas moderna.",
+      "ref": "it-1 págs. 468-469",
+      "wolId": "1200000854",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "beerseba",
+      "name": "Beerseba",
+      "category": "ciudad",
+      "territory": "Simeón / Judá",
+      "lat": 31.245,
+      "lon": 34.841,
+      "meaning": "«Pozo del Juramento; Pozo de Siete»",
+      "desc": "Ciudad clave del Negueb meridional, marcaba el extremo sur de la Tierra Prometida («desde Dan hasta Beerseba»).",
+      "archaeology": "Tell es-Saba.",
+      "ref": "it-1 págs. 308-310",
+      "wolId": "1200000615",
+      "layers": [
+        "all",
+        "canaan"
+      ]
+    },
+    {
+      "id": "dan",
+      "name": "Dan (Lais)",
+      "category": "ciudad",
+      "territory": "Dan (Norte)",
+      "lat": 33.2489,
+      "lon": 35.6522,
+      "meaning": "«Juez»",
+      "desc": "Límite septentrional supremo de Israel. Jeroboán colocó allí uno de sus becerros de oro idólatras.",
+      "archaeology": "Tell el-Qadi (Tell Dan), con una compuerta cananea de adobe intacta.",
+      "ref": "it-1 págs. 627-628",
+      "wolId": "1200001115",
+      "layers": [
+        "all",
+        "canaan"
+      ]
+    },
+    {
+      "id": "m-hermon",
+      "name": "Monte Hermón",
+      "category": "monte",
+      "territory": "Líbano / Antilíbano",
+      "lat": 33.4167,
+      "lon": 35.85,
+      "meaning": "«Dedicado; Sagrado»",
+      "desc": "Cumbre más alta de la región (2.814 m), con nieves perpetuas casi todo el año. Probable escenario de la transfiguración de Jesús.",
+      "archaeology": "Jebel esh-Sheikh.",
+      "ref": "it-1 págs. 1126-1127",
+      "wolId": "1200001999",
+      "layers": [
+        "all",
+        "canaan",
+        "jesus"
+      ]
+    },
+    {
+      "id": "m-carmelo",
+      "name": "Monte Carmelo",
+      "category": "monte",
+      "territory": "Aser / Manasés",
+      "lat": 32.73,
+      "lon": 35.05,
+      "meaning": "«Huerto; Tierra de Frutas»",
+      "desc": "Promontorio fértil que penetra en el Mediterráneo. Escenario de la prueba de Elías contra los 450 profetas de Baal.",
+      "archaeology": "El-Muhraqa («lugar de la combustión»).",
+      "ref": "it-1 págs. 441-443",
+      "wolId": "1200000892",
+      "layers": [
+        "all",
+        "canaan"
+      ]
+    },
+    {
+      "id": "m-nebo",
+      "name": "Monte Nebo (Pisgá)",
+      "category": "monte",
+      "territory": "Moab / Rubén",
+      "lat": 31.7683,
+      "lon": 35.7253,
+      "meaning": "«Nebo / Colina»",
+      "desc": "Cima al este del Jordán desde la cual Jehová mostró a Moisés toda la extensión de la Tierra Prometida antes de morir.",
+      "archaeology": "Jebel en-Neba en Jordania.",
+      "ref": "it-2 págs. 473-474",
+      "wolId": "1200003199",
+      "layers": [
+        "all",
+        "canaan",
+        "exodus"
+      ]
+    },
+    {
+      "id": "m-sinai",
+      "name": "Monte Sinaí (Horeb)",
+      "category": "monte",
+      "territory": "Península del Sinaí",
+      "lat": 28.5394,
+      "lon": 33.975,
+      "meaning": "«Sinaí; Escarpado»",
+      "desc": "Montaña sagrada donde Jehová entregó los Diez Mandamientos y la Ley a Moisés y estableció el pacto nacional.",
+      "archaeology": "Tradicionalmente identificado con Jebel Musa.",
+      "ref": "it-2 págs. 1032-1035",
+      "wolId": "1200004135",
+      "layers": [
+        "all",
+        "exodus"
+      ]
+    },
+    {
+      "id": "rameses",
+      "name": "Ramesés",
+      "category": "ciudad",
+      "territory": "Gosén (Egipto)",
+      "lat": 30.787,
+      "lon": 31.821,
+      "meaning": "Ciudad de almacenaje en Egipto",
+      "desc": "Punto de partida del Éxodo de los israelitas de Egipto en la noche del 14 de Nisán de 1513 a.e.c.",
+      "archaeology": "Tell ed-Daba / Qantir.",
+      "ref": "it-2 págs. 780-781",
+      "wolId": "1200003635",
+      "layers": [
+        "all",
+        "exodus"
+      ]
+    },
+    {
+      "id": "qades-barnea",
+      "name": "Qadés-Barnea",
+      "category": "ciudad",
+      "territory": "Desierto de Parán",
+      "lat": 30.65,
+      "lon": 34.42,
+      "meaning": "«Sagrado; Lugar Santo»",
+      "desc": "Oasis en el desierto donde acampó Israel y desde donde se enviaron los 12 espías a explorar Canaán.",
+      "archaeology": "‘Ain Qudeis / ‘Ain Qudeirat.",
+      "ref": "it-2 págs. 763-765",
+      "wolId": "1200002564",
+      "layers": [
+        "all",
+        "exodus"
+      ]
+    },
+    {
+      "id": "damasco",
+      "name": "Damasco",
+      "category": "ciudad",
+      "territory": "Siria (Aram)",
+      "lat": 33.5138,
+      "lon": 36.2765,
+      "meaning": "«Damasco»",
+      "desc": "Antigua capital de Siria. En el camino a esta ciudad Saulo de Tarso vio la luz resplandeciente del Cristo resucitado.",
+      "archaeology": "Calle Recta en la ciudad antigua.",
+      "ref": "it-1 págs. 624-627",
+      "wolId": "1200001114",
+      "layers": [
+        "all",
+        "paul"
+      ]
+    },
+    {
+      "id": "antioquia-siria",
+      "name": "Antioquía de Siria",
+      "category": "ciudad",
+      "territory": "Siria",
+      "lat": 36.2021,
+      "lon": 36.1606,
+      "meaning": "En honor de Antíoco",
+      "desc": "Allí «por primera vez a los discípulos se les llamó cristianos por providencia divina» (Hechos 11:26). Base de las misiones de Pablo.",
+      "archaeology": "Antakya moderna en Turquía, junto al río Orontes.",
+      "ref": "it-1 págs. 153-155",
+      "wolId": "1200000292",
+      "layers": [
+        "all",
+        "paul"
+      ]
+    },
+    {
+      "id": "efeso",
+      "name": "Éfeso",
+      "category": "ciudad",
+      "territory": "Asia Menor",
+      "lat": 37.9497,
+      "lon": 27.3639,
+      "meaning": "«Deseable»",
+      "desc": "Gran metrópoli del Asia Menor proconsular con el templo de Ártemis. Pablo predicó allí más de tres años.",
+      "archaeology": "Ruinas célebres de la biblioteca de Celso y el gran teatro.",
+      "ref": "it-1 págs. 764-768",
+      "wolId": "1200001387",
+      "layers": [
+        "all",
+        "paul"
+      ]
+    },
+    {
+      "id": "corinto",
+      "name": "Corinto",
+      "category": "ciudad",
+      "territory": "Acaya (Grecia)",
+      "lat": 37.9056,
+      "lon": 22.8797,
+      "meaning": "«Corinto»",
+      "desc": "En el istmo griego entre dos puertos. Pablo residió 18 meses fundando la congregación a la que escribió dos cartas canónicas.",
+      "archaeology": "El tribunal o Bema excavado en el ágora.",
+      "ref": "it-1 págs. 556-559",
+      "wolId": "1200001038",
+      "layers": [
+        "all",
+        "paul"
+      ]
+    },
+    {
+      "id": "atenas",
+      "name": "Atenas",
+      "category": "ciudad",
+      "territory": "Grecia",
+      "lat": 37.9838,
+      "lon": 23.7275,
+      "meaning": "Nombrada en honor a Atenea",
+      "desc": "En el Areópago, Pablo pronunció su inmortal discurso ante filósofos epicúreos y estoicos sobre el «Dios desconocido».",
+      "archaeology": "La Acrópolis y la colina rocosa del Areópago.",
+      "ref": "it-1 págs. 250-254",
+      "wolId": "1200000459",
+      "layers": [
+        "all",
+        "paul"
+      ]
+    },
+    {
+      "id": "roma",
+      "name": "Roma",
+      "category": "ciudad",
+      "territory": "Italia",
+      "lat": 41.9028,
+      "lon": 12.4964,
+      "meaning": "«Fuerza»",
+      "desc": "Capital del Imperio romano. Destino de Pablo como prisionero donde predicó bajo custodia y escribió sus cartas de prisión.",
+      "archaeology": "Foro Romano y Vía Apia.",
+      "ref": "it-2 págs. 871-875",
+      "wolId": "1200003763",
+      "layers": [
+        "all",
+        "paul"
+      ]
+    },
+    {
+      "id": "babilonia",
+      "name": "Babilonia",
+      "category": "ciudad",
+      "territory": "Mesopotamia",
+      "lat": 32.5363,
+      "lon": 44.4208,
+      "meaning": "«Puerta de Dios; Confusión»",
+      "desc": "Junto al río Éufrates. Origen de la torre de Babel y capital del imperio de Nabucodonosor que desoló Jerusalén en 607 a.e.c.",
+      "archaeology": "Ruinas de adobe y la Puerta de Istar excavadas junto a Hillah (Irak).",
+      "ref": "it-1 págs. 272-277",
+      "wolId": "1200000530",
+      "layers": [
+        "all"
+      ]
+    },
+    {
+      "id": "ur",
+      "name": "Ur de los Caldeos",
+      "category": "ciudad",
+      "territory": "Mesopotamia",
+      "lat": 30.9622,
+      "lon": 46.1044,
+      "meaning": "«Luz; Fuego»",
+      "desc": "Patria originaria de Abrahán en el sur de Mesopotamia, de la cual salió por fe hacia Canaán obedeciendo a Dios.",
+      "archaeology": "Tell el-Muqayyar con su célebre zigurat escalonado.",
+      "ref": "it-2 págs. 1176-1177",
+      "wolId": "1200004518",
+      "layers": [
+        "all"
+      ]
+    }
+  ],
+  "routes": {
+    "exodus": [
+      [
+        30.787,
+        31.821
+      ],
+      [
+        30.55,
+        32.18
+      ],
+      [
+        30.05,
+        32.48
+      ],
+      [
+        29.9667,
+        32.55
+      ],
+      [
+        29.58,
+        32.8
+      ],
+      [
+        29.33,
+        33
+      ],
+      [
+        28.9,
+        33.3
+      ],
+      [
+        28.7,
+        33.65
+      ],
+      [
+        28.5394,
+        33.975
+      ],
+      [
+        28.85,
+        34.3
+      ],
+      [
+        30.65,
+        34.42
+      ],
+      [
+        29.55,
+        35
+      ],
+      [
+        30.3,
+        35.6
+      ],
+      [
+        31.25,
+        35.75
+      ],
+      [
+        31.7683,
+        35.7253
+      ],
+      [
+        31.8711,
+        35.4444
+      ]
+    ],
+    "jesus": [
+      [
+        31.7054,
+        35.2024
+      ],
+      [
+        32.7019,
+        35.3033
+      ],
+      [
+        31.84,
+        35.545
+      ],
+      [
+        32.747,
+        35.338
+      ],
+      [
+        32.8811,
+        35.575
+      ],
+      [
+        32.91,
+        35.63
+      ],
+      [
+        33.2481,
+        35.6933
+      ],
+      [
+        32.2139,
+        35.2831
+      ],
+      [
+        31.8711,
+        35.4444
+      ],
+      [
+        31.77,
+        35.26
+      ],
+      [
+        31.7767,
+        35.2345
+      ]
+    ],
+    "paul": [
+      [
+        32.5,
+        34.89
+      ],
+      [
+        33.56,
+        35.37
+      ],
+      [
+        36.25,
+        29.98
+      ],
+      [
+        36.68,
+        27.37
+      ],
+      [
+        34.93,
+        24.81
+      ],
+      [
+        35.9179,
+        14.4099
+      ],
+      [
+        37.075,
+        15.286
+      ],
+      [
+        38.11,
+        15.65
+      ],
+      [
+        40.82,
+        14.12
+      ],
+      [
+        41.51,
+        13.04
+      ],
+      [
+        41.9028,
+        12.4964
+      ]
+    ]
+  },
+  "tribes": [
+    {
+      "name": "Judá",
+      "capital": "Hebrón / Jerusalén",
+      "refuge": "Hebrón (Quriet-arba)",
+      "desc": "El territorio más extenso del sur, desde las colinas de Jerusalén hasta el Negueb. De Judá provino el cetro real davídico y Jesucristo.",
+      "ref": "it-2 págs. 147-152"
+    },
+    {
+      "name": "Benjamín",
+      "capital": "Guibeah / Mizpá",
+      "refuge": "Territorio central",
+      "desc": "Entre Judá y Efraín. Territorio que albergaba Jerusalén, Jericó y Betel. De esta tribu provinieron Saúl y el apóstol Pablo.",
+      "ref": "it-1 págs. 317-320"
+    },
+    {
+      "name": "Efraín",
+      "capital": "Siló / Samaria",
+      "refuge": "Siquem",
+      "desc": "Tribu dominante del norte. Albergó Siló, sede del tabernáculo por siglos, y el fértil corazón montañoso central.",
+      "ref": "it-1 págs. 770-773"
+    },
+    {
+      "name": "Manasés (Occidental y Oriental)",
+      "capital": "Tirzá / Samaria / Golán",
+      "refuge": "Golán (en Basán)",
+      "desc": "Dividida en dos mitades: la occidental entre el Mediterráneo y el Jordán, y la oriental en las ricas tierras de pastos de Basán y Galaad.",
+      "ref": "it-2 págs. 293-296"
+    },
+    {
+      "name": "Simeón",
+      "capital": "Beerseba",
+      "refuge": "Enclavada en Judá",
+      "desc": "Recibió ciudades enclavadas dentro del territorio de Judá en el desértico Negueb meridional (Génesis 49:7).",
+      "ref": "it-2 págs. 1026-1028"
+    },
+    {
+      "name": "Zabulón",
+      "capital": "Belén de Zabulón / Caná",
+      "refuge": "Cercana a Quedes",
+      "desc": "Asentada en la fértil cuenca de la baja Galilea entre el mar de Galilea y el monte Carmelo.",
+      "ref": "it-2 págs. 1227-1229"
+    },
+    {
+      "name": "Isacar",
+      "capital": "Jezreel / Sunem",
+      "refuge": "—",
+      "desc": "Ocupó la llanura fértil de Jezreel (Esdrelón), célebre por su agricultura y batallas bíblicas.",
+      "ref": "it-1 págs. 1251-1253"
+    },
+    {
+      "name": "Aser",
+      "capital": "Aco / Tiro",
+      "refuge": "—",
+      "desc": "Franja costera septentrional a lo largo del mar Mediterráneo, famosa por su aceite de oliva selecto.",
+      "ref": "it-1 págs. 238-240"
+    },
+    {
+      "name": "Neftalí",
+      "capital": "Quedes de Neftalí",
+      "refuge": "Quedes en Galilea",
+      "desc": "Montes de la alta Galilea y ribera occidental del mar de Galilea («tierra de Zabulón y de Neftalí», Mateo 4:15).",
+      "ref": "it-2 págs. 476-478"
+    },
+    {
+      "name": "Dan",
+      "capital": "Jope / Dan (norte)",
+      "refuge": "—",
+      "desc": "Asignada originariamente en la costa junto a Jope; más tarde conquistaron Lais a los pies del monte Hermón.",
+      "ref": "it-1 págs. 627-630"
+    },
+    {
+      "name": "Gad",
+      "capital": "Ramot de Galaad",
+      "refuge": "Ramot de Galaad",
+      "desc": "Tribu transjordana situada en los valles boscosos y quebradas de Galaad al este del río Jordán.",
+      "ref": "it-1 págs. 977-980"
+    },
+    {
+      "name": "Rubén",
+      "capital": "Hesbón / Dibón",
+      "refuge": "Bézer (en la meseta)",
+      "desc": "El primogénito de Jacob se asentó al este del mar Salado (Muerto) en la meseta de Moab, al norte del río Arnón.",
+      "ref": "it-2 págs. 883-886"
+    }
+  ]
+}

@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Инструкции и руководство по переводу | Библейские приложения</title>
+  <meta name="description"
+    content="Подробное руководство для переводчиков библейских приложений. Правила библейского исследования в «Понимании Писания» и wol.jw.org, форматы файлов и рабочий процесс.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="alternate icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="apple-touch-icon" href="../favicon.svg">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Канонические общие стили заголовка и разметки main -->
+  <link rel="stylesheet" href="../css/header-main.css">
+
+  <link rel="stylesheet" href="../css/traduccion.css">
+</head>
+
+<body>
+  <!-- Плавающие элементы управления согласно bibleapps-app-design -->
+  <a class="homebtn" href="index.html" title="Вернуться на главный портал библейских приложений">
+    <span class="homebtn-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </span>
+    Библейские приложения <span class="homebtn-sub">Портал</span>
+  </a>
+
+  <div style="position:absolute; right:16px; top:14px; display:inline-flex; align-items:center; gap:8px; z-index:25;">
+    <!-- Переключатель языка -->
+    <div class="lang-switch" role="group" aria-label="Выбор языка">
+      <button class="lang-btn" id="btnLangEs" type="button" title="Español">ES</button>
+      <button class="lang-btn active" id="btnLangRu" type="button" title="Русский">RU</button>
+    </div>
+
+    <!-- Переключатель темы -->
+    <button class="themebtn" id="themeBtn" aria-label="Сменить тему">
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Главный блок заголовка (header.top) -->
+  <header class="top">
+    <div class="wrap">
+      <div class="kicker">Открытая экосистема библейских приложений</div>
+      <h1>Инструкции для переводчиков и соавторов</h1>
+      <div class="stats">
+        <span class="stat"><b>100%</b> Отделено от кода HTML/JS</span>
+        <span class="stat"><b>Источники:</b> «Понимание Писания» и wol.jw.org</span>
+        <span class="stat"><b>Форматы:</b> Структурированный JSON и Excel/CSV</span>
+      </div>
+      <details class="about">
+        <summary>Как устроена система перевода в библейских приложениях?</summary>
+        <p class="lead">
+          Чтобы любой желающий мог помочь с переводом или улучшением текстов без необходимости разбираться в программировании, весь контент, заголовки, описания и исторические данные вынесены в отдельные файлы. 
+          Переводчик редактирует только текст на своем языке, сохраняя исходную техническую логику каждого приложения.
+        </p>
+      </details>
+    </div>
+  </header>
+
+  <!-- Липкая панель вкладок (nav.tabs) -->
+  <nav class="tabs">
+    <div class="wrap" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="tab-flujo" class="tab-btn">Рабочий процесс</button>
+      <button role="tab" aria-selected="false" data-tab="tab-wol" class="tab-btn">Библейские стандарты (wol.jw.org)</button>
+      <button role="tab" aria-selected="false" data-tab="tab-formato" class="tab-btn">Формат файлов</button>
+      <button role="tab" aria-selected="false" data-tab="tab-herramientas" class="tab-btn">Инструменты (CLI)</button>
+    </div>
+  </nav>
+
+  <!-- Основное содержимое (main.wrap) -->
+  <main class="wrap doc-section">
+
+    <!-- ВКЛАДКА 1: РАБОЧИЙ ПРОЦЕСС -->
+    <section id="tab-flujo" class="tab-panel active" role="tabpanel">
+      <div class="prose-block">
+        <h2>Как перевести приложение из пакета?</h2>
+        <p>
+          Процесс устроен максимально просто и прозрачно. Вам не нужно устанавливать сложные программы или компилировать код, если вы этого не хотите.
+        </p>
+      </div>
+
+      <div class="card-grid">
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">1</span>
+            <h3>Децентрализованная архитектура приложений</h3>
+          </div>
+          <p>
+            Каждое приложение является полностью автономным и независимым. Переводы находятся внутри каждого приложения в папке <code>apps/{app}/locales/</code>:
+          </p>
+          <ul>
+            <li><code>apps/medidas/locales/</code> — Библейские меры, веса и монеты</li>
+            <li><code>apps/atlas/locales/</code> — Библейские места, маршруты и 12 племён</li>
+            <li><code>apps/cronologia/locales/</code> — Хронология, цари, пророки и эпохи</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">2</span>
+            <h3>Выберите приложение и язык</h3>
+          </div>
+          <p>
+            Каждая папка <code>locales/</code> содержит базовый файл <code>es.json</code>, существующие переводы (напр., <code>ru.json</code>), шаблон <code>_template.json</code> и файл <code>INSTRUCCIONES.md</code>:
+          </p>
+          <ul>
+            <li><strong>Режим JSON:</strong> Редактируйте файл нужного языка в выбранном приложении.</li>
+            <li><strong>Полная автономия:</strong> Можно переводить одно приложение независимо от других.</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">3</span>
+            <h3>Сверяйтесь с wol.jw.org</h3>
+          </div>
+          <p>
+            <strong>Главное правило:</strong> Никогда не переводите библейские имена собственные, древние меры и названия книг дословно.
+          </p>
+          <ul>
+            <li>Всегда проверяйте словарную статью в энциклопедии «Понимание Писания» на вашем языке на <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a>.</li>
+            <li>Используйте официальный <em>«Перевод нового мира»</em>.</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge-step">4</span>
+            <h3>Динамическая загрузка в index.html</h3>
+          </div>
+          <p>
+            При добавлении или обновлении языка:
+          </p>
+          <ul>
+            <li>Файл <code>index.html</code> каждого приложения динамически загружает JSON из <code>../locales/{lang}.json</code>.</li>
+            <li>Все стили CSS вынесены в отдельные независимые <code>.css</code> файлы.</li>
+            <li>Гарантирована универсальная работа как на веб-сервере, так и локально по протоколу <code>file://</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert-box alert-info">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div>
+          <strong>Хотите добавить новый язык (например, французский, немецкий, португальский)?</strong>
+          Создайте новую языковую папку одной командой: <code>npm run i18n:new -- --lang=fr --name="Français"</code>.
+        </div>
+      </div>
+    </section>
+
+    <!-- ВКЛАДКА 2: БИБЛЕЙСКИЕ СТАНДАРТЫ -->
+    <section id="tab-wol" class="tab-panel" role="tabpanel">
+      <div class="prose-block">
+        <h2>Правила библейского исследования и источники</h2>
+        <p>
+          Приложения BibleApps требуют высочайшей исторической и текстовой точности. Любой факт или термин должен основываться исключительно на онлайн-библиотеке <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a>.
+        </p>
+      </div>
+
+      <div class="alert-box alert-warn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>
+          <strong>Строгий запрет: спекулятивные светские источники</strong>
+          Категорически запрещено использовать Википедию, общие словари, форумы или автоматический машинный перевод для библейских терминов и хронологии.
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width:25%">Категория</th>
+              <th style="width:35%">Обязательный источник (wol.jw.org)</th>
+              <th style="width:40%">Указание для переводчика</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Топонимы и география</strong> (Атлас)</td>
+              <td><em>«Понимание Писания»</em> (it-1 / it-2) и брошюра <em>«Увидим добрую землю»</em></td>
+              <td>Используйте каноническое написание из «Перевода нового мира» на вашем языке (напр., <em>Сузы</em>, <em>Мегиддо</em>, <em>Хеврон</em>).</td>
+            </tr>
+            <tr>
+              <td><strong>Меры, веса и монеты</strong> (Меры)</td>
+              <td><em>«Понимание Писания»</em>, статья «Меры и весы»</td>
+              <td>Метрические значения универсальны (локоть ≈ 44,5 см; бат ≈ 22 л), но название единицы должно строго соответствовать энциклопедии (исп. <em>Codo</em>; рус. <em>Локоть</em>; англ. <em>Cubit</em>).</td>
+            </tr>
+            <tr>
+              <td><strong>Хронология и персоналии</strong> (Хронология)</td>
+              <td><em>«Понимание Писания»</em>, статьи «Хронология», «Цари», «Пророк»</td>
+              <td>Точно соблюдайте даты до н. э. / н. э. (Сотворение Адама 4026 г. до н. э., Потоп 2370 г. до н. э., Исход 1513 г. до н. э., Опустошение Иерусалима 607 г. до н. э. и др.).</td>
+            </tr>
+            <tr>
+              <td><strong>Рукописи и кодексы</strong> (История)</td>
+              <td><em>«Понимание Писания»</em> и книга <em>«Всё Писание вдохновлено Богом»</em></td>
+              <td>Используйте общепринятые официальные названия (напр., <em>Синайский кодекс</em>, <em>Александрийский кодекс</em>, <em>Папирус Честера Битти</em>).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ВКЛАДКА 3: ФОРМАТ ФАЙЛОВ -->
+    <section id="tab-formato" class="tab-panel" role="tabpanel">
+      <div class="prose-block">
+        <h2>Структура файла перевода (JSON)</h2>
+        <p>
+          Каждый файл содержит понятные пары данных с оригиналом, переводом и пояснением контекста.
+        </p>
+      </div>
+
+      <div class="code-block">
+        <span class="code-tag">JSON</span>
+<pre>{
+  "_meta": {
+    "language": "ru",
+    "language_name": "Русский",
+    "app": "medidas"
+  },
+  "ui": {
+    "app_title": {
+      "source": "Conversor de Pesas, Medidas y Monedas Bíblicas",
+      "translation": "Конвертер библейских мер, весов и монет",
+      "context": "Главный заголовок H1 приложения"
+    },
+    "reset_button": {
+      "source": "Restablecer",
+      "translation": "Сбросить",
+      "context": "Кнопка сброса в калькуляторе (до 16 символов)"
+    }
+  },
+  "data": {
+    "units": {
+      "codo": {
+        "name": {
+          "source": "Codo",
+          "translation": "Локоть",
+          "context": "Единица длины. См. «Понимание Писания», статья «Локоть»"
+        },
+        "description": {
+          "source": "Distancia desde el codo hasta el dedo medio (~44,5 cm).",
+          "translation": "Расстояние от локтя до конца среднего пальца (~44,5 см).",
+          "context": "Каноническое определение из энциклопедии"
+        }
+      }
+    }
+  }
+}</pre>
+      </div>
+
+      <div class="prose-block">
+        <h2>Важные правила при переводе</h2>
+      </div>
+
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>1. Редактируйте только <code>"translation"</code></h3>
+          <p>
+            Не изменяйте ключи (такие как <code>"app_title"</code>), поле <code>"source"</code> или поле <code>"context"</code>. Иначе система не сможет связать перевод с интерфейсом.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>2. Сохраняйте HTML-теги</h3>
+          <p>
+            Если в оригинале есть теги <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code> или <code>&lt;br&gt;</code>, они должны оставаться на своих местах:
+          </p>
+          <p style="font-size:13px; font-family:monospace; margin-top:8px;">
+            Оригинал: &lt;strong&gt;100%&lt;/strong&gt; fuentes verificadas<br>
+            Перевод: &lt;strong&gt;100%&lt;/strong&gt; проверенные источники
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>3. Не меняйте переменные</h3>
+          <p>
+            Если фраза содержит переменные в фигурных скобках, такие как <code>{count}</code> или <code>{unit}</code>, оставляйте их неизменными:
+          </p>
+          <p style="font-size:13px; font-family:monospace; margin-top:8px;">
+            Оригинал: Equivale a {value} metros<br>
+            Перевод: Эквивалентно {value} метрам
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>4. Кавычки в тексте</h3>
+          <p>
+            Внутри значений JSON двойные кавычки необходимо экранировать: <code>\"пример\"</code>, либо использовать кавычки-«ёлочки» (<code>«пример»</code>) в соответствии с правилами языка.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ВКЛАДКА 4: ИНСТРУМЕНТЫ И CLI -->
+    <section id="tab-herramientas" class="tab-panel" role="tabpanel">
+      <div class="prose-block">
+        <h2>Команды автоматизации для разработчиков</h2>
+        <p>
+          При локальной разработке с установленным Node.js вам доступен набор скриптов для легкого управления переводами:
+        </p>
+      </div>
+
+      <div class="table-container">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width:30%">Команда</th>
+              <th style="width:40%">Описание</th>
+              <th style="width:30%">Пример</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>npm run i18n:check</code></td>
+              <td>Проверяет целостность и синтаксис всех файлов JSON в каждом приложении (<code>apps/*/locales/</code>).</td>
+              <td><code>npm run i18n:check</code></td>
+            </tr>
+            <tr>
+              <td><code>npm run i18n:new</code></td>
+              <td>Создает шаблоны для нового языка во всех приложениях одновременно на основе их <code>_template.json</code>.</td>
+              <td><code>npm run i18n:new -- --lang=fr --name="Français"</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Канонический подвал согласно bibleapps-app-design -->
+  <footer class="app-footer">
+    <div class="wrap footer-wrap">
+      <div>
+        <strong>Библейские приложения</strong> — Комплекс для исторического и текстового исследования.
+      </div>
+      <div>
+        Тщательно документировано на основе <a href="https://wol.jw.org" target="_blank" rel="noopener">wol.jw.org</a> и энциклопедии <em>«Понимание Писания»</em>.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Интерактивный скрипт переключения вкладок, темы и нормализации ссылок -->
+  <script>
+    (function () {
+      // 1. Селектор вкладок
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetTab = btn.getAttribute('data-tab');
+
+          tabBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabPanels.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          const panel = document.getElementById(targetTab);
+          if (panel) panel.classList.add('active');
+        });
+      });
+
+      // 2. Селектор языка (Переход ES <-> RU)
+      const btnEs = document.getElementById('btnLangEs');
+      const btnRu = document.getElementById('btnLangRu');
+
+      if (btnEs) {
+        btnEs.addEventListener('click', () => {
+          try { localStorage.setItem('bibleapps_lang', 'es'); } catch (e) { }
+          window.location.href = '../es/traduccion.html';
+        });
+      }
+      if (btnRu) {
+        btnRu.addEventListener('click', () => {
+          try { localStorage.setItem('bibleapps_lang', 'ru'); } catch (e) { }
+          window.location.href = 'traduccion.html';
+        });
+      }
+
+      // 3. Селектор светлой / темной темы
+      const themeBtn = document.getElementById('themeBtn');
+      function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+      }
+
+      const savedTheme = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+      applyTheme(initialTheme);
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+          const current = document.documentElement.dataset.theme || (prefersDark ? 'dark' : 'light');
+          const next = current === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          try {
+            localStorage.setItem('theme', next);
+            localStorage.setItem('bibleapps_theme', next);
+          } catch (e) { }
+        });
+      }
+
+      window.addEventListener('storage', function (e) {
+        if ((e.key === 'theme' || e.key === 'bibleapps_theme') && e.newValue) {
+          applyTheme(e.newValue);
+        }
+      });
+
+      // 4. Нормализатор ссылок для file://
+      if (window.location.protocol === 'file:') {
+        document.querySelectorAll('a').forEach(function (a) {
+          var href = a.getAttribute('href');
+          if (!href) return;
+          if (href.endsWith('/')) {
+            a.setAttribute('href', href + 'index.html');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

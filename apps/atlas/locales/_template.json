@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "language": "xx",
+    "language_name": "Nombre de tu Idioma",
+    "app": "atlas",
+    "version": "1.0.0"
+  },
+  "ui": {
+    "title": "Atlas y Geografía Bíblica | Apps Bíblicas",
+    "h1": "Atlas y Geografía Bíblica",
+    "stat1": "40+ lugares bíblicos georreferenciados",
+    "stat2": "12 tribus de Israel",
+    "stat3": "6 ciudades de refugio",
+    "stat4": "3 rutas históricas (Éxodo, Jesús, Pablo)",
+    "about_summary": "Acerca de la geografía y fuentes de Perspicacia",
+    "tab_map": "Mapa Principal",
+    "tab_topo": "Relieve Topográfico",
+    "tab_tribes": "12 Tribus de Israel",
+    "tab_distances": "Calculadora de Distancias",
+    "search_placeholder": "Buscar Jerusalén, Capernaum, Hermón..."
+  },
+  "places": [],
+  "routes": {},
+  "tribes": []
+}

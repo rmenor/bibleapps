@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "app": "cronologia",
+    "language": "xx",
+    "name": "Nombre de la aplicación en el idioma destino",
+    "version": "1.0.0",
+    "lastUpdated": "YYYY-MM-DD"
+  },
+  "ui": {
+    "title": "Traducir: Tabla cronológica | Apps Bíblicas",
+    "h1": "Traducir: Tabla cronológica",
+    "about_summary": "Traducir: Qué significan las marcas",
+    "search_placeholder": "Traducir: Buscar en la cronología: nombre, año, texto bíblico",
+    "tabs": {
+      "tl": "Traducir: Tiempo",
+      "bk": "Traducir: Biblia",
+      "ge": "Traducir: Genealogías",
+      "na": "Traducir: Naciones",
+      "pa": "Traducir: Patriarcas",
+      "ki": "Traducir: Reyes",
+      "an": "Traducir: Fechas clave",
+      "js": "Traducir: Jesús y los apóstoles"
+    },
+    "stats": {
+      "records": "Traducir: registros",
+      "secular": "Traducir: discrepancias seculares",
+      "calc": "Traducir: fechas calculadas con la Biblia",
+      "unv": "Traducir: fechas sin confirmación"
+    },
+    "badges": {
+      "nod": "⚠ traducir: no hay fecha exacta",
+      "unf": "⚠ traducir: no se ha hallado confirmación",
+      "rng": "∑ traducir: intervalo según la Biblia",
+      "calc": "∑ traducir: calculado con la Biblia",
+      "sec": "≠ traducir: cronología secular"
+    },
+    "notes": {
+      "lib": "Traducir: Según la biblioteca.",
+      "calc": "Traducir: Cálculo.",
+      "secular": "Traducir: Cronología secular.",
+      "source": "Traducir: Fuente",
+      "openNwt": "Traducir: Abrir en la Traducción del Nuevo Mundo"
+    },
+    "layers": [
+      [
+        "bible",
+        "Traducir: Acontecimientos bíblicos",
+        "--c-bible"
+      ],
+      [
+        "books",
+        "Traducir: Escritura de los libros de la Biblia",
+        "--c-books"
+      ],
+      [
+        "world",
+        "Traducir: Historia mundial antes de nuestra era",
+        "--c-world"
+      ],
+      [
+        "church",
+        "Traducir: La Iglesia y los imperios",
+        "--c-church"
+      ],
+      [
+        "modern",
+        "Traducir: Época moderna",
+        "--c-modern"
+      ]
+    ],
+    "eras": [
+      [
+        "Traducir: Nombre de la era",
+        -4026,
+        -2370,
+        "Traducir: Descripción de la era"
+      ]
+    ]
+  },
+  "groups": "Array de eventos cronológicos (ver es.json para la lista completa)"
+}

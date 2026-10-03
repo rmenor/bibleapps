@@ -8,7 +8,7 @@ Optimizado para su despliegue ultrarrápido y sin configuración en **[Vercel](h
 
 ## 🚀 Aplicaciones Disponibles y Roadmap
 
-### 1. ⏱️ Tabla Cronológica e Histórica Bíblica (`/apps/cronologia/es`) — **[Disponible]**
+### 1. ⏱️ Tabla Cronológica e Histórica Bíblica (`/apps/cronologia`) — **[Disponible]**
 Aplicación interactiva exhaustiva con más de 4.000 años de historia sincronizada:
 - **8 Módulos de visualización**:
   1. **Tiempo**: Línea temporal global con filtros por eventos bíblicos, libros, imperios mundiales y era secular.
@@ -23,7 +23,7 @@ Aplicación interactiva exhaustiva con más de 4.000 años de historia sincroniz
 - **Modo oscuro / claro** persistente.
 - **Rigor metodológico**: Contraste explícito entre fechas bíblicas calculadas y discrepancias con la cronología secular.
 
-### 2. 🗺️ Atlas y Geografía Bíblica (`/apps/atlas/es`) — **[Disponible]**
+### 2. 🗺️ Atlas y Geografía Bíblica (`/apps/atlas`) — **[Disponible]**
 Aplicación interactiva y cartografía vectorial de las tierras bíblicas documentada rigurosamente con *Perspicacia para comprender las Escrituras* y *wol.jw.org*:
 - **4 Módulos de estudio**:
   1. **Mapa Interactivo con Pan y Zoom**: Cartografía con capas conmutables (Tierra Prometida, Éxodo, Ministerio de Jesús, Viajes de Pablo).
@@ -35,7 +35,7 @@ Aplicación interactiva y cartografía vectorial de las tierras bíblicas docume
 ### 3. 📜 Armonía de los Evangelios — **[Próximamente]**
 Cotejo paralelo y sinóptico de Mateo, Marcos, Lucas y Juan en orden cronológico.
 
-### 4. ⚖️ Conversor de Pesas, Medidas y Monedas (`/apps/medidas/es`) — **[Disponible]**
+### 4. ⚖️ Conversor de Pesas, Medidas y Monedas (`/apps/medidas`) — **[Disponible]**
 Calculadora interactiva en tiempo real fundamentada estrictamente en *Perspicacia para comprender las Escrituras* y *wol.jw.org*:
 - **4 Módulos de conversión y consulta**:
   1. **Calculadora Bidireccional en Vivo**: Conversión instantánea de unidades bíblicas a métricas (y viceversa) para Longitud (dedo, palmo, codo, caña, estadio, milla), Líquidos (log, hin, bat, coro), Secos (cab, ómer, seah, efá, létek, hómer), Pesas (guerá, beca, pim, siclo, mina, talento) y Monedas (lepta, cuadrante, as, denario, dracma, didracma, estáter, dárico).

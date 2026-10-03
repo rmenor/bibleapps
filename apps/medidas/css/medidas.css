@@ -1,0 +1,408 @@
+:root {
+      --c-length: #2b6f9e;
+      --c-liquid: #16a085;
+      --c-dry: #b4532a;
+      --c-weight: #75507a;
+      --c-money: #d35400;
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --c-length: #5b9fd0;
+        --c-liquid: #2ecc71;
+        --c-dry: #e08a5b;
+        --c-weight: #c39bd0;
+        --c-money: #e67e22;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --c-length: #5b9fd0;
+      --c-liquid: #2ecc71;
+      --c-dry: #e08a5b;
+      --c-weight: #c39bd0;
+      --c-money: #e67e22;
+    }
+
+    /* Tab Panels */
+    section.tab-panel {
+      display: none;
+      padding-bottom: 60px;
+    }
+
+    section.tab-panel.active {
+      display: block;
+    }
+
+    /* Category Selector Pill Bar */
+    .cat-pill-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .cat-pill {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font: 600 13px var(--sans);
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .15s;
+    }
+
+    .cat-pill:hover {
+      background: var(--surface2);
+      color: var(--ink);
+    }
+
+    .cat-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    /* Converter Interactive Card */
+    .converter-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .conv-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width:760px) {
+      .conv-grid {
+        grid-template-columns: 1fr;
+        gap: 14px
+      }
+    }
+
+    .conv-box {
+      background: var(--surface3);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .conv-label {
+      font: 600 12px var(--sans);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .conv-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .conv-num-input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font: 700 20px var(--serif);
+      color: var(--ink);
+      outline: none;
+      min-width: 0;
+    }
+
+    .conv-num-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+
+    .conv-select {
+      width: 160px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font: 600 14px var(--sans);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .conv-swap-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      align-self: center;
+      margin: 0 auto;
+      transition: all .15s;
+    }
+
+    .conv-swap-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      transform: scale(1.08);
+    }
+
+    /* Live Detail Note */
+    .conv-detail-box {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border-left: 4px solid var(--accent);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .conv-detail-header {
+      font: 700 15px var(--serif);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .conv-detail-desc {
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .conv-detail-source {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Famous Biblical Examples Cards */
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .example-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all .15s;
+    }
+
+    .example-card:hover {
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+      box-shadow: var(--shadow-hover);
+    }
+
+    .example-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .example-title {
+      font: 700 17px/1.2 var(--serif);
+    }
+
+    .example-tag {
+      font: 600 11px var(--sans);
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--surface2);
+      color: var(--muted);
+    }
+
+    .example-stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--surface3);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .example-stat-val {
+      font: 700 17px/1.2 var(--serif);
+      color: var(--accent);
+    }
+
+    .example-stat-lbl {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .example-desc {
+      font-size: 13.5px;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .example-ref {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Master Data Tables */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .table-head-bar {
+      padding: 16px 20px;
+      background: var(--surface3);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .table-title {
+      font: 700 18px var(--serif);
+      margin-bottom: 4px;
+    }
+
+    .table-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .scroll-table {
+      overflow-x: auto;
+    }
+
+    table.master-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    table.master-table th {
+      background: var(--surface2);
+      color: var(--muted);
+      font: 600 12px var(--sans);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    table.master-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    table.master-table tr:hover td {
+      background: var(--surface3);
+    }
+
+    .metric-badge {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Wage / Labor Purchasing Power Calculator */
+    .wage-calculator-box {
+      background: var(--surface3);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .wage-input-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
+      max-width: 440px;
+      margin-bottom: 16px;
+    }
+
+    .wage-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .wage-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .wage-card-val {
+      font: 700 22px/1.1 var(--serif);
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .wage-card-title {
+      font: 600 13px var(--sans);
+      color: var(--ink);
+    }
+
+    .wage-card-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Footer */
+    footer.app-footer {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 28px 0;
+      margin-top: auto;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }

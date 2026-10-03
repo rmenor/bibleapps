@@ -5,52 +5,112 @@
   "redirects": [
     {
       "source": "/orginal.html",
-      "destination": "/apps/cronologia/es",
+      "destination": "/apps/cronologia",
       "permanent": true
     },
     {
       "source": "/original.html",
-      "destination": "/apps/cronologia/es",
+      "destination": "/apps/cronologia",
       "permanent": true
     },
     {
       "source": "/cronologia",
-      "destination": "/apps/cronologia/es",
+      "destination": "/apps/cronologia",
       "permanent": true
     },
     {
       "source": "/cronologia/:path*",
-      "destination": "/apps/cronologia/es/:path*",
+      "destination": "/apps/cronologia/:path*",
       "permanent": true
     },
     {
       "source": "/atlas",
-      "destination": "/apps/atlas/es",
+      "destination": "/apps/atlas",
       "permanent": true
     },
     {
       "source": "/atlas/:path*",
-      "destination": "/apps/atlas/es/:path*",
+      "destination": "/apps/atlas/:path*",
       "permanent": true
     },
     {
       "source": "/medidas",
-      "destination": "/apps/medidas/es",
+      "destination": "/apps/medidas",
       "permanent": true
     },
     {
       "source": "/medidas/:path*",
-      "destination": "/apps/medidas/es/:path*",
+      "destination": "/apps/medidas/:path*",
       "permanent": true
     },
     {
       "source": "/pesas-y-medidas",
-      "destination": "/apps/medidas/es",
+      "destination": "/apps/medidas",
       "permanent": true
     },
     {
       "source": "/pesas-y-medidas/:path*",
-      "destination": "/apps/medidas/es/:path*",
+      "destination": "/apps/medidas/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/apps/cronologia/es",
+      "destination": "/apps/cronologia?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/cronologia/es/",
+      "destination": "/apps/cronologia?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/cronologia/ru",
+      "destination": "/apps/cronologia?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/cronologia/ru/",
+      "destination": "/apps/cronologia?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/atlas/es",
+      "destination": "/apps/atlas?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/atlas/es/",
+      "destination": "/apps/atlas?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/atlas/ru",
+      "destination": "/apps/atlas?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/atlas/ru/",
+      "destination": "/apps/atlas?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/medidas/es",
+      "destination": "/apps/medidas?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/medidas/es/",
+      "destination": "/apps/medidas?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/medidas/ru",
+      "destination": "/apps/medidas?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/medidas/ru/",
+      "destination": "/apps/medidas?lang=ru",
       "permanent": true
     }
   ],
@@ -64,6 +124,22 @@
       "destination": "/es/index.html"
     },
     {
+      "source": "/es/traduccion",
+      "destination": "/es/traduccion.html"
+    },
+    {
+      "source": "/es/traduccion/",
+      "destination": "/es/traduccion.html"
+    },
+    {
+      "source": "/ru/traduccion",
+      "destination": "/ru/traduccion.html"
+    },
+    {
+      "source": "/ru/traduccion/",
+      "destination": "/ru/traduccion.html"
+    },
+    {
       "source": "/ru",
       "destination": "/ru/index.html"
     },
@@ -72,52 +148,28 @@
       "destination": "/ru/index.html"
     },
     {
-      "source": "/apps/cronologia/es",
-      "destination": "/apps/cronologia/es/index.html"
+      "source": "/apps/cronologia",
+      "destination": "/apps/cronologia/index.html"
     },
     {
-      "source": "/apps/cronologia/es/",
-      "destination": "/apps/cronologia/es/index.html"
+      "source": "/apps/cronologia/",
+      "destination": "/apps/cronologia/index.html"
     },
     {
-      "source": "/apps/cronologia/ru",
-      "destination": "/apps/cronologia/ru/index.html"
+      "source": "/apps/atlas",
+      "destination": "/apps/atlas/index.html"
     },
     {
-      "source": "/apps/cronologia/ru/",
-      "destination": "/apps/cronologia/ru/index.html"
+      "source": "/apps/atlas/",
+      "destination": "/apps/atlas/index.html"
     },
     {
-      "source": "/apps/atlas/es",
-      "destination": "/apps/atlas/es/index.html"
+      "source": "/apps/medidas",
+      "destination": "/apps/medidas/index.html"
     },
     {
-      "source": "/apps/atlas/es/",
-      "destination": "/apps/atlas/es/index.html"
-    },
-    {
-      "source": "/apps/atlas/ru",
-      "destination": "/apps/atlas/ru/index.html"
-    },
-    {
-      "source": "/apps/atlas/ru/",
-      "destination": "/apps/atlas/ru/index.html"
-    },
-    {
-      "source": "/apps/medidas/es",
-      "destination": "/apps/medidas/es/index.html"
-    },
-    {
-      "source": "/apps/medidas/es/",
-      "destination": "/apps/medidas/es/index.html"
-    },
-    {
-      "source": "/apps/medidas/ru",
-      "destination": "/apps/medidas/ru/index.html"
-    },
-    {
-      "source": "/apps/medidas/ru/",
-      "destination": "/apps/medidas/ru/index.html"
+      "source": "/apps/medidas/",
+      "destination": "/apps/medidas/index.html"
     }
   ],
   "headers": [

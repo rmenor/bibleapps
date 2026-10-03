@@ -12,664 +12,42 @@
   <link
     href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap"
     rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link rel="alternate icon" type="image/svg+xml" href="../../../favicon.svg">
-  <link rel="apple-touch-icon" href="../favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
   <script>
     (function () {
       try {
-        var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
+        var t = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
         if (t) document.documentElement.dataset.theme = t;
+        var p = new URLSearchParams(window.location.search);
+        var l = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+        if (l === "ru" || l === "es") document.documentElement.lang = l;
       } catch (e) { }
     })();
   </script>
 
   <!-- Leaflet CSS: Local vendor with CDN fallback -->
-  <link rel="stylesheet" href="../vendor/leaflet.css"
+  <link rel="stylesheet" href="vendor/leaflet.css"
     onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';">
   <!-- Estilos canónicos compartidos de cabecera y estructura main -->
-  <link rel="stylesheet" href="../../../css/header-main.css">
+  <link rel="stylesheet" href="../../css/header-main.css">
 
-  <style>
-    :root {
-      --c-sea: #2b6f9e;
-      --c-tribes: #2c7564;
-      --c-route1: #c0392b;
-      --c-route2: #8e44ad;
-      --c-route3: #d35400;
-      --c-route4: #16a085;
-    }
-
-    @media (prefers-color-scheme:dark) {
-      :root:not([data-theme="light"]) {
-        --c-sea: #5b9fd0;
-        --c-tribes: #6fc7af;
-        --c-route1: #e74c3c;
-        --c-route2: #bb86fc;
-        --c-route3: #e67e22;
-        --c-route4: #2ecc71;
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --c-sea: #5b9fd0;
-      --c-tribes: #6fc7af;
-      --c-route1: #e74c3c;
-      --c-route2: #bb86fc;
-      --c-route3: #e67e22;
-      --c-route4: #2ecc71;
-    }
-
-
-    /* Source Banner */
-    .sources-banner {
-      background: color-mix(in srgb, var(--accent-light) 65%, var(--surface));
-      border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
-      border-left: 4px solid var(--accent);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin: 16px 0;
-      font-size: 13px;
-      line-height: 1.45;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .sources-text strong {
-      color: var(--accent)
-    }
-
-    .sources-link {
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 9px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      font-size: 12.5px;
-    }
-
-    /* Tab Panels */
-    section.tab-panel {
-      display: none;
-      padding-bottom: 60px;
-    }
-
-    section.tab-panel.active {
-      display: block;
-    }
-
-    /* Map Layout Workspace */
-    .map-workspace {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 16px;
-      align-items: start;
-    }
-
-    @media (max-width:960px) {
-      .map-workspace {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* Sidebar */
-    .map-sidebar {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      max-height: calc(100vh - 160px);
-      position: sticky;
-      top: 124px;
-      overflow-y: auto;
-    }
-
-    .sidebar-title {
-      font: 700 15px var(--serif);
-      color: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 8px;
-    }
-
-    .search-box {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font: 14px var(--sans);
-      color: var(--ink);
-      outline: none;
-    }
-
-    .search-box:focus {
-      border-color: var(--accent);
-      background: var(--surface);
-    }
-
-    .layer-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .layer-label {
-      font: 600 11.5px var(--sans);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .layer-btn {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 8px 11px;
-      font: 500 13px var(--sans);
-      color: var(--ink);
-      cursor: pointer;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      transition: all .15s;
-    }
-
-    .layer-btn:hover {
-      background: var(--surface2)
-    }
-
-    .layer-btn.active {
-      background: var(--accent-light);
-      border-color: var(--accent);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .layer-bullet {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .places-list {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      max-height: 260px;
-      overflow-y: auto;
-      margin-top: 2px;
-      padding-right: 4px;
-    }
-
-    .place-item {
-      padding: 7px 10px;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      background: var(--surface2);
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all .12s;
-    }
-
-    .place-item:hover {
-      background: var(--surface3);
-      border-color: var(--accent);
-    }
-
-    .place-item.active {
-      background: var(--accent-light);
-      border-color: var(--accent);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .place-category {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* Map Container */
-    .map-canvas-container {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .map-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--line);
-      background: var(--surface3);
-      font-size: 13px;
-      color: var(--muted);
-      gap: 10px;
-      flex-wrap: wrap;
-      z-index: 10;
-    }
-
-    .base-map-pills {
-      display: flex;
-      gap: 4px;
-    }
-
-    .base-pill {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font: 600 11.5px var(--sans);
-      cursor: pointer;
-      color: var(--muted);
-      transition: all .15s;
-    }
-
-    .base-pill:hover {
-      background: var(--surface2);
-      color: var(--ink)
-    }
-
-    .base-pill.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    /* Real Map Viewport */
-    #map-viewport {
-      width: 100%;
-      height: 680px;
-      background: #d8e8f5;
-      position: relative;
-      z-index: 1;
-    }
-
-    :root[data-theme="dark"] #map-viewport {
-      background: #101a24;
-    }
-
-    /* Custom Vector Leaflet Markers */
-    .biblical-pin {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      color: #fff;
-      font-weight: 700;
-      font-size: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-      border: 2px solid #ffffff;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-
-    .biblical-pin:hover {
-      transform: scale(1.3);
-      z-index: 9999 !important;
-    }
-
-    .pin-city {
-      background: #234a7d
-    }
-
-    .pin-refugio {
-      background: #d35400;
-      border-color: #ffd700
-    }
-
-    .pin-mountain {
-      background: #8b4513;
-      border-color: #f5deb3
-    }
-
-    .pin-water {
-      background: #2980b9
-    }
-
-    .pin-apostle {
-      background: #27ae60
-    }
-
-    .leaflet-tooltip.biblical-tooltip {
-      background: var(--surface);
-      color: var(--ink);
-      border: 1px solid var(--line);
-      font: 600 12px var(--sans);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
-      border-radius: 6px;
-      padding: 4px 8px;
-    }
-
-    /* Detail Drawer */
-    .detail-drawer {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      width: 360px;
-      max-width: calc(100% - 32px);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-hover);
-      padding: 18px;
-      z-index: 1000;
-      max-height: 85%;
-      overflow-y: auto;
-      display: none;
-      animation: slideUp .2s ease-out;
-    }
-
-    .detail-drawer.open {
-      display: block
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(15px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      gap: 8px;
-    }
-
-    .drawer-title {
-      font: 700 20px/1.2 var(--serif);
-      color: var(--ink);
-    }
-
-    .drawer-close {
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 18px;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .drawer-close:hover {
-      background: var(--surface2);
-      color: var(--ink)
-    }
-
-    .drawer-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .meta-tag {
-      font: 600 11px var(--sans);
-      padding: 2px 8px;
-      border-radius: 4px;
-      background: var(--surface2);
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    .drawer-meaning {
-      font-style: italic;
-      color: var(--muted);
-      font-size: 13.5px;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .drawer-desc {
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 12px;
-    }
-
-    .drawer-archaeology {
-      background: var(--surface2);
-      border-radius: 8px;
-      padding: 9px 12px;
-      font-size: 12.5px;
-      margin-bottom: 12px;
-      border-left: 3px solid var(--warn);
-    }
-
-    .drawer-archaeology strong {
-      color: var(--warn)
-    }
-
-    .drawer-source {
-      border-top: 1px dashed var(--line);
-      padding-top: 10px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .wol-direct-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: var(--accent);
-      color: #ffffff !important;
-      font: 600 12.5px var(--sans);
-      padding: 7px 12px;
-      border-radius: 6px;
-      margin-top: 8px;
-      text-align: center;
-    }
-
-    .wol-direct-btn:hover {
-      background: var(--accent-hover)
-    }
-
-    /* Topography & Relief Section */
-    .topo-panel {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-    }
-
-    .section-headline {
-      font: 700 24px/1.2 var(--serif);
-      margin-bottom: 8px
-    }
-
-    .section-subtext {
-      color: var(--muted);
-      font-size: 14.5px;
-      margin-bottom: 20px;
-      max-width: 820px
-    }
-
-    .topo-graph-card {
-      background: var(--surface3);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .topo-svg {
-      width: 100%;
-      height: 240px
-    }
-
-    .topo-note {
-      font-size: 13px;
-      color: var(--muted);
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
-    /* Tribes Grid */
-    .tribes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-
-    .tribe-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .tribe-name {
-      font: 700 18px var(--serif)
-    }
-
-    .refuge-tag {
-      background: var(--warn-bg);
-      color: var(--warn);
-      font: 600 11px var(--sans);
-      padding: 2px 7px;
-      border-radius: 4px;
-    }
-
-    /* Distances Calculator Panel */
-    .calculator-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-    }
-
-    .calc-selectors {
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 16px;
-      align-items: end;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width:700px) {
-      .calc-selectors {
-        grid-template-columns: 1fr
-      }
-    }
-
-    .calc-field label {
-      display: block;
-      font: 600 12.5px var(--sans);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .calc-select {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font: 15px var(--sans);
-      color: var(--ink);
-    }
-
-    .calc-results-box {
-      background: var(--surface3);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      text-align: center;
-    }
-
-    .calc-metric-val {
-      font: 700 28px/1.1 var(--serif);
-      color: var(--accent)
-    }
-
-    .calc-metric-lbl {
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-top: 4px
-    }
-
-    /* Footer */
-    footer.app-footer {
-      background: var(--surface);
-      border-top: 1px solid var(--line);
-      padding: 28px 0;
-      margin-top: auto;
-      font-size: 13.5px;
-      color: var(--muted);
-    }
-
-    .footer-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/atlas.css">
 </head>
 
 <body>
 
-  <a class="homebtn" href="../../../es/" title="Volver al portal de Apps Bíblicas">
+  <a class="homebtn" id="homeBtn" href="../../" title="Volver al portal de Apps Bíblicas">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M19 12H5M12 19l-7-7 7-7" />
     </svg>
-    <span>Apps Bíblicas</span>
+    <span id="homeBtnText">Apps Bíblicas</span>
   </a>
-    <div class="lang-switch" role="group" aria-label="Idioma" style="position:absolute;right:64px;top:14px;z-index:25">
-    <a href="../es/" class="lang-btn active" aria-current="page" title="Español" onclick="localStorage.setItem('bibleapps_lang','es')">ES</a>
-    <a href="../ru/" class="lang-btn" title="Русский" onclick="localStorage.setItem('bibleapps_lang','ru')">RU</a>
+    <div class="lang-switch" role="group" aria-label="Idioma / Язык" style="position:absolute;right:64px;top:14px;z-index:25">
+    <button type="button" class="lang-btn" id="lang-btn-es" title="Español" onclick="setLanguage('es')">ES</button>
+    <button type="button" class="lang-btn" id="lang-btn-ru" title="Русский" onclick="setLanguage('ru')">RU</button>
   </div>
   <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -936,14 +314,14 @@
   </footer>
 
   <!-- Leaflet JS: Local vendor with CDN fallback -->
-  <script src="../vendor/leaflet.js"
+  <script src="vendor/leaflet.js"
     onerror="this.onerror=null;this.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';"></script>
 
   <script>
     /* =========================================================================
        1. BIBLICAL GEOGRAPHY DATASET (STRICTLY FROM WOL.JW.ORG / PERSPICACIA)
        ========================================================================= */
-    const PLACES = [
+    let PLACES = [
       {
         id: "jerusalen",
         name: "Jerusalén",
@@ -1313,7 +691,7 @@
     /* =========================================================================
        2. HISTORICAL ROUTES POLYLINE COORDINATES
        ========================================================================= */
-    const ROUTES = {
+    let ROUTES = {
       exodus: [
         [30.7870, 31.8210], // Rameses
         [30.5500, 32.1800], // Succoth
@@ -1363,7 +741,7 @@
     /* =========================================================================
        3. TRIBES OF ISRAEL (JOSHUA 13-21)
        ========================================================================= */
-    const TRIBES = [
+    let TRIBES = [
       { name: "Judá", capital: "Hebrón / Jerusalén", refuge: "Hebrón (Quriet-arba)", desc: "El territorio más extenso del sur, desde las colinas de Jerusalén hasta el Negueb. De Judá provino el cetro real davídico y Jesucristo.", ref: "it-2 págs. 147-152" },
       { name: "Benjamín", capital: "Guibeah / Mizpá", refuge: "Territorio central", desc: "Entre Judá y Efraín. Territorio que albergaba Jerusalén, Jericó y Betel. De esta tribu provinieron Saúl y el apóstol Pablo.", ref: "it-1 págs. 317-320" },
       { name: "Efraín", capital: "Siló / Samaria", refuge: "Siquem", desc: "Tribu dominante del norte. Albergó Siló, sede del tabernáculo por siglos, y el fértil corazón montañoso central.", ref: "it-1 págs. 770-773" },
@@ -1772,9 +1150,9 @@
         const days = Math.max(1, Math.round(km / 25));
 
         document.getElementById("res-km").textContent = `${km} km`;
-        document.getElementById("res-stadia").textContent = stadia.toLocaleString("es-ES");
-        document.getElementById("res-miles").textContent = miles.toLocaleString("es-ES");
-        document.getElementById("res-days").textContent = `≈ ${days} ${days === 1 ? 'día' : 'días'}`;
+        const curLocale = (document.documentElement.lang === "ru") ? "ru-RU" : "es-ES"; document.getElementById("res-stadia").textContent = stadia.toLocaleString(curLocale);
+        document.getElementById("res-miles").textContent = miles.toLocaleString(curLocale);
+        const dayWord = (document.documentElement.lang === "ru") ? (days === 1 ? "день" : "дней") : (days === 1 ? "día" : "días"); document.getElementById("res-days").textContent = `≈ ${days} ${dayWord}`;
       }
 
       originSel.addEventListener("change", calculate);
@@ -1790,21 +1168,111 @@
       calculate();
     }
 
+    function setLanguage(l) {
+      try { localStorage.setItem("bibleapps_lang", l); } catch (e) { }
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", l);
+      window.location.href = url.toString();
+    }
+
+    function applyAtlasUI(ui) {
+      if (!ui) return;
+      if (ui.title) document.title = ui.title;
+      if (ui.h1) {
+        const h1 = document.querySelector("header.top h1");
+        if (h1) h1.textContent = ui.h1;
+      }
+      if (ui.stat1) {
+        const s = document.querySelectorAll("header.top .stats .stat");
+        if (s[0]) s[0].innerHTML = "<b>40+</b> " + (ui.stat1.replace(/^40\+\s*/, ""));
+        if (s[1] && ui.stat2) s[1].innerHTML = "<b>12</b> " + (ui.stat2.replace(/^12\s*/, ""));
+        if (s[2] && ui.stat3) s[2].innerHTML = "<b>6</b> " + (ui.stat3.replace(/^6\s*/, ""));
+        if (s[3] && ui.stat4) s[3].innerHTML = "<b>3</b> " + (ui.stat4.replace(/^3\s*/, ""));
+      }
+      if (ui.about_summary) {
+        const sum = document.querySelector("details.about summary");
+        if (sum) sum.textContent = ui.about_summary;
+      }
+      if (ui.tab_map) {
+        const b = document.querySelector(".tabs button[data-tab='map']");
+        if (b) b.textContent = ui.tab_map;
+      }
+      if (ui.tab_topo) {
+        const b = document.querySelector(".tabs button[data-tab='topo']");
+        if (b) b.textContent = ui.tab_topo;
+      }
+      if (ui.tab_tribes) {
+        const b = document.querySelector(".tabs button[data-tab='tribes']");
+        if (b) b.textContent = ui.tab_tribes;
+      }
+      if (ui.tab_distances) {
+        const b = document.querySelector(".tabs button[data-tab='distances']");
+        if (b) b.textContent = ui.tab_distances;
+      }
+      if (ui.search_placeholder) {
+        const ms = document.getElementById("map-search");
+        if (ms) ms.placeholder = ui.search_placeholder;
+      }
+    }
+
+    async function loadAtlasI18n() {
+      const p = new URLSearchParams(window.location.search);
+      const lang = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+      const activeLang = (lang === "ru") ? "ru" : "es";
+      document.documentElement.lang = activeLang;
+
+      const btnEs = document.getElementById("lang-btn-es");
+      const btnRu = document.getElementById("lang-btn-ru");
+      const homeBtn = document.getElementById("homeBtn");
+      const homeBtnText = document.getElementById("homeBtnText");
+      if (btnEs && btnRu) {
+        if (activeLang === "ru") {
+          btnRu.classList.add("active");
+          btnRu.setAttribute("aria-current", "page");
+          btnEs.classList.remove("active");
+          btnEs.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Вернуться на портал Библейских приложений");
+          if (homeBtnText) homeBtnText.textContent = "Библейские приложения";
+        } else {
+          btnEs.classList.add("active");
+          btnEs.setAttribute("aria-current", "page");
+          btnRu.classList.remove("active");
+          btnRu.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Volver al portal de Apps Bíblicas");
+          if (homeBtnText) homeBtnText.textContent = "Apps Bíblicas";
+        }
+      }
+
+      try {
+        const res = await fetch("locales/" + activeLang + ".json");
+        if (res.ok) {
+          const json = await res.json();
+          if (json.places) PLACES = json.places;
+          if (json.routes) ROUTES = json.routes;
+          if (json.tribes) TRIBES = json.tribes;
+          if (json.ui) applyAtlasUI(json.ui);
+        }
+      } catch (e) {
+        console.warn("Uso de datos locales integrados (modo offline/file://).", e);
+      }
+      initApp();
+    }
+
     // Universal relative link resolution on DOM ready
     document.addEventListener("DOMContentLoaded", () => {
-      initApp();
+      loadAtlasI18n();
 
       if (window.location.protocol === 'file:') {
         document.querySelectorAll('a').forEach(a => {
           const href = a.getAttribute('href');
           if (!href) return;
-          if (href === '../../../es/' || href === '../../../es' || href === '../' || href === '/') {
-            a.setAttribute('href', '../../../es/index.html');
-            a.setAttribute('href', '../index.html');
-          } else if (href === '../cronologia/' || href === '/cronologia/' || href === '/cronologia') {
-            a.setAttribute('href', '../cronologia/index.html');
-          } else if (href === '../medidas/' || href === '/medidas/' || href === '/medidas') {
-            a.setAttribute('href', '../medidas/index.html');
+          const l = document.documentElement.lang || "es";
+          if (href === "../../" || href === "../../../es/" || href === "../../../ru/") {
+            a.setAttribute("href", "../../" + l + "/index.html");
+          } else if (href.includes("cronologia")) {
+            a.setAttribute("href", "../cronologia/index.html");
+          } else if (href.includes("medidas")) {
+            a.setAttribute("href", "../medidas/index.html");
           }
         });
       }
