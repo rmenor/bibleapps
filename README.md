@@ -117,7 +117,6 @@ Abre directamente `index.html` en tu navegador favorito (Chrome, Safari, Firefox
 │       └── favicon.svg   # Favicon de la app
 ├── css/
 │   └── header-main.css   # Estilos canónicos unificados (1200px, temas, botones y selectores)
-├── vendor/               # Dependencias locales compartidas (Leaflet)
 ├── favicon.svg           # Favicon vectorial oficial (manuscrito bíblico de estudio)
 ├── vercel.json           # Enrutamiento, redirecciones históricas y cabeceras de caché/seguridad
 ├── package.json          # Metadatos del proyecto y scripts de desarrollo
