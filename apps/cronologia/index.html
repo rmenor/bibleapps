@@ -520,7 +520,7 @@
       lc = Object.fromEntries(LAYERS.map(l => [l[0], l[2]]));
       state.layers = new Set(LAYERS.map(l => l[0]));
       $('#layers').innerHTML = LAYERS.map(l => `<button class="chip" style="--c:var(${l[2]})" aria-pressed="true" data-l="${l[0]}"><span class="dot"></span>${l[1]}</button>`).join('');
-      $('#layers .chip').forEach(b => b.onclick = () => { const l = b.dataset.l; state.layers.has(l) ? state.layers.delete(l) : state.layers.add(l); b.setAttribute('aria-pressed', state.layers.has(l)); render(); });
+      $$('#layers .chip').forEach(b => b.onclick = () => { const l = b.dataset.l; state.layers.has(l) ? state.layers.delete(l) : state.layers.add(l); b.setAttribute('aria-pressed', state.layers.has(l)); render(); });
     }
 
     function initTimeline() {
@@ -551,7 +551,7 @@
       }
     });
     /* ---- timeline ---- */
-    $('#mode button').forEach(b => b.onclick = () => { state.mode = b.dataset.m; $('#mode button').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); });
+    $$('#mode button').forEach(b => b.onclick = () => { state.mode = b.dataset.m; $$('#mode button').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); });
     let tm; $('#q').oninput = e => { clearTimeout(tm); tm = setTimeout(() => { state.q = e.target.value.trim().toLowerCase(); render(); }, 140); };
     const yl = g => g.lab ? `<span class="pre">${g.pre}</span><br>${g.lab}<small>a. e. c.</small>` : `${g.pre ? `<span class="pre">${g.pre}</span> ` : ''}${g.y}<small>${g.ad ? 'e. c.' : 'a. e. c.'}</small>`;
     function eraOf(sy) { return ERAS.findIndex(e => sy >= e[1] && sy <= e[2]); }
@@ -592,7 +592,7 @@
       $('#eras').innerHTML = ERAS.map((E, i) => eraSeen[i] ? `<a href="#era${i}" data-i="${i}">${E[0]}</a>` : '').join('');
       observe();
     }
-    let io; function observe() { if (io) io.disconnect(); io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) { $('#eras a').forEach(a => a.classList.toggle('cur', a.dataset.i === en.target.id.slice(3))); const a = $('#eras a.cur'); if (a) a.scrollIntoView({ inline: 'center', block: 'nearest' }); } }); }, { rootMargin: '-180px 0px -70% 0px' }); $('.era').forEach(e => io.observe(e)); }
+    let io; function observe() { if (io) io.disconnect(); io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) { $$('#eras a').forEach(a => a.classList.toggle('cur', a.dataset.i === en.target.id.slice(3))); const a = $('#eras a.cur'); if (a) a.scrollIntoView({ inline: 'center', block: 'nearest' }); } }); }, { rootMargin: '-180px 0px -70% 0px' }); $$('.era').forEach(e => io.observe(e)); }
 
     function setLanguage(l) {
       try { localStorage.setItem("bibleapps_lang", l); } catch (e) { }
