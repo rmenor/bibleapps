@@ -133,9 +133,9 @@ Ubicados en las esquinas superiores, fuera del flujo centrado, con `position: ab
    > Los iconos del `.themebtn` y `.homebtn` deben ser siempre **SVGs inline**. Queda prohibido cargar Font Awesome u otra librería de iconos externa para estos controles.
 
 > **PROHIBICIÓN ESTRICTA — NINGÚN ENLACE A OTRAS APPS EN LA CABECERA / DERECHA:**
-> En la parte superior de la aplicación **únicamente deben existir dos controles**:
+> En la parte superior de la aplicación **únicamente deben existir los controles de suite permitidos**:
 > 1. A la izquierda: `.homebtn` para regresar a la página principal (`index.html`).
-> 2. A la derecha: `.themebtn` para alternar el tema claro/oscuro.
+> 2. A la derecha: `.themebtn` para alternar el tema claro/oscuro y, en el portal o apps que lo incorporen, el selector de idioma `.lang-switch` (tipo pill `ES | RU`).
 > 
 > **Queda terminantemente prohibido** colocar enlaces directos, botones secundarios (`.homebtn-sub`) o accesos a otras aplicaciones en la cabecera, junto al botón de tema o en el menú derecho. Si el usuario desea entrar a otra aplicación de la suite, **debe volver obligatoriamente a la página principal**.
 
