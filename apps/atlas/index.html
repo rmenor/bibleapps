@@ -18,6 +18,10 @@
   <script>
     (function () {
       try {
+        if (window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+          window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+          return;
+        }
         var t = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
         if (t) document.documentElement.dataset.theme = t;
         var p = new URLSearchParams(window.location.search);
@@ -29,11 +33,11 @@
 
   <!-- Leaflet CSS: Local vendor with CDN fallback -->
   <link rel="stylesheet" href="vendor/leaflet.css"
-    onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';">
+    onerror="this.onerror=null;this.href=(window.location.protocol==='file:'?'vendor/leaflet.css':'/apps/atlas/vendor/leaflet.css');">
   <!-- Estilos canónicos compartidos de cabecera y estructura main -->
-  <link rel="stylesheet" href="../../css/header-main.css">
+  <link rel="stylesheet" href="../../css/header-main.css" onerror="this.onerror=null;this.href='/css/header-main.css';">
 
-  <link rel="stylesheet" href="css/atlas.css">
+  <link rel="stylesheet" href="css/atlas.css" onerror="this.onerror=null;this.href=(window.location.protocol==='file:'?'css/atlas.css':'/apps/atlas/css/atlas.css');">
 </head>
 
 <body>
@@ -1244,7 +1248,9 @@
       }
 
       try {
-        const res = await fetch("locales/" + activeLang + ".json");
+        const isNoSlash = window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html');
+        const basePath = isNoSlash ? 'atlas/' : '';
+        const res = await fetch(basePath + "locales/" + activeLang + ".json");
         if (res.ok) {
           const json = await res.json();
           if (json.places) PLACES = json.places;

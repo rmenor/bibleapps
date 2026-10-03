@@ -52,11 +52,17 @@ function checkFile(file) {
   });
 
   // 3. Check CSS links exist on disk
-  const cssMatches = [...content.matchAll(/<link[^>]+rel=["']stylesheet["'][^>]+href=["']([^"']+)["']/gi)];
-  cssMatches.forEach(m => {
-    let href = m[1];
+  const linkMatches = [...content.matchAll(/<link\b[^>]*>/gi)];
+  linkMatches.forEach(m => {
+    const tag = m[0];
+    if (!/rel=["']stylesheet["']/i.test(tag)) return;
+    const hrefMatch = tag.match(/\bhref=["']([^"']+)["']/i);
+    if (!hrefMatch) return;
+    let href = hrefMatch[1];
     if (href.startsWith('http')) return; // CDN is fine
-    const target = path.resolve(path.dirname(file), href);
+    const target = href.startsWith('/')
+      ? path.resolve(__dirname, '..', href.replace(/^\//, ''))
+      : path.resolve(path.dirname(file), href);
     if (!fs.existsSync(target)) {
       console.error(`  ❌ Archivo CSS inexistente: ${href} (resuelto a: ${target})`);
       allPassed = false;

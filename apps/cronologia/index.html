@@ -15,6 +15,10 @@
   <script>
     (function () {
       try {
+        if (window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+          window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+          return;
+        }
         var t = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
         if (t) document.documentElement.dataset.theme = t;
         var p = new URLSearchParams(window.location.search);
@@ -24,21 +28,21 @@
     })();
   </script>
   <!-- Estilos canónicos compartidos de cabecera y estructura main -->
-  <link rel="stylesheet" href="../../css/header-main.css">
-  <link rel="stylesheet" href="css/cronologia.css">
+  <link rel="stylesheet" href="../../css/header-main.css" onerror="this.onerror=null;this.href='/css/header-main.css';">
+  <link rel="stylesheet" href="css/cronologia.css" onerror="this.onerror=null;this.href=(window.location.protocol==='file:'?'css/cronologia.css':'/apps/cronologia/css/cronologia.css');">
 </head>
 
 <body>
-  <a class="homebtn" href="../../../es/" title="Volver al portal de Apps Bíblicas">
+  <a class="homebtn" id="homeBtn" href="../../" title="Volver al portal de Apps Bíblicas">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M19 12H5M12 19l-7-7 7-7" />
     </svg>
-    <span>Apps Bíblicas</span>
+    <span id="homeBtnText">Apps Bíblicas</span>
   </a>
-    <div class="lang-switch" role="group" aria-label="Idioma" style="position:absolute;right:64px;top:14px;z-index:25">
-    <a href="../es/" class="lang-btn active" aria-current="page" title="Español" onclick="localStorage.setItem('bibleapps_lang','es')">ES</a>
-    <a href="../ru/" class="lang-btn" title="Русский" onclick="localStorage.setItem('bibleapps_lang','ru')">RU</a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Язык" style="position:absolute;right:64px;top:14px;z-index:25">
+    <button type="button" class="lang-btn" id="lang-btn-es" title="Español" onclick="setLanguage('es')">ES</button>
+    <button type="button" class="lang-btn" id="lang-btn-ru" title="Русский" onclick="setLanguage('ru')">RU</button>
   </div>
   <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -590,15 +594,69 @@
     }
     let io; function observe() { if (io) io.disconnect(); io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) { $('#eras a').forEach(a => a.classList.toggle('cur', a.dataset.i === en.target.id.slice(3))); const a = $('#eras a.cur'); if (a) a.scrollIntoView({ inline: 'center', block: 'nearest' }); } }); }, { rootMargin: '-180px 0px -70% 0px' }); $('.era').forEach(e => io.observe(e)); }
 
+    function setLanguage(l) {
+      try { localStorage.setItem("bibleapps_lang", l); } catch (e) { }
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", l);
+      window.location.href = url.toString();
+    }
+
     async function loadCronologiaI18n() {
+      const p = new URLSearchParams(window.location.search);
+      const lang = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+      const activeLang = (lang === "ru") ? "ru" : "es";
+      document.documentElement.lang = activeLang;
+
+      const btnEs = document.getElementById("lang-btn-es");
+      const btnRu = document.getElementById("lang-btn-ru");
+      const homeBtn = document.getElementById("homeBtn");
+      const homeBtnText = document.getElementById("homeBtnText");
+      if (btnEs && btnRu) {
+        if (activeLang === "ru") {
+          btnRu.classList.add("active");
+          btnRu.setAttribute("aria-current", "page");
+          btnEs.classList.remove("active");
+          btnEs.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Вернуться на портал Библейских приложений");
+          if (homeBtnText) homeBtnText.textContent = "Библейские приложения";
+        } else {
+          btnEs.classList.add("active");
+          btnEs.setAttribute("aria-current", "page");
+          btnRu.classList.remove("active");
+          btnRu.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Volver al portal de Apps Bíblicas");
+          if (homeBtnText) homeBtnText.textContent = "Apps Bíblicas";
+        }
+      }
+
       try {
-        const lang = document.documentElement.lang || 'es';
-        const res = await fetch(`../locales/${lang}.json`);
+        const isNoSlash = window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html');
+        const basePath = isNoSlash ? 'cronologia/' : '';
+        const res = await fetch(basePath + "locales/" + activeLang + ".json");
         if (res.ok) {
           const json = await res.json();
           if (json.groups) D.groups = json.groups;
           if (json.secular) D.secular = json.secular;
           if (json.ui) {
+            if (json.ui.title) document.title = json.ui.title;
+            if (json.ui.h1) {
+              const h1 = document.querySelector("header.top h1");
+              if (h1) h1.textContent = json.ui.h1;
+            }
+            if (json.ui.about_summary) {
+              const sum = document.querySelector("details.about summary");
+              if (sum) sum.textContent = json.ui.about_summary;
+            }
+            if (json.ui.search_placeholder) {
+              const q = document.getElementById("q");
+              if (q) q.placeholder = json.ui.search_placeholder;
+            }
+            if (json.ui.tabs) {
+              Object.entries(json.ui.tabs).forEach(([k, text]) => {
+                const b = document.querySelector(`nav.tabs button[data-tab='${k}']`);
+                if (b) b.textContent = text;
+              });
+            }
             if (json.ui.stats) UI_STATS = json.ui.stats;
             if (json.ui.badges) UI_BADGES = json.ui.badges;
             if (json.ui.notes) UI_NOTES = json.ui.notes;
@@ -1435,13 +1493,13 @@
         document.querySelectorAll('a').forEach(function (a) {
           var href = a.getAttribute('href');
           if (!href) return;
-          if (href === '../../../es/' || href === '../../../es' || href === '../' || href === '/') {
-            a.setAttribute('href', '../../../es/index.html');
-            a.setAttribute('href', '../index.html');
-          } else if (href === '../atlas/' || href === '/atlas/' || href === '/atlas') {
-            a.setAttribute('href', '../atlas/index.html');
-          } else if (href === '../medidas/' || href === '/medidas/' || href === '/medidas') {
-            a.setAttribute('href', '../medidas/index.html');
+          var l = document.documentElement.lang || "es";
+          if (href === "../../" || href === "../../../es/" || href === "../../../ru/") {
+            a.setAttribute("href", "../../" + l + "/index.html");
+          } else if (href.includes("atlas")) {
+            a.setAttribute("href", "../atlas/index.html");
+          } else if (href.includes("medidas")) {
+            a.setAttribute("href", "../medidas/index.html");
           }
         });
       }

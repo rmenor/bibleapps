@@ -1,21 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false,
+  "trailingSlash": true,
   "redirects": [
     {
       "source": "/orginal.html",
-      "destination": "/apps/cronologia",
+      "destination": "/apps/cronologia/",
       "permanent": true
     },
     {
       "source": "/original.html",
-      "destination": "/apps/cronologia",
+      "destination": "/apps/cronologia/",
       "permanent": true
     },
     {
       "source": "/cronologia",
-      "destination": "/apps/cronologia",
+      "destination": "/apps/cronologia/",
       "permanent": true
     },
     {
@@ -25,7 +25,7 @@
     },
     {
       "source": "/atlas",
-      "destination": "/apps/atlas",
+      "destination": "/apps/atlas/",
       "permanent": true
     },
     {
@@ -35,7 +35,7 @@
     },
     {
       "source": "/medidas",
-      "destination": "/apps/medidas",
+      "destination": "/apps/medidas/",
       "permanent": true
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "source": "/pesas-y-medidas",
-      "destination": "/apps/medidas",
+      "destination": "/apps/medidas/",
       "permanent": true
     },
     {
@@ -55,66 +55,94 @@
     },
     {
       "source": "/apps/cronologia/es",
-      "destination": "/apps/cronologia?lang=es",
+      "destination": "/apps/cronologia/?lang=es",
       "permanent": true
     },
     {
       "source": "/apps/cronologia/es/",
-      "destination": "/apps/cronologia?lang=es",
+      "destination": "/apps/cronologia/?lang=es",
       "permanent": true
     },
     {
       "source": "/apps/cronologia/ru",
-      "destination": "/apps/cronologia?lang=ru",
+      "destination": "/apps/cronologia/?lang=ru",
       "permanent": true
     },
     {
       "source": "/apps/cronologia/ru/",
-      "destination": "/apps/cronologia?lang=ru",
+      "destination": "/apps/cronologia/?lang=ru",
       "permanent": true
     },
     {
       "source": "/apps/atlas/es",
-      "destination": "/apps/atlas?lang=es",
+      "destination": "/apps/atlas/?lang=es",
       "permanent": true
     },
     {
       "source": "/apps/atlas/es/",
-      "destination": "/apps/atlas?lang=es",
+      "destination": "/apps/atlas/?lang=es",
       "permanent": true
     },
     {
       "source": "/apps/atlas/ru",
-      "destination": "/apps/atlas?lang=ru",
+      "destination": "/apps/atlas/?lang=ru",
       "permanent": true
     },
     {
       "source": "/apps/atlas/ru/",
-      "destination": "/apps/atlas?lang=ru",
+      "destination": "/apps/atlas/?lang=ru",
       "permanent": true
     },
     {
       "source": "/apps/medidas/es",
-      "destination": "/apps/medidas?lang=es",
+      "destination": "/apps/medidas/?lang=es",
       "permanent": true
     },
     {
       "source": "/apps/medidas/es/",
-      "destination": "/apps/medidas?lang=es",
+      "destination": "/apps/medidas/?lang=es",
       "permanent": true
     },
     {
       "source": "/apps/medidas/ru",
-      "destination": "/apps/medidas?lang=ru",
+      "destination": "/apps/medidas/?lang=ru",
       "permanent": true
     },
     {
       "source": "/apps/medidas/ru/",
-      "destination": "/apps/medidas?lang=ru",
+      "destination": "/apps/medidas/?lang=ru",
       "permanent": true
     }
   ],
   "rewrites": [
+    {
+      "source": "/apps/css/cronologia.css",
+      "destination": "/apps/cronologia/css/cronologia.css"
+    },
+    {
+      "source": "/apps/css/atlas.css",
+      "destination": "/apps/atlas/css/atlas.css"
+    },
+    {
+      "source": "/apps/css/medidas.css",
+      "destination": "/apps/medidas/css/medidas.css"
+    },
+    {
+      "source": "/apps/vendor/:path*",
+      "destination": "/apps/atlas/vendor/:path*"
+    },
+    {
+      "source": "/apps/locales/:path*",
+      "destination": "/apps/cronologia/locales/:path*"
+    },
+    {
+      "source": "/es/css/:path*",
+      "destination": "/css/:path*"
+    },
+    {
+      "source": "/ru/css/:path*",
+      "destination": "/css/:path*"
+    },
     {
       "source": "/es",
       "destination": "/es/index.html"
