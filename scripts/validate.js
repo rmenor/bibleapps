@@ -80,7 +80,8 @@ const htmlFiles = [
   'ru/traduccion.html',
   'apps/medidas/index.html',
   'apps/atlas/index.html',
-  'apps/cronologia/index.html'
+  'apps/cronologia/index.html',
+  'apps/notas/index.html'
 ];
 
 for (const f of htmlFiles) {

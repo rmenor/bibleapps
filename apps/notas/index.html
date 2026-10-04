@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cuaderno de Notas Bíblicas | Apps Bíblicas (Neon Postgres)</title>
+  <meta name="description"
+    content="Cuaderno y gestor de notas de estudio e investigación bíblica sincronizado con Neon Serverless Postgres y almacenamiento local.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <script>
+    (function () {
+      try {
+        if (window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+          window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+          return;
+        }
+        var t = localStorage.getItem("theme") || localStorage.getItem("bibleapps_theme");
+        if (t) document.documentElement.dataset.theme = t;
+        var p = new URLSearchParams(window.location.search);
+        var l = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+        if (l === "ru" || l === "es") document.documentElement.lang = l;
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Estilos canónicos compartidos de cabecera y estructura main -->
+  <link rel="stylesheet" href="../../css/header-main.css" onerror="this.onerror=null;this.href='/css/header-main.css';">
+  <link rel="stylesheet" href="css/notas.css" onerror="this.onerror=null;this.href=(window.location.protocol==='file:'?'css/notas.css':'/apps/notas/css/notas.css');">
+</head>
+
+<body>
+
+  <a class="homebtn" id="homeBtn" href="../../" title="Volver al portal de Apps Bíblicas">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+    <span id="homeBtnText">Apps Bíblicas</span>
+  </a>
+
+  <div class="lang-switch" role="group" aria-label="Idioma / Язык" style="position:absolute;right:64px;top:14px;z-index:25">
+    <button type="button" class="lang-btn" id="lang-btn-es" title="Español" onclick="setLanguage('es')">ES</button>
+    <button type="button" class="lang-btn" id="lang-btn-ru" title="Русский" onclick="setLanguage('ru')">RU</button>
+  </div>
+
+  <button class="themebtn" id="themeBtn" aria-label="Cambiar tema">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+
+  <header class="top">
+    <div class="wrap">
+      <h1 id="appTitle">Cuaderno de Notas Bíblicas</h1>
+      <div class="stats" id="stats">
+        <span class="stat" id="statNeon"><b>Neon Postgres</b> Sincronizado</span>
+        <span class="stat" id="statCount"><b>0</b> Notas guardadas</span>
+        <span class="stat" id="statSources"><b>100%</b> Referencias wol.jw.org</span>
+      </div>
+      <details class="about">
+        <summary id="aboutSummary">Qué es esta herramienta y cómo funciona la sincronización con Neon</summary>
+        <p class="lead" id="aboutLead">
+          Este cuaderno permite recopilar notas, meditaciones, referencias cruzadas y cadenas temáticas fundamentadas en las Santas Escrituras y las publicaciones de la Biblioteca en línea Watchtower (wol.jw.org). Cuando se ejecuta en línea se conecta a Neon Postgres (base de datos serverless en la nube); cuando se usa localmente o sin conexión, almacena los datos de forma instantánea y persistente en su navegador.
+        </p>
+      </details>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <div class="wrap" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="all" class="tab-btn" id="tabAll">Todas las notas</button>
+      <button role="tab" aria-selected="false" data-tab="pinned" class="tab-btn" id="tabPinned">Fijadas</button>
+      <button role="tab" aria-selected="false" data-tab="tags" class="tab-btn" id="tabTags">Temas y Etiquetas</button>
+      <button role="tab" aria-selected="false" data-tab="neon" class="tab-btn" id="tabNeonTab">Estado de Neon Postgres</button>
+    </div>
+  </nav>
+
+  <main class="wrap" style="padding-top:16px">
+
+    <!-- Section: Notes View (All / Pinned / Tags) -->
+    <section id="panelNotes" class="tab-panel active">
+
+      <!-- Action & Search Toolbar -->
+      <div class="notes-toolbar">
+        <div class="search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="search" id="noteSearch" class="notes-search-input" placeholder="Buscar en notas: título, texto bíblico, contenido o etiqueta..." aria-label="Buscar notas">
+        </div>
+
+        <div class="toolbar-actions">
+          <button type="button" class="btn-primary-action" id="btnNewNote">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span id="btnNewNoteText">Nueva Nota</span>
+          </button>
+
+          <button type="button" class="neon-status-pill" id="btnNeonStatusPill" title="Ver detalles de conexión con Neon">
+            <span class="status-dot" id="neonDot"></span>
+            <span id="neonStatusLabel">Neon Postgres</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tag Filters Bar -->
+      <div class="tag-filter-bar" id="tagFilterBar">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Notes Grid -->
+      <div class="notes-grid" id="notesGrid">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </section>
+
+    <!-- Section: Neon Telemetry Panel -->
+    <section id="panelNeon" class="tab-panel" style="display:none">
+      <div class="neon-panel-card">
+        <div class="neon-panel-header">
+          <div class="neon-logo-title">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+            <div>
+              <h2 style="margin:0;font-family:'PT Serif',serif;font-size:22px" id="neonCardTitle">Estado de Neon Serverless Postgres</h2>
+              <p style="margin:4px 0 0 0;font-size:13px;color:var(--muted)" id="neonCardSubtitle">Conexión a base de datos Postgres distribuida mediante Neon (@neondatabase/serverless)</p>
+            </div>
+          </div>
+          <button type="button" class="btn-primary-action" id="btnPingNeon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span id="btnPingText">Verificar conexión</span>
+          </button>
+        </div>
+
+        <div class="neon-grid">
+          <div class="neon-stat-box">
+            <label id="lblParamStatus">Estado de Conexión</label>
+            <span id="valNeonStatus" style="color:var(--neon-cyan)">Verificando...</span>
+          </div>
+          <div class="neon-stat-box">
+            <label id="lblParamDb">Base de Datos</label>
+            <span id="valNeonDb">neondb</span>
+          </div>
+          <div class="neon-stat-box">
+            <label id="lblParamRegion">Región Nube</label>
+            <span id="valNeonRegion">aws-eu-central-1</span>
+          </div>
+          <div class="neon-stat-box">
+            <label id="lblParamBranch">Rama Activa</label>
+            <span id="valNeonBranch">production</span>
+          </div>
+          <div class="neon-stat-box">
+            <label id="lblParamTable">Tabla</label>
+            <span id="valNeonTable">public.notes</span>
+          </div>
+          <div class="neon-stat-box">
+            <label id="lblParamCount">Total Notas en Nube</label>
+            <span id="valNeonTotalCount">-</span>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);padding:14px;border-radius:8px;border:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.6" id="neonTelemetryDesc">
+          El endpoint serverless de esta aplicación (<code>/api/notes</code>) ejecuta transacciones SQL directas sobre Neon Postgres mediante el cliente oficial <code>@neondatabase/serverless</code> con soporte para WebSocket y HTTP connection pooling. En caso de no haber conexión de red, la aplicación conmuta automáticamente al almacenamiento local seguro del navegador.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Note Create / Edit Modal Dialog -->
+  <div class="modal-overlay" id="noteModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalTitle">Nueva Nota Bíblica</h3>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar">&times;</button>
+      </div>
+      <form id="noteForm">
+        <div class="modal-body">
+          <input type="hidden" id="formNoteId" value="">
+
+          <div class="form-group">
+            <label class="form-label" for="formTitle" id="lblFormTitle">Título de la nota</label>
+            <input type="text" id="formTitle" class="form-input" placeholder="Ej: Las profecías de Daniel sobre los tiempos de los gentiles" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="formReference" id="lblFormRef">Cita o referencia bíblica</label>
+            <input type="text" id="formReference" class="form-input" placeholder="Ej: Daniel 4:16, 23; Lucas 21:24">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="formContent" id="lblFormContent">Contenido y reflexiones</label>
+            <textarea id="formContent" class="form-textarea" placeholder="Escriba aquí los puntos clave, explicaciones de Perspicacia, citas o preguntas para investigar..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="formTags" id="lblFormTags">Etiquetas (separadas por comas)</label>
+            <input type="text" id="formTags" class="form-input" placeholder="profecía, cronología, reyes, babilonia">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="lblFormColor">Color de tarjeta</label>
+            <div class="color-picker-row">
+              <div class="color-option color-opt-default selected" data-color="default" title="Predeterminado"></div>
+              <div class="color-option color-opt-blue" data-color="blue" title="Zafiro"></div>
+              <div class="color-option color-opt-gold" data-color="gold" title="Oro"></div>
+              <div class="color-option color-opt-green" data-color="green" title="Olivo"></div>
+              <div class="color-option color-opt-purple" data-color="purple" title="Púrpura"></div>
+              <div class="color-option color-opt-red" data-color="red" title="Carmesí"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-row" for="formPinned">
+              <input type="checkbox" id="formPinned">
+              <span id="lblFormPinned">Fijar al inicio de la lista</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btnCancelModal">Cancelar</button>
+          <button type="submit" class="btn-primary-action" id="btnSaveNote">Guardar Nota</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toastMsg" role="status" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="wrap">
+      <div class="footer-title" id="footerTitle">Apps Bíblicas — Suite de Investigación Histórica y Textual.</div>
+      <div class="footer-sub" id="footerSub">Notas y referencias documentadas rigurosamente según wol.jw.org y Perspicacia para comprender las Escrituras.</div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+    let CURRENT_LANG = 'es';
+    let I18N = {};
+    let NOTES = [];
+    let IS_ONLINE = false;
+    let ACTIVE_TAB = 'all';
+    let ACTIVE_TAG = null;
+    let SEARCH_QUERY = '';
+    let SELECTED_COLOR = 'default';
+
+    // Theme toggler
+    const themeBtn = document.getElementById("themeBtn");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const cur = document.documentElement.dataset.theme;
+        const next = cur === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+          localStorage.setItem("bibleapps_theme", next);
+        } catch (e) { }
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toastMsg");
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2800);
+    }
+
+    function setLanguage(lang) {
+      try {
+        localStorage.setItem("bibleapps_lang", lang);
+      } catch (e) { }
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", lang);
+      window.location.href = url.toString();
+    }
+
+    async function loadI18n() {
+      const p = new URLSearchParams(window.location.search);
+      const lang = p.get("lang") || localStorage.getItem("bibleapps_lang") || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "es");
+      CURRENT_LANG = (lang === "ru") ? "ru" : "es";
+      document.documentElement.lang = CURRENT_LANG;
+
+      const btnEs = document.getElementById("lang-btn-es");
+      const btnRu = document.getElementById("lang-btn-ru");
+      const homeBtn = document.getElementById("homeBtn");
+      const homeBtnText = document.getElementById("homeBtnText");
+      if (btnEs && btnRu) {
+        if (CURRENT_LANG === "ru") {
+          btnRu.classList.add("active");
+          btnRu.setAttribute("aria-current", "page");
+          btnEs.classList.remove("active");
+          btnEs.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Вернуться на портал Библейских приложений");
+          if (homeBtnText) homeBtnText.textContent = "Библейские приложения";
+        } else {
+          btnEs.classList.add("active");
+          btnEs.setAttribute("aria-current", "page");
+          btnRu.classList.remove("active");
+          btnRu.removeAttribute("aria-current");
+          if (homeBtn) homeBtn.setAttribute("title", "Volver al portal de Apps Bíblicas");
+          if (homeBtnText) homeBtnText.textContent = "Apps Bíblicas";
+        }
+      }
+
+      try {
+        const isNoSlash = window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html');
+        const basePath = isNoSlash ? 'notas/' : '';
+        const res = await fetch(basePath + "locales/" + CURRENT_LANG + ".json");
+        if (res.ok) {
+          I18N = await res.json();
+          applyUI();
+        }
+      } catch (e) {
+        console.warn("Error al cargar locales, usando textos de respaldo.", e);
+      }
+    }
+
+    function applyUI() {
+      const ui = I18N.ui;
+      if (!ui) return;
+      if (ui.app_title) {
+        document.title = ui.app_title + " | Apps Bíblicas (Neon Postgres)";
+        const t = document.getElementById("appTitle");
+        if (t) t.textContent = ui.app_title;
+      }
+      if (ui.about_title) {
+        const s = document.getElementById("aboutSummary");
+        if (s) s.textContent = ui.about_title;
+      }
+      if (ui.about_lead) {
+        const l = document.getElementById("aboutLead");
+        if (l) l.textContent = ui.about_lead;
+      }
+      if (ui.tab_all) document.getElementById("tabAll").textContent = ui.tab_all;
+      if (ui.tab_pinned) document.getElementById("tabPinned").textContent = ui.tab_pinned;
+      if (ui.tab_tags) document.getElementById("tabTags").textContent = ui.tab_tags;
+      if (ui.tab_neon) document.getElementById("tabNeonTab").textContent = ui.tab_neon;
+      if (ui.search_placeholder) document.getElementById("noteSearch").setAttribute("placeholder", ui.search_placeholder);
+      if (ui.btn_new_note) document.getElementById("btnNewNoteText").textContent = ui.btn_new_note;
+      if (ui.btn_ping) document.getElementById("btnPingText").textContent = ui.btn_ping;
+      if (ui.footer_title) document.getElementById("footerTitle").textContent = ui.footer_title;
+      if (ui.footer_sub) document.getElementById("footerSub").textContent = ui.footer_sub;
+
+      // Modal labels
+      if (ui.label_title) document.getElementById("lblFormTitle").textContent = ui.label_title;
+      if (ui.label_title_placeholder) document.getElementById("formTitle").setAttribute("placeholder", ui.label_title_placeholder);
+      if (ui.label_reference) document.getElementById("lblFormRef").textContent = ui.label_reference;
+      if (ui.label_reference_placeholder) document.getElementById("formReference").setAttribute("placeholder", ui.label_reference_placeholder);
+      if (ui.label_content) document.getElementById("lblFormContent").textContent = ui.label_content;
+      if (ui.label_content_placeholder) document.getElementById("formContent").setAttribute("placeholder", ui.label_content_placeholder);
+      if (ui.label_tags) document.getElementById("lblFormTags").textContent = ui.label_tags;
+      if (ui.label_tags_placeholder) document.getElementById("formTags").setAttribute("placeholder", ui.label_tags_placeholder);
+      if (ui.label_color) document.getElementById("lblFormColor").textContent = ui.label_color;
+      if (ui.label_pinned) document.getElementById("lblFormPinned").textContent = ui.label_pinned;
+      if (ui.btn_save) document.getElementById("btnSaveNote").textContent = ui.btn_save;
+      if (ui.btn_cancel) document.getElementById("btnCancelModal").textContent = ui.btn_cancel;
+
+      // Neon panel strings
+      if (ui.neon_info_title) document.getElementById("neonCardTitle").textContent = ui.neon_info_title;
+      if (ui.neon_info_desc) document.getElementById("neonCardSubtitle").textContent = ui.neon_info_desc;
+    }
+
+    // Connect to Neon API or fallback to localStorage
+    async function initData() {
+      const isFile = window.location.protocol === 'file:';
+      const apiEndpoint = isFile ? null : '/api/notes';
+
+      if (!isFile && apiEndpoint) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 3500);
+          const res = await fetch(apiEndpoint + '?status=health', { signal: controller.signal });
+          clearTimeout(timer);
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status === 'connected') {
+              IS_ONLINE = true;
+              updateNeonStatusBadge(true, data);
+              await fetchNotesFromApi();
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn("Neon API no alcanzable, activando modo local.", err);
+        }
+      }
+
+      // Offline / LocalStorage Mode
+      IS_ONLINE = false;
+      updateNeonStatusBadge(false);
+      loadNotesFromLocal();
+    }
+
+    function updateNeonStatusBadge(connected, telemetry) {
+      const dot = document.getElementById("neonDot");
+      const label = document.getElementById("neonStatusLabel");
+      const statNeon = document.getElementById("statNeon");
+      const valStatus = document.getElementById("valNeonStatus");
+      const valCount = document.getElementById("valNeonTotalCount");
+
+      if (connected) {
+        if (dot) dot.classList.remove("offline");
+        if (label) label.textContent = I18N.ui?.status_connected || "Neon Postgres Conectado";
+        if (statNeon) statNeon.innerHTML = "<b>Neon Postgres</b> Conectado (Nube)";
+        if (valStatus) {
+          valStatus.textContent = "Conectado y Operativo";
+          valStatus.style.color = "#10b981";
+        }
+        if (telemetry && valCount) {
+          valCount.textContent = telemetry.totalNotes || "0";
+        }
+      } else {
+        if (dot) dot.classList.add("offline");
+        const offText = I18N.ui?.status_offline || "Modo Local (Offline / file://)";
+        if (label) label.textContent = offText;
+        if (statNeon) statNeon.innerHTML = "<b>Almacenamiento</b> Local (Offline)";
+        if (valStatus) {
+          valStatus.textContent = "Modo Local Desconectado";
+          valStatus.style.color = "#f59e0b";
+        }
+      }
+    }
+
+    async function fetchNotesFromApi() {
+      try {
+        const res = await fetch('/api/notes');
+        if (res.ok) {
+          const data = await res.json();
+          NOTES = data.notes || [];
+          saveNotesToLocal(false);
+          renderApp();
+          return;
+        }
+      } catch (e) {
+        console.warn("Error al recuperar notas de Neon API", e);
+      }
+      loadNotesFromLocal();
+    }
+
+    function loadNotesFromLocal() {
+      try {
+        const raw = localStorage.getItem("bibleapps_notes");
+        if (raw) {
+          NOTES = JSON.parse(raw);
+        } else if (I18N.seedNotes && I18N.seedNotes.length > 0) {
+          NOTES = [...I18N.seedNotes];
+          saveNotesToLocal(false);
+        }
+      } catch (e) {
+        console.error("Error al leer localStorage", e);
+        NOTES = I18N.seedNotes ? [...I18N.seedNotes] : [];
+      }
+      renderApp();
+    }
+
+    function saveNotesToLocal(syncCloud = true) {
+      try {
+        localStorage.setItem("bibleapps_notes", JSON.stringify(NOTES));
+      } catch (e) { }
+    }
+
+    function renderApp() {
+      // Update count stat
+      const statCount = document.getElementById("statCount");
+      if (statCount) {
+        statCount.innerHTML = `<b>${NOTES.length}</b> ` + (CURRENT_LANG === 'ru' ? 'Заметок сохранено' : 'Notas guardadas');
+      }
+
+      renderTagBar();
+      renderNotesGrid();
+    }
+
+    function renderTagBar() {
+      const bar = document.getElementById("tagFilterBar");
+      if (!bar) return;
+
+      const tagCounts = {};
+      NOTES.forEach(n => {
+        (n.tags || []).forEach(t => {
+          const clean = t.trim().toLowerCase();
+          if (clean) tagCounts[clean] = (tagCounts[clean] || 0) + 1;
+        });
+      });
+
+      const allLabel = I18N.ui?.filter_all_tags || (CURRENT_LANG === 'ru' ? 'Все темы' : 'Todos los temas');
+      let html = `<button type="button" class="tag-pill ${!ACTIVE_TAG ? 'active' : ''}" onclick="selectTag(null)">${allLabel} (${NOTES.length})</button>`;
+
+      Object.keys(tagCounts).sort().forEach(tag => {
+        const active = ACTIVE_TAG === tag ? 'active' : '';
+        html += `<button type="button" class="tag-pill ${active}" onclick="selectTag('${tag}')">#${tag} (${tagCounts[tag]})</button>`;
+      });
+
+      bar.innerHTML = html;
+    }
+
+    function selectTag(tag) {
+      ACTIVE_TAG = tag;
+      renderApp();
+    }
+
+    function renderNotesGrid() {
+      const grid = document.getElementById("notesGrid");
+      if (!grid) return;
+
+      let filtered = [...NOTES];
+
+      // Tab filter
+      if (ACTIVE_TAB === 'pinned') {
+        filtered = filtered.filter(n => n.pinned);
+      }
+
+      // Tag filter
+      if (ACTIVE_TAG) {
+        filtered = filtered.filter(n => (n.tags || []).some(t => t.trim().toLowerCase() === ACTIVE_TAG));
+      }
+
+      // Search query filter
+      if (SEARCH_QUERY.trim()) {
+        const q = SEARCH_QUERY.trim().toLowerCase();
+        filtered = filtered.filter(n => {
+          const t = (n.title || '').toLowerCase();
+          const c = (n.content || '').toLowerCase();
+          const r = (n.reference || '').toLowerCase();
+          const tags = (n.tags || []).join(' ').toLowerCase();
+          return t.includes(q) || c.includes(q) || r.includes(q) || tags.includes(q);
+        });
+      }
+
+      // Sort: pinned first, then newest
+      filtered.sort((a, b) => {
+        if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
+        return (new Date(b.updated_at || 0)) - (new Date(a.updated_at || 0));
+      });
+
+      if (filtered.length === 0) {
+        const emptyTitle = SEARCH_QUERY || ACTIVE_TAG
+          ? (I18N.ui?.empty_search_title || "Sin coincidencias")
+          : (I18N.ui?.empty_notes_title || "No hay notas aún");
+        const emptyDesc = SEARCH_QUERY || ACTIVE_TAG
+          ? (I18N.ui?.empty_search_desc || "No se encontraron notas con el criterio de búsqueda seleccionado.")
+          : (I18N.ui?.empty_notes_desc || "Crea tu primera nota de estudio bíblico usando el botón «Nueva Nota» superior.");
+
+        grid.innerHTML = `
+          <div class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <h3>${emptyTitle}</h3>
+            <p>${emptyDesc}</p>
+          </div>
+        `;
+        return;
+      }
+
+      let cardsHtml = '';
+      filtered.forEach(note => {
+        const colorClass = note.color ? `color-${note.color}` : 'color-default';
+        const pinnedSvg = note.pinned ? `
+          <svg class="note-pinned-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/>
+          </svg>
+        ` : '';
+
+        // WOL search URL
+        const wolUrl = note.reference
+          ? `https://wol.jw.org/${CURRENT_LANG}/wol/s/r4/lp-${CURRENT_LANG === 'ru' ? 'u' : 's'}?q=${encodeURIComponent(note.reference)}`
+          : null;
+
+        const refChip = note.reference ? `
+          <a class="note-reference" href="${wolUrl || '#'}" target="_blank" rel="noopener" title="${I18N.ui?.btn_wol_search || 'Consultar en wol.jw.org'}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            ${escapeHtml(note.reference)} ↗
+          </a>
+        ` : '';
+
+        const tagsHtml = (note.tags || []).map(t => {
+          return `<span class="note-tag" onclick="selectTag('${escapeHtml(t.trim().toLowerCase())}')">#${escapeHtml(t.trim())}</span>`;
+        }).join('');
+
+        const dateFormatted = note.updated_at
+          ? new Date(note.updated_at).toLocaleDateString(CURRENT_LANG, { day: 'numeric', month: 'short', year: 'numeric' })
+          : '';
+
+        cardsHtml += `
+          <article class="note-card ${colorClass}" data-id="${escapeHtml(note.id)}">
+            <div class="note-card-inner">
+              <div class="note-header">
+                <div class="note-title-wrap">
+                  ${pinnedSvg}
+                  <h3 class="note-title">${escapeHtml(note.title || 'Nota sin título')}</h3>
+                </div>
+                <div class="note-actions">
+                  <button type="button" class="note-action-btn" onclick="togglePin('${escapeHtml(note.id)}')" title="${note.pinned ? (I18N.ui?.btn_unpin || 'Desfijar') : (I18N.ui?.btn_pin || 'Fijar')}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="${note.pinned ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                      <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="note-action-btn" onclick="openEditModal('${escapeHtml(note.id)}')" title="${I18N.ui?.btn_edit || 'Editar'}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  <button type="button" class="note-action-btn" onclick="copyNoteContent('${escapeHtml(note.id)}')" title="${I18N.ui?.btn_copy || 'Copiar contenido'}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </button>
+                  <button type="button" class="note-action-btn btn-delete" onclick="deleteNote('${escapeHtml(note.id)}')" title="${I18N.ui?.btn_delete || 'Eliminar'}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              ${refChip}
+
+              <div class="note-content">${escapeHtml(note.content || '')}</div>
+
+              ${tagsHtml ? `<div class="note-tags">${tagsHtml}</div>` : ''}
+
+              <div class="note-footer">
+                <span>${dateFormatted}</span>
+                <span style="font-size:11px;color:var(--neon-cyan)">${IS_ONLINE ? '● Neon' : '○ Local'}</span>
+              </div>
+            </div>
+          </article>
+        `;
+      });
+
+      grid.innerHTML = cardsHtml;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Modal logic
+    const modal = document.getElementById("noteModal");
+    const noteForm = document.getElementById("noteForm");
+
+    function openNewModal() {
+      document.getElementById("modalTitle").textContent = I18N.ui?.modal_new_title || "Crear Nueva Nota Bíblica";
+      document.getElementById("formNoteId").value = "";
+      document.getElementById("formTitle").value = "";
+      document.getElementById("formReference").value = "";
+      document.getElementById("formContent").value = "";
+      document.getElementById("formTags").value = "";
+      document.getElementById("formPinned").checked = false;
+      selectColorOption("default");
+      modal.classList.add("active");
+    }
+
+    function openEditModal(id) {
+      const note = NOTES.find(n => n.id === id);
+      if (!note) return;
+
+      document.getElementById("modalTitle").textContent = I18N.ui?.modal_edit_title || "Editar Nota Bíblica";
+      document.getElementById("formNoteId").value = note.id;
+      document.getElementById("formTitle").value = note.title || "";
+      document.getElementById("formReference").value = note.reference || "";
+      document.getElementById("formContent").value = note.content || "";
+      document.getElementById("formTags").value = (note.tags || []).join(", ");
+      document.getElementById("formPinned").checked = Boolean(note.pinned);
+      selectColorOption(note.color || "default");
+      modal.classList.add("active");
+    }
+
+    function closeModal() {
+      modal.classList.remove("active");
+    }
+
+    function selectColorOption(color) {
+      SELECTED_COLOR = color;
+      $$(".color-option").forEach(opt => {
+        if (opt.dataset.color === color) opt.classList.add("selected");
+        else opt.classList.remove("selected");
+      });
+    }
+
+    $$(".color-option").forEach(opt => {
+      opt.addEventListener("click", () => {
+        selectColorOption(opt.dataset.color);
+      });
+    });
+
+    document.getElementById("btnNewNote").addEventListener("click", openNewModal);
+    document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+    document.getElementById("btnCancelModal").addEventListener("click", closeModal);
+    modal.addEventListener("click", e => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Form submit: save or update
+    noteForm.addEventListener("submit", async e => {
+      e.preventDefault();
+      const id = document.getElementById("formNoteId").value;
+      const title = document.getElementById("formTitle").value.trim();
+      const reference = document.getElementById("formReference").value.trim();
+      const content = document.getElementById("formContent").value.trim();
+      const rawTags = document.getElementById("formTags").value.split(",").map(t => t.trim().toLowerCase()).filter(Boolean);
+      const pinned = document.getElementById("formPinned").checked;
+      const color = SELECTED_COLOR;
+
+      const payload = {
+        title,
+        reference,
+        content,
+        tags: rawTags,
+        pinned,
+        color
+      };
+
+      if (id) payload.id = id;
+
+      if (IS_ONLINE && window.location.protocol !== 'file:') {
+        try {
+          const method = id ? 'PUT' : 'POST';
+          const res = await fetch('/api/notes', {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            const saved = await res.json();
+            if (id) {
+              const idx = NOTES.findIndex(n => n.id === id);
+              if (idx !== -1) NOTES[idx] = saved;
+            } else {
+              NOTES.unshift(saved);
+            }
+            saveNotesToLocal(false);
+            closeModal();
+            showToast(I18N.ui?.saved_toast || "¡Nota guardada en Neon Postgres!");
+            renderApp();
+            return;
+          }
+        } catch (err) {
+          console.warn("Fallo al guardar en Neon, guardando localmente", err);
+        }
+      }
+
+      // Offline / Local save
+      if (id) {
+        const idx = NOTES.findIndex(n => n.id === id);
+        if (idx !== -1) {
+          NOTES[idx] = { ...NOTES[idx], ...payload, updated_at: new Date().toISOString() };
+        }
+      } else {
+        const newNote = {
+          id: 'local-' + Date.now(),
+          ...payload,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        NOTES.unshift(newNote);
+      }
+
+      saveNotesToLocal();
+      closeModal();
+      showToast(I18N.ui?.saved_toast || "¡Nota guardada localmente!");
+      renderApp();
+    });
+
+    // Pin Toggle
+    async function togglePin(id) {
+      const note = NOTES.find(n => n.id === id);
+      if (!note) return;
+      note.pinned = !note.pinned;
+      note.updated_at = new Date().toISOString();
+
+      if (IS_ONLINE && window.location.protocol !== 'file:') {
+        try {
+          await fetch('/api/notes', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: note.id, pinned: note.pinned })
+          });
+        } catch (e) { }
+      }
+
+      saveNotesToLocal();
+      renderApp();
+    }
+
+    // Delete Note
+    async function deleteNote(id) {
+      const confirmText = I18N.ui?.confirm_delete || "¿Estás seguro de que deseas eliminar esta nota bíblica?";
+      if (!confirm(confirmText)) return;
+
+      if (IS_ONLINE && window.location.protocol !== 'file:') {
+        try {
+          await fetch(`/api/notes?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+        } catch (e) { }
+      }
+
+      NOTES = NOTES.filter(n => n.id !== id);
+      saveNotesToLocal();
+      showToast(I18N.ui?.deleted_toast || "Nota eliminada.");
+      renderApp();
+    }
+
+    // Copy Content
+    function copyNoteContent(id) {
+      const note = NOTES.find(n => n.id === id);
+      if (!note) return;
+      const textToCopy = `${note.title}\n${note.reference ? '(' + note.reference + ')\n' : ''}\n${note.content}`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast(I18N.ui?.copied_toast || "¡Contenido copiado al portapapeles!");
+      });
+    }
+
+    // Search input listener
+    document.getElementById("noteSearch").addEventListener("input", e => {
+      SEARCH_QUERY = e.target.value;
+      renderNotesGrid();
+    });
+
+    // Tab navigation
+    $$(".tabs button[role='tab']").forEach(btn => {
+      btn.addEventListener("click", () => {
+        $$(".tabs button[role='tab']").forEach(b => {
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.setAttribute("aria-selected", "true");
+
+        const tab = btn.dataset.tab;
+        ACTIVE_TAB = tab;
+
+        if (tab === 'neon') {
+          document.getElementById("panelNotes").style.display = "none";
+          document.getElementById("panelNeon").style.display = "block";
+          pingNeon();
+        } else {
+          document.getElementById("panelNotes").style.display = "block";
+          document.getElementById("panelNeon").style.display = "none";
+          renderApp();
+        }
+      });
+    });
+
+    document.getElementById("btnNeonStatusPill").addEventListener("click", () => {
+      const neonTabBtn = document.getElementById("tabNeonTab");
+      if (neonTabBtn) neonTabBtn.click();
+    });
+
+    // Ping Neon Serverless
+    async function pingNeon() {
+      const valStatus = document.getElementById("valNeonStatus");
+      const valCount = document.getElementById("valNeonTotalCount");
+      if (valStatus) valStatus.textContent = I18N.ui?.status_syncing || "Comprobando conexión...";
+
+      if (window.location.protocol === 'file:') {
+        updateNeonStatusBadge(false);
+        if (valStatus) valStatus.textContent = "Protocolo file:// (Almacenamiento Local Offline)";
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/notes?status=health');
+        if (res.ok) {
+          const d = await res.json();
+          IS_ONLINE = true;
+          updateNeonStatusBadge(true, d);
+          if (valStatus) valStatus.textContent = `Conectado a ${d.database} (PostgreSQL 18)`;
+          if (valCount) valCount.textContent = d.totalNotes;
+          showToast(I18N.ui?.status_connected || "Conexión con Neon Postgres verificada con éxito.");
+          return;
+        }
+      } catch (e) {
+        console.warn("Ping Neon fallido", e);
+      }
+
+      IS_ONLINE = false;
+      updateNeonStatusBadge(false);
+      if (valStatus) valStatus.textContent = "Desconectado de la nube (Modo Local)";
+    }
+
+    document.getElementById("btnPingNeon").addEventListener("click", pingNeon);
+
+    // Document Ready Initializer
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadI18n();
+      await initData();
+
+      // Universal file:// protocol normalizer
+      if (window.location.protocol === 'file:') {
+        $$("a").forEach(a => {
+          const href = a.getAttribute("href");
+          if (!href) return;
+          const l = document.documentElement.lang || "es";
+          if (href === "../../" || href === "../../../es/" || href === "../../../ru/") {
+            a.setAttribute("href", "../../" + l + "/index.html");
+          } else if (href.includes("atlas")) {
+            a.setAttribute("href", "../atlas/index.html");
+          } else if (href.includes("cronologia")) {
+            a.setAttribute("href", "../cronologia/index.html");
+          } else if (href.includes("medidas")) {
+            a.setAttribute("href", "../medidas/index.html");
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+
+</html>

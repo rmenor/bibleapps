@@ -5,3 +5,8 @@
 
 # Allow local vendored libraries (Leaflet for offline map viewing)
 !apps/atlas/vendor/
+.neon
+.env
+.env.local
+.env.*.local
+node_modules/

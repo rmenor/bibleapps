@@ -112,6 +112,36 @@
       "source": "/apps/medidas/ru/",
       "destination": "/apps/medidas/?lang=ru",
       "permanent": true
+    },
+    {
+      "source": "/notas",
+      "destination": "/apps/notas/",
+      "permanent": true
+    },
+    {
+      "source": "/notas/:path*",
+      "destination": "/apps/notas/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/apps/notas/es",
+      "destination": "/apps/notas/?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/notas/es/",
+      "destination": "/apps/notas/?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/notas/ru",
+      "destination": "/apps/notas/?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/notas/ru/",
+      "destination": "/apps/notas/?lang=ru",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -126,6 +156,10 @@
     {
       "source": "/apps/css/medidas.css",
       "destination": "/apps/medidas/css/medidas.css"
+    },
+    {
+      "source": "/apps/css/notas.css",
+      "destination": "/apps/notas/css/notas.css"
     },
     {
       "source": "/apps/vendor/:path*",
@@ -198,6 +232,14 @@
     {
       "source": "/apps/medidas/",
       "destination": "/apps/medidas/index.html"
+    },
+    {
+      "source": "/apps/notas",
+      "destination": "/apps/notas/index.html"
+    },
+    {
+      "source": "/apps/notas/",
+      "destination": "/apps/notas/index.html"
     }
   ],
   "headers": [

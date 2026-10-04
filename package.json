@@ -21,5 +21,10 @@
     "vercel"
   ],
   "author": "rmenor",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@neon/config": "^1.8.3",
+    "@neon/env": "^1.5.0",
+    "@neondatabase/serverless": "^1.2.0"
+  }
 }
