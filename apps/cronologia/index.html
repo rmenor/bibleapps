@@ -723,7 +723,7 @@
         s += `</g>`;
       });
       const svg = $('#svgPa'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.style.minWidth = '760px'; svg.style.width = '100%'; svg.innerHTML = s;
-      $$('#svgPa .bar').forEach(g => { const p = PA[+g.dataset.i]; tipOn(g, `<b>${p[0]}</b><br>${p[1]}–${p[2]} a. e. c.<br>${p[6]}`); });
+      $$('#svgPa .bar').forEach(g => { const p = PA[+g.dataset.i]; if (p) tipOn(g, `<b>${p[0]}</b><br>${p[1]}–${p[2]} a. e. c.<br>${p[6]}`); });
     })();
     /* ---- Kings ---- */
     const KJ = [['Rehoboam', 997, 981], ['Abiyam', 980, 978], ['Asá', 977, 937], ['Jehosafat', 936, 911], ['Jehoram', 913, 907], ['Ocozías', 906, 905], ['Atalía', 905, 899], ['Jehoás', 898, 859], ['Amasías', 858, 830], ['Uzías (Azarías)', 829, 778], ['Jotán', 777, 762], ['Acaz', 761, 746], ['Ezequías', 745, 717], ['Manasés', 716, 662], ['Amón', 661, 660], ['Josías', 659, 629], ['Jehoacaz', 628, 628], ['Jehoiaquim', 628, 618], ['Joaquín', 618, 618], ['Sedequías', 617, 607]];
@@ -745,7 +745,7 @@
       const iy = T + KJ.length * RH + GAP + 13 * RH;
       s += `<rect x="${x(803)}" y="${T + (KJ.length + 13) * RH + GAP + 6}" width="${x(791) - x(803)}" height="6" fill="none" stroke="var(--warn)" stroke-dasharray="4 3"/>`;
       const svg = $('#svgKi'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.style.minWidth = '820px'; svg.style.width = '100%'; svg.innerHTML = s;
-      $$('#svgKi .bar').forEach(g => { const r = rows[+g.dataset.i]; tipOn(g, `<b>${r[0]}</b> (${r[3] === 'j' ? 'Judá' : 'Israel'})<br>${r[1]}${r[2] !== r[1] ? '–' + r[2] : ''} a. e. c.`); });
+      $$('#svgKi .bar').forEach(g => { const r = rows[+g.dataset.i]; if (r) tipOn(g, `<b>${r[0]}</b> (${r[3] === 'j' ? 'Judá' : 'Israel'})<br>${r[1]}${r[2] !== r[1] ? '–' + r[2] : ''} a. e. c.`); });
     })();
 
     /* ---- World powers strip ---- */
@@ -803,7 +803,7 @@
       function draw() {
         const [vb, s] = matchMedia('(max-width:760px)').matches ? vert() : horiz();
         const svg = $('#pwSvg'); svg.setAttribute('viewBox', vb); svg.innerHTML = s;
-        $$('#pwSvg .pw').forEach(g => { const p = all[g.dataset.k]; tipOn(g, `<b>${p.n}</b><br>${p.d}<br>${p.note}`); });
+        $$('#pwSvg .pw').forEach(g => { const p = all[g.dataset.k]; if (p) tipOn(g, `<b>${p.n}</b><br>${p.d}<br>${p.note}`); });
       }
       draw();
       matchMedia('(max-width:760px)').addEventListener('change', draw);
@@ -1397,7 +1397,7 @@
         s += `<g class="wd" data-k="${grp.indexOf(g)}"><circle cx="${g.x}" cy="${cy}" r="${Math.min(10, 5 + g.items.length * 1.4)}" fill="var(--${g.y > 0 ? 'c-bible' : 'c-books'})" opacity=".85"/><text x="${g.x}" y="${cy + 3.5}" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">${g.items.length > 1 ? g.items.length : ''}</text></g>`;
       });
       $('#svgWrite').setAttribute('viewBox', `0 0 ${W} 240`); $('#svgWrite').style.minWidth = '760px'; $('#svgWrite').style.width = '100%'; $('#svgWrite').innerHTML = s;
-      $$('#svgWrite .wd').forEach(el => { const g = grp[+el.dataset.k]; tipOn(el, `<b>${g.y < 0 ? (-g.y) + ' a. e. c.' : g.y + ' e. c.'}</b><br>${g.items.map(i => i.n).join(', ')}`); });
+      $$('#svgWrite .wd').forEach(el => { const g = grp[+el.dataset.k]; if (g) tipOn(el, `<b>${g.y < 0 ? (-g.y) + ' a. e. c.' : g.y + ' e. c.'}</b><br>${g.items.map(i => i.n).join(', ')}`); });
       $('#wrLeg').innerHTML = '<span><i style="background:var(--c-books)"></i>Escrituras Hebreas: 39 libros (1513 – después de 443 a. e. c.)</span><span><i style="background:var(--c-bible)"></i>Escrituras Griegas Cristianas: 27 libros (hacia 41 – 98 e. c.)</span><span class="lc">El número en el círculo indica cuántos libros se terminaron en los mismos años</span>';
 
       /* 2. Cómo llegó hasta nosotros */
@@ -1440,7 +1440,7 @@
         const T = by[nwt]; D.forEach((d, i) => { const A = by[d]; const tx = T.x + 20 + (T.w - 40) * (i + .5) / D.length; s += `<path class="dl" d="M${cx(A)} ${A.y + A.h} L${tx} ${T.y}"/>`; });
         N.forEach(n => { const L = wrap(n.t, Math.floor(n.w / 6.3)); s += `<g class="sn" data-id="${n.id}"><rect class="nd2 ${n.c || ''}" x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="3"/>`; L.forEach((l, i) => { s += `<text class="nt${n.b ? ' b' : ''}" x="${cx(n)}" y="${n.y + 17 + i * 14}" text-anchor="middle">${l}</text>`; }); s += '</g>'; });
         const svg = $(id); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.style.width = '100%'; svg.style.minWidth = '820px'; svg.innerHTML = s;
-        $$(id + ' .sn').forEach(g => { const n = by[g.dataset.id]; if (n.i) tipOn(g, `<b>${n.t}</b><br>${n.i}`); });
+        $$(id + ' .sn').forEach(g => { const n = by[g.dataset.id]; if (n && n.i) tipOn(g, `<b>${n.t}</b><br>${n.i}`); });
       }
       const HN = [
         { id: 'top', x: 370, y: 6, w: 260, t: 'Escritos hebreos originales y copias antiguas', c: 'top', b: 1, i: 'Los originales no se conservan; las copias más antiguas son los rollos del mar Muerto (fines del siglo II a. e. c.).' },
