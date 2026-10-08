@@ -142,6 +142,36 @@
       "source": "/apps/notas/ru/",
       "destination": "/apps/notas/?lang=ru",
       "permanent": true
+    },
+    {
+      "source": "/creacion",
+      "destination": "/apps/creacion/",
+      "permanent": true
+    },
+    {
+      "source": "/creacion/:path*",
+      "destination": "/apps/creacion/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/apps/creacion/es",
+      "destination": "/apps/creacion/?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/creacion/es/",
+      "destination": "/apps/creacion/?lang=es",
+      "permanent": true
+    },
+    {
+      "source": "/apps/creacion/ru",
+      "destination": "/apps/creacion/?lang=ru",
+      "permanent": true
+    },
+    {
+      "source": "/apps/creacion/ru/",
+      "destination": "/apps/creacion/?lang=ru",
+      "permanent": true
     }
   ],
   "rewrites": [
