@@ -36,7 +36,198 @@
  * - Soporte universal para protocolo file:// y entornos web
  */
 
-/* =+
+/* ==========================================================================
+   1. Variables de Tema y Diseño Canónico
+   ========================================================================== */
+:root {
+  --maxw: 1200px;
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --surface2: #e4e9f0;
+  --surface3: #f7f9fb;
+  --ink: #1a2233;
+  --muted: #586377;
+  --line: #cfd7e2;
+  --accent: #234a7d;
+  --accent-light: #e5eef9;
+  --accent-hover: #19355a;
+  --c-bible: #b4532a;
+  --fix: #2f7d4f;
+  --fix-bg: #e3f1e8;
+  --warn: #9a6210;
+  --warn-bg: #faedd0;
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 8px 24px rgba(35, 74, 125, 0.12);
+  --radius: 12px;
+  --serif: 'PT Serif', Georgia, 'Times New Roman', serif;
+  --sans: 'PT Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141c;
+    --surface: #171e29;
+    --surface2: #1f2836;
+    --surface3: #131922;
+    --ink: #e6ebf3;
+    --muted: #93a0b5;
+    --line: #2c3748;
+    --accent: #8fb3e8;
+    --accent-light: #182638;
+    --accent-hover: #b0ccfa;
+    --c-bible: #e08a5b;
+    --fix: #6fcf97;
+    --fix-bg: #1c3326;
+    --warn: #e6b450;
+    --warn-bg: #382c12;
+    --shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.45);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f141c;
+  --surface: #171e29;
+  --surface2: #1f2836;
+  --surface3: #131922;
+  --ink: #e6ebf3;
+  --muted: #93a0b5;
+  --line: #2c3748;
+  --accent: #8fb3e8;
+  --accent-light: #182638;
+  --accent-hover: #b0ccfa;
+  --c-bible: #e08a5b;
+  --fix: #6fcf97;
+  --fix-bg: #1c3326;
+  --warn: #e6b450;
+  --warn-bg: #382c12;
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   2. Reseteo Base y Normalización
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color .15s;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   3. Ancho Canónico: Contenedor .wrap y <main>
+   ========================================================================== */
+.wrap {
+  max-width: var(--maxw, 1200px);
+  margin: 0 auto;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+main {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1 0 auto;
+}
+
+main.wrap {
+  max-width: var(--maxw, 1200px);
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   4. Controles Flotantes Superiores (.homebtn y .themebtn)
+   ========================================================================== */
+.homebtn {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font: 500 13px var(--sans);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s, border-color .15s, color .15s;
+  z-index: 25;
+}
+
+.themebtn {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: 500 13px var(--sans);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  z-index: 25;
+}
+
+.themebtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.themebtn .icon-sun,
+.themebtn .icon-moon { display: none; }
+
+/* Light mode (default): show moon icon (click → go dark) */
+.themebtn .icon-moon { display: inline; }
+
+/* Dark mode: show sun icon (click → go light) */
+:root[data-theme="dark"] .themebtn .icon-sun { display: inline; }
+:root[data-theme="dark"] .themebtn .icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .themebtn .icon-sun { display: inline; }
+  :root:not([data-theme="light"]) .themebtn .icon-moon { display: none; }
+}
+
+.homebtn:hover,
+.themebtn:hover {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ==========================================================================
    5. Bloque Principal del Encabezado (header.top)
    ========================================================================== */
 header.top {
