@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx serve .",
     "start": "npx serve .",
-    "test": "node scripts/validate.js"
+    "test": "node scripts/validate.js",
+    "test:e2e": "node scripts/test-playwright.js"
   },
   "keywords": [
     "biblia",
