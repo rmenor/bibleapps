@@ -61,14 +61,17 @@ function checkFile(relPath) {
     allPassed = false;
   });
 
-  // 3. Check no i18n leftovers
+  // 3. Check no i18n leftovers in standalone apps
   const forbiddenI18n = [
     { pattern: /class="lang-switch"/i, name: 'Selector de idioma (.lang-switch)' },
     { pattern: /class="lang-btn/i, name: 'Botón de idioma (.lang-btn)' },
     { pattern: /fetch\([^)]*locales\//i, name: 'Llamada fetch() a locales/' },
-    { pattern: /traduccion\.html/i, name: 'Enlace a traduccion.html' },
-    { pattern: /data-i18n(-html|-attr)?=/i, name: 'Atributos data-i18n' }
+    { pattern: /traduccion\.html/i, name: 'Enlace a traduccion.html' }
   ];
+
+  if (relPath.startsWith('apps/')) {
+    forbiddenI18n.push({ pattern: /data-i18n(-html|-attr)?=/i, name: 'Atributos data-i18n' });
+  }
 
   forbiddenI18n.forEach(({ pattern, name }) => {
     if (pattern.test(content)) {

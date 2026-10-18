@@ -192,6 +192,20 @@ async function runTests() {
     const phaseCards = await pageCrea.$$eval('.phase-card', els => els.length);
     assert(phaseCards >= 7, `Tarjetas de días creativos renderizadas: ${phaseCards}`);
 
+    // Check Image Loading in Player
+    const imgLoaded = await pageCrea.evaluate(() => {
+      const img = document.getElementById('player-main-img');
+      return img && img.complete && img.naturalWidth > 0;
+    });
+    assert(imgLoaded, `Imagen principal del reproductor cargada correctamente (naturalWidth > 0)`);
+
+    // Check Scrubber Thumbnails Loaded
+    const thumbsLoaded = await pageCrea.evaluate(() => {
+      const thumbs = Array.from(document.querySelectorAll('.step-node-thumb'));
+      return thumbs.length > 0 && thumbs.every(t => t.complete && t.naturalWidth > 0);
+    });
+    assert(thumbsLoaded, `Miniaturas de la secuencia cargadas correctamente`);
+
     // Check Interactive Scrubber step
     const initialTitle = await pageCrea.textContent('#player-event-title');
     await pageCrea.click('#btn-next-day');

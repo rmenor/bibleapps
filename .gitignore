@@ -2,6 +2,7 @@
 .DS_Store
 *.log
 .atl/
+.commandcode/
 
 # Allow local vendored libraries (Leaflet for offline map viewing)
 !apps/atlas/vendor/

@@ -62,44 +62,49 @@
       "source": "/creacion/:path*",
       "destination": "/apps/creacion/:path*",
       "permanent": true
+    },
+    {
+      "source": "/apps/cronologia",
+      "destination": "/apps/cronologia/",
+      "permanent": true
+    },
+    {
+      "source": "/apps/atlas",
+      "destination": "/apps/atlas/",
+      "permanent": true
+    },
+    {
+      "source": "/apps/medidas",
+      "destination": "/apps/medidas/",
+      "permanent": true
+    },
+    {
+      "source": "/apps/notas",
+      "destination": "/apps/notas/",
+      "permanent": true
+    },
+    {
+      "source": "/apps/creacion",
+      "destination": "/apps/creacion/",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
-      "source": "/apps/cronologia",
-      "destination": "/apps/cronologia/index.html"
-    },
-    {
       "source": "/apps/cronologia/",
       "destination": "/apps/cronologia/index.html"
-    },
-    {
-      "source": "/apps/atlas",
-      "destination": "/apps/atlas/index.html"
     },
     {
       "source": "/apps/atlas/",
       "destination": "/apps/atlas/index.html"
     },
     {
-      "source": "/apps/medidas",
-      "destination": "/apps/medidas/index.html"
-    },
-    {
       "source": "/apps/medidas/",
       "destination": "/apps/medidas/index.html"
     },
     {
-      "source": "/apps/notas",
-      "destination": "/apps/notas/index.html"
-    },
-    {
       "source": "/apps/notas/",
       "destination": "/apps/notas/index.html"
-    },
-    {
-      "source": "/apps/creacion",
-      "destination": "/apps/creacion/index.html"
     },
     {
       "source": "/apps/creacion/",

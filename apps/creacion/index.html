@@ -19,6 +19,10 @@
     <script>
     (function () {
       try {
+        if (window.location.protocol !== 'file:' && !window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+          window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+          return;
+        }
         var t = localStorage.getItem('theme') || localStorage.getItem('bibleapps_theme');
         if (t) document.documentElement.dataset.theme = t;
       } catch (e) { }
@@ -2565,11 +2569,11 @@ footer.app-footer .footer-inner {
       const imgEl = document.getElementById("player-main-img");
       if (imgEl) {
         imgEl.classList.remove("loaded");
-        const imgSrc = phase.image || ("img/dia_" + (phase.id === 1 ? "0" : phase.id === 2 ? "1" : phase.id === 3 ? "2" : phase.id === 4 ? "3" : phase.id === 5 ? "4" : phase.id === 6 ? "5" : phase.id === 7 ? "6a" : phase.id === 8 ? "6b" : "7") + ".jpg");
-        imgEl.src = imgSrc;
-        imgEl.alt = `${phase.day}: ${phase.event}`;
         imgEl.onload = () => imgEl.classList.add("loaded");
-        if (imgEl.complete) imgEl.classList.add("loaded");
+        const imgSrc = phase.image || ("img/dia_" + (phase.id === 1 ? "0" : phase.id === 2 ? "1" : phase.id === 3 ? "2" : phase.id === 4 ? "3" : phase.id === 5 ? "4" : phase.id === 6 ? "5" : phase.id === 7 ? "6a" : phase.id === 8 ? "6b" : "7") + ".jpg");
+        imgEl.alt = `${phase.day}: ${phase.event}`;
+        imgEl.src = imgSrc;
+        if (imgEl.complete && imgEl.naturalWidth > 0) imgEl.classList.add("loaded");
       }
 
       // Actualizar Badges flotantes sobre la imagen
@@ -2640,7 +2644,7 @@ footer.app-footer .footer-inner {
         };
         const imgSrc = p.image || ("img/dia_" + (p.id === 1 ? "0" : p.id === 2 ? "1" : p.id === 3 ? "2" : p.id === 4 ? "3" : p.id === 5 ? "4" : p.id === 6 ? "5" : p.id === 7 ? "6a" : p.id === 8 ? "6b" : "7") + ".jpg");
         node.innerHTML = `
-          <img class="step-node-thumb" src="${imgSrc}" alt="${p.event}" loading="lazy">
+          <img class="step-node-thumb" src="${imgSrc}" alt="${p.event}">
           <span class="step-node-num">${p.dayShort}</span>
           <span class="step-node-label">${p.event}</span>
         `;
@@ -2767,7 +2771,7 @@ footer.app-footer .footer-inner {
         const imgSrc = p.image || ("img/dia_" + (p.id === 1 ? "0" : p.id === 2 ? "1" : p.id === 3 ? "2" : p.id === 4 ? "3" : p.id === 5 ? "4" : p.id === 6 ? "5" : p.id === 7 ? "6a" : p.id === 8 ? "6b" : "7") + ".jpg");
         card.innerHTML = `
           <div class="phase-card-img-wrap" onclick="openPhaseDetail(${p.id})" title="Ver pintura en detalle">
-            <img class="phase-card-img" src="${imgSrc}" alt="${p.event}" loading="lazy">
+            <img class="phase-card-img" src="${imgSrc}" alt="${p.event}">
             <div class="phase-card-img-overlay">
               <span class="phase-number" style="background:rgba(0,0,0,0.7); padding:3px 8px; border-radius:10px; color:#fff">Fase Nº ${p.num}</span>
               <span class="phase-day-pill">${p.day}</span>
