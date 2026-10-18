@@ -4,16 +4,6 @@
   "trailingSlash": true,
   "redirects": [
     {
-      "source": "/orginal.html",
-      "destination": "/apps/cronologia/",
-      "permanent": true
-    },
-    {
-      "source": "/original.html",
-      "destination": "/apps/cronologia/",
-      "permanent": true
-    },
-    {
       "source": "/cronologia",
       "destination": "/apps/cronologia/",
       "permanent": true
@@ -54,66 +44,6 @@
       "permanent": true
     },
     {
-      "source": "/apps/cronologia/es",
-      "destination": "/apps/cronologia/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/cronologia/es/",
-      "destination": "/apps/cronologia/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/cronologia/ru",
-      "destination": "/apps/cronologia/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/cronologia/ru/",
-      "destination": "/apps/cronologia/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/atlas/es",
-      "destination": "/apps/atlas/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/atlas/es/",
-      "destination": "/apps/atlas/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/atlas/ru",
-      "destination": "/apps/atlas/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/atlas/ru/",
-      "destination": "/apps/atlas/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/medidas/es",
-      "destination": "/apps/medidas/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/medidas/es/",
-      "destination": "/apps/medidas/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/medidas/ru",
-      "destination": "/apps/medidas/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/medidas/ru/",
-      "destination": "/apps/medidas/?lang=ru",
-      "permanent": true
-    },
-    {
       "source": "/notas",
       "destination": "/apps/notas/",
       "permanent": true
@@ -121,26 +51,6 @@
     {
       "source": "/notas/:path*",
       "destination": "/apps/notas/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/apps/notas/es",
-      "destination": "/apps/notas/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/notas/es/",
-      "destination": "/apps/notas/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/notas/ru",
-      "destination": "/apps/notas/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/notas/ru/",
-      "destination": "/apps/notas/?lang=ru",
       "permanent": true
     },
     {
@@ -152,93 +62,9 @@
       "source": "/creacion/:path*",
       "destination": "/apps/creacion/:path*",
       "permanent": true
-    },
-    {
-      "source": "/apps/creacion/es",
-      "destination": "/apps/creacion/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/creacion/es/",
-      "destination": "/apps/creacion/?lang=es",
-      "permanent": true
-    },
-    {
-      "source": "/apps/creacion/ru",
-      "destination": "/apps/creacion/?lang=ru",
-      "permanent": true
-    },
-    {
-      "source": "/apps/creacion/ru/",
-      "destination": "/apps/creacion/?lang=ru",
-      "permanent": true
     }
   ],
   "rewrites": [
-    {
-      "source": "/apps/css/cronologia.css",
-      "destination": "/apps/cronologia/css/cronologia.css"
-    },
-    {
-      "source": "/apps/css/atlas.css",
-      "destination": "/apps/atlas/css/atlas.css"
-    },
-    {
-      "source": "/apps/css/medidas.css",
-      "destination": "/apps/medidas/css/medidas.css"
-    },
-    {
-      "source": "/apps/css/notas.css",
-      "destination": "/apps/notas/css/notas.css"
-    },
-    {
-      "source": "/apps/vendor/:path*",
-      "destination": "/apps/atlas/vendor/:path*"
-    },
-    {
-      "source": "/apps/locales/:path*",
-      "destination": "/apps/cronologia/locales/:path*"
-    },
-    {
-      "source": "/es/css/:path*",
-      "destination": "/css/:path*"
-    },
-    {
-      "source": "/ru/css/:path*",
-      "destination": "/css/:path*"
-    },
-    {
-      "source": "/es",
-      "destination": "/es/index.html"
-    },
-    {
-      "source": "/es/",
-      "destination": "/es/index.html"
-    },
-    {
-      "source": "/es/traduccion",
-      "destination": "/es/traduccion.html"
-    },
-    {
-      "source": "/es/traduccion/",
-      "destination": "/es/traduccion.html"
-    },
-    {
-      "source": "/ru/traduccion",
-      "destination": "/ru/traduccion.html"
-    },
-    {
-      "source": "/ru/traduccion/",
-      "destination": "/ru/traduccion.html"
-    },
-    {
-      "source": "/ru",
-      "destination": "/ru/index.html"
-    },
-    {
-      "source": "/ru/",
-      "destination": "/ru/index.html"
-    },
     {
       "source": "/apps/cronologia",
       "destination": "/apps/cronologia/index.html"
@@ -270,6 +96,14 @@
     {
       "source": "/apps/notas/",
       "destination": "/apps/notas/index.html"
+    },
+    {
+      "source": "/apps/creacion",
+      "destination": "/apps/creacion/index.html"
+    },
+    {
+      "source": "/apps/creacion/",
+      "destination": "/apps/creacion/index.html"
     }
   ],
   "headers": [
@@ -296,15 +130,6 @@
     },
     {
       "source": "/apps/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
-      "source": "/css/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

@@ -27,31 +27,16 @@ Todas las páginas del ecosistema **BibleApps** — excepto la **página princip
 
 ---
 
-## 2. Hoja de Estilos Compartida (`css/header-main.css`)
+## 2. Arquitectura de Aplicaciones Autónomas y Auto-Ejecutables
 
-Todas las páginas de la suite — incluida la principal — deben cargar la hoja de estilos canónica compartida que define las variables de tema, el reseteo base, el layout de `.wrap`/`main`, los botones flotantes, el header, las pestañas, el footer y las reglas responsive.
+Todas las aplicaciones del ecosistema **BibleApps** (`apps/{app}/index.html`) y el portal principal (`index.html`) deben ser **100% autónomas y auto-ejecutables**:
 
-* **Ruta desde las apps (`apps/{app}/`):** `../../css/header-main.css`
-* **Ruta desde los portales de idioma (`es/`, `ru/`):** `../css/header-main.css`
-* **Ruta desde la raíz:** `css/header-main.css`
+* **Autonomía total:** Cada aplicación debe residir en su propia carpeta (`apps/{app}/`) con un único archivo `index.html` que contiene todo su HTML, CSS (`<style>`) y JavaScript embebido, sin depender de hojas de estilo ni archivos externos fuera de su propia carpeta.
+* **Extracción a repositorios independientes:** Si se copia o traslada la carpeta `apps/{app}/` a un repositorio independiente, la aplicación debe seguir funcionando sin requerir adaptaciones de rutas ni dependencias globales.
+* **Compatibilidad universal con `file://`:** Al abrir cualquier `index.html` con doble clic directamente en el navegador, debe funcionar de inmediato sin requerir un servidor web local (`fetch` bloqueado por CORS).
+* **Idioma nativo:** Todas las aplicaciones están implementadas directamente en español, sin capas externas de traducción (`locales/*.json`) ni selectores de idioma (`.lang-switch`).
+* **Estilos embebidos (`<style>`):** Los estilos canónicos de suite (variables `:root`, layout `.wrap`, botones `.homebtn` y `.themebtn`, `header.top`, `nav.tabs` y `footer.app-footer`) más los estilos específicos de la aplicación están embebidos dentro del bloque `<style>` de cada `index.html`.
 
-```html
-<!-- Desde una app (apps/atlas/, apps/cronologia/, apps/medidas/) -->
-<link rel="stylesheet" href="../../css/header-main.css">
-
-<!-- Desde un portal de idioma (es/, ru/) -->
-<link rel="stylesheet" href="../css/header-main.css">
-
-<!-- Desde el enrutador raíz (index.html) -->
-<link rel="stylesheet" href="css/header-main.css">
-```
-
-### Reglas de CSS en las páginas individuales
-
-* **Queda estrictamente prohibido** duplicar en el `<style>` de cada página las variables base (`:root` con `--bg`, `--surface`, `--ink`, etc.), el reseteo (`*`, `html`, `body`, `a`), los estilos de `.wrap`, `.homebtn`, `.themebtn`, `header.top`, `nav.tabs` o `footer.app-footer`. Todo eso viene de `header-main.css`.
-* El `<style>` de cada página solo debe contener:
-  1. Variables de color **específicas** de esa app/portal (e.g. `--c-books`, `--c-sea`, `--c-tribes`) con sus variantes dark.
-  2. Estilos **propios** de esa página (cards, mapas, grids, calculadoras, etc.) que no aplican a otras.
 
 ---
 

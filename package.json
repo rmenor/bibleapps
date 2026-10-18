@@ -1,14 +1,12 @@
 {
   "name": "apps-biblicas",
   "version": "1.0.0",
-  "description": "Suite de aplicaciones interactivas sobre la Biblia (cronología, genealogías, historia y manuscritos)",
+  "description": "Suite de aplicaciones interactivas sobre la Biblia (cronología, genealogías, historia, medidas y notas)",
   "private": true,
   "scripts": {
     "dev": "npx serve .",
     "start": "npx serve .",
-    "test": "node scripts/validate.js && node scripts/i18n-check.js",
-    "i18n:check": "node scripts/i18n-check.js",
-    "i18n:new": "node scripts/i18n-new.js"
+    "test": "node scripts/validate.js"
   },
   "keywords": [
     "biblia",

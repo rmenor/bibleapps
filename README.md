@@ -35,94 +35,76 @@ Aplicación interactiva y cartografía vectorial de las tierras bíblicas docume
 ### 3. 📜 Armonía de los Evangelios — **[Próximamente]**
 Cotejo paralelo y sinóptico de Mateo, Marcos, Lucas y Juan en orden cronológico.
 
-### 4. ⚖️ Conversor de Pesas, Medidas y Monedas (`/apps/medidas`) — **[Disponible]**
+### 3. ⚖️ Conversor de Pesas, Medidas y Monedas (`/apps/medidas`) — **[Disponible]**
 Calculadora interactiva en tiempo real fundamentada estrictamente en *Perspicacia para comprender las Escrituras* y *wol.jw.org*:
-- **4 Módulos de conversión y consulta**:
-  1. **Calculadora Bidireccional en Vivo**: Conversión instantánea de unidades bíblicas a métricas (y viceversa) para Longitud (dedo, palmo, codo, caña, estadio, milla), Líquidos (log, hin, bat, coro), Secos (cab, ómer, seah, efá, létek, hómer), Pesas (guerá, beca, pim, siclo, mina, talento) y Monedas (lepta, cuadrante, as, denario, dracma, didracma, estáter, dárico).
-  2. **Ejemplos Bíblicos Clave**: Dimensiones del arca de Noé, altura y armadura de Goliat, estatua de oro de Nabucodonosor, mar fundido de Salomón, las dos monedas de la viuda y la parábola de los talentos.
-  3. **Tablas Maestras de Perspicacia**: Resumen canónico de proporciones, equivalencias y textos bíblicos.
-  4. **Estimador de Poder Adquisitivo y Jornales**: Cálculo del valor laboral histórico según el denario romano (1 jornada de 12 horas).
+- **4 Módulos de conversión y consulta**: Calculadora bidireccional, ejemplos bíblicos clave, tablas de Perspicacia y estimador de jornales.
+
+### 4. 📝 Cuaderno de Notas Bíblicas (`/apps/notas`) — **[Disponible]**
+Gestor y cuaderno de notas de investigación bíblica con sincronización en la nube mediante **Neon Serverless Postgres** y almacenamiento local offline:
+- Notas persistentes, filtrado por temas/etiquetas, búsqueda instantánea y modo 100% offline.
+
+### 5. 🌍 La Creación: Secuencia Completa (`/apps/creacion`) — **[Disponible]**
+Secuencia interactiva y scrubber visual de los 6 días creativos de Génesis 1:1 a 2:4 con simetrías, elementos dominantes y notas de Perspicacia.
 
 ---
 
 ## 🌐 Despliegue en Vercel
 
-Este proyecto está compuesto por archivos estáticos puros (HTML, CSS y JavaScript sin dependencias pesadas), lo que permite que Vercel lo sirva en su red Edge global en milisegundos.
+Este proyecto está compuesto por aplicaciones HTML auto-ejecutables sin dependencias de compilación, lo que permite que Vercel lo sirva en su red Edge global al instante.
 
 ### Opción 1: Conectar con GitHub (Recomendada)
-1. Sube este repositorio a tu cuenta de GitHub:
-   ```bash
-   git add .
-   git commit -m "feat: preparar repositorio y suite de apps bíblicas para Vercel"
-   git branch -M main
-   git remote add origin https://github.com/TU-USUARIO/cronologia.git
-   git push -u origin main
-   ```
+1. Sube este repositorio a tu cuenta de GitHub.
 2. Entra en tu panel de [Vercel](https://vercel.com/new).
 3. Haz clic en **"Add New Project"** e importa el repositorio de GitHub.
-4. En **Framework Preset**, selecciona **Other** (o déjalo automático). No requiere ningún *Build Command* ni *Output Directory*.
-5. Haz clic en **Deploy**. ¡Listo en menos de 1 minuto!
-
-### Opción 2: Usando Vercel CLI
-Si tienes instalada la herramienta de Vercel en tu terminal:
-```bash
-# Iniciar sesión en Vercel (si no lo has hecho)
-npx vercel login
-
-# Desplegar directamente
-npx vercel
-
-# Para producción directa:
-npx vercel --prod
-```
+4. En **Framework Preset**, selecciona **Other**. No requiere ningún *Build Command* ni *Output Directory*.
+5. Haz clic en **Deploy**.
 
 ---
 
 ## 💻 Ejecución y Pruebas en Local
 
-Puedes probar la web localmente de dos formas sencillas:
-
-### Con Node / npm:
-```bash
-npm run dev
-# Abrirá un servidor local (por ejemplo en http://localhost:3000)
-```
-
-### Sin Node (abriendo directamente en el navegador):
-Abre directamente `index.html` en tu navegador favorito (Chrome, Safari, Firefox, Edge).
+Puedes probar la suite localmente:
+- **Doble clic directo (Protocolo `file://`)**: Abre directamente `index.html` o cualquier `apps/{app}/index.html` en tu navegador. Cada aplicación es 100% auto-ejecutable y autónoma.
+- **Con Node / npm**:
+  ```bash
+  npm test   # Ejecuta el validador de sintaxis y arquitectura autónoma
+  npm start  # Servidor local
+  ```
 
 ---
 
 ## 📁 Estructura del Repositorio
 
 ```text
-├── index.html            # Enrutador inteligente de idioma (detecta preferencia y redirige a /es/ o /ru/)
-├── es/
-│   └── index.html        # Portal principal en Español
-├── ru/
-│   └── index.html        # Portal principal en Ruso
+├── index.html            # Portal principal que contiene y enlaza todas las aplicaciones
 ├── apps/
 │   ├── cronologia/
-│   │   ├── es/index.html # Tabla Cronológica Bíblica en Español
-│   │   ├── ru/index.html # Tabla Cronológica Bíblica en Ruso
-│   │   └── favicon.svg   # Favicon de la app
+│   │   ├── index.html    # App autónoma auto-ejecutable (Tabla Cronológica e Histórica)
+│   │   └── favicon.svg   # Favicon local
 │   ├── atlas/
-│   │   ├── es/index.html # Atlas y Geografía Bíblica en Español
-│   │   ├── ru/index.html # Atlas y Geografía Bíblica en Ruso
-│   │   ├── vendor/       # Librería Leaflet cartográfica
-│   │   └── favicon.svg   # Favicon de la app
-│   └── medidas/
-│       ├── es/index.html # Conversor de Pesas, Medidas y Monedas en Español
-│       ├── ru/index.html # Conversor de Pesas, Medidas y Monedas en Ruso
-│       └── favicon.svg   # Favicon de la app
-├── css/
-│   └── header-main.css   # Estilos canónicos unificados (1200px, temas, botones y selectores)
-├── favicon.svg           # Favicon vectorial oficial (manuscrito bíblico de estudio)
-├── vercel.json           # Enrutamiento, redirecciones históricas y cabeceras de caché/seguridad
-├── package.json          # Metadatos del proyecto y scripts de desarrollo
+│   │   ├── index.html    # App autónoma auto-ejecutable (Atlas y Geografía Bíblica)
+│   │   ├── vendor/       # Librería Leaflet local
+│   │   └── favicon.svg   # Favicon local
+│   ├── medidas/
+│   │   ├── index.html    # App autónoma auto-ejecutable (Pesas, Medidas y Monedas)
+│   │   └── favicon.svg   # Favicon local
+│   ├── notas/
+│   │   ├── index.html    # App autónoma auto-ejecutable (Cuaderno de Notas con Neon)
+│   │   └── favicon.svg   # Favicon local
+│   └── creacion/
+│       ├── index.html    # App autónoma auto-ejecutable (Secuencia de la Creación)
+│       ├── img/          # Obras de arte fotorrealistas de los días creativos
+│       └── favicon.svg   # Favicon local
+├── api/
+│   └── notes.js          # Función serverless para sincronización con Neon Postgres
+├── favicon.svg           # Favicon vectorial del portal
+├── vercel.json           # Configuración de rutas, redirecciones canónicas y seguridad
+├── package.json          # Metadatos del proyecto y scripts
+├── scripts/
+│   └── validate.js       # Validador de arquitectura autónoma y sintaxis
 ├── .agents/skills/       # Directrices de arquitectura, fuentes de Perspicacia y diseño UI/UX
 ├── .gitignore            # Archivos ignorados por git
-└── README.md             # Esta documentación
+└── README.md             # Documentación general
 ```
 
 ---
